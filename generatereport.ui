@@ -1,0 +1,833 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GenerateReport</class>
+ <widget class="QMainWindow" name="GenerateReport">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>856</width>
+    <height>589</height>
+   </rect>
+  </property>
+  <property name="cursor">
+   <cursorShape>PointingHandCursor</cursorShape>
+  </property>
+  <property name="windowTitle">
+   <string>GenerateReport</string>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="OKButton">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>510</y>
+      <width>181</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Generate Report</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="CancelButton">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>510</y>
+      <width>93</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Cancel</string>
+    </property>
+   </widget>
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>60</y>
+      <width>801</width>
+      <height>441</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QFrame" name="frame_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>541</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>20</y>
+        <width>491</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Start Date:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDateEdit" name="dateEdit">
+         <property name="displayFormat">
+          <string>dd-MM-yyyy</string>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+         <property name="date">
+          <date>
+           <year>2011</year>
+           <month>1</month>
+           <day>1</day>
+          </date>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>End Date:  </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDateEdit" name="dateEdit_2">
+         <property name="displayFormat">
+          <string>dd-MM-yyyy</string>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+         <property name="currentSectionIndex">
+          <number>0</number>
+         </property>
+         <property name="date">
+          <date>
+           <year>2011</year>
+           <month>1</month>
+           <day>1</day>
+          </date>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QLabel" name="label_8">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>100</y>
+       <width>631</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>11</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Specify the information requested by selecting a tab and checking the appropriate boxes</string>
+     </property>
+    </widget>
+    <widget class="QTabWidget" name="tabWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>130</y>
+       <width>741</width>
+       <height>301</height>
+      </rect>
+     </property>
+     <property name="currentIndex">
+      <number>3</number>
+     </property>
+     <widget class="QWidget" name="tab_1">
+      <attribute name="title">
+       <string>Bed Occupancy Rate</string>
+      </attribute>
+      <widget class="QCheckBox" name="checkBox_occupancyRate">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>281</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Include graphs on bed occupancy rates</string>
+       </property>
+      </widget>
+      <widget class="QFrame" name="frame_occupancyRate">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>40</y>
+         <width>721</width>
+         <height>231</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QFrame" name="frame_3">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>40</y>
+          <width>211</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>197</width>
+           <height>104</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>11</pointsize>
+              <weight>75</weight>
+              <italic>false</italic>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Care Type:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_3">
+            <property name="text">
+             <string>Complex Continuing Care</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_8">
+            <property name="text">
+             <string>Acute Care</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_9">
+            <property name="text">
+             <string>Long Term Care</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QFrame" name="frame_4">
+        <property name="geometry">
+         <rect>
+          <x>230</x>
+          <y>40</y>
+          <width>181</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QWidget" name="layoutWidget_2">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>124</width>
+           <height>76</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QLabel" name="label_6">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>11</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Facility Type</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox">
+            <property name="text">
+             <string>Hospital</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_2">
+            <property name="text">
+             <string>Nusring Home</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QCheckBox" name="checkBox_7">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>170</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Graph by facility type</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="checkBox_10">
+        <property name="geometry">
+         <rect>
+          <x>230</x>
+          <y>10</y>
+          <width>153</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Graph by care type</string>
+        </property>
+       </widget>
+       <widget class="QListWidget" name="listWidget">
+        <property name="geometry">
+         <rect>
+          <x>420</x>
+          <y>40</y>
+          <width>261</width>
+          <height>181</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>CHEO</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>General Hospital</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Queensway-Carleton Hospital</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Glengarry</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QCheckBox" name="checkBox_11">
+        <property name="geometry">
+         <rect>
+          <x>430</x>
+          <y>10</y>
+          <width>207</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Graph by selected facilities</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
+       <string>Wait Times</string>
+      </attribute>
+      <widget class="QCheckBox" name="checkBox_waitTimes">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>281</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="mouseTracking">
+        <bool>true</bool>
+       </property>
+       <property name="text">
+        <string>Include graph about wait times</string>
+       </property>
+      </widget>
+      <widget class="QFrame" name="frame_waitTimes">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>50</y>
+         <width>461</width>
+         <height>211</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QLabel" name="label_7">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>491</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Report will include a graph displaying wait times in selected area(s):</string>
+        </property>
+       </widget>
+       <widget class="QListWidget" name="listWidget_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>40</y>
+          <width>221</width>
+          <height>131</height>
+         </rect>
+        </property>
+        <property name="alternatingRowColors">
+         <bool>false</bool>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::MultiSelection</enum>
+        </property>
+        <property name="sortingEnabled">
+         <bool>true</bool>
+        </property>
+        <item>
+         <property name="text">
+          <string>Eastern counties</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>North Lanark/North Grenville</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Ottawa Centre</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Ottawa East</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Ottawa West</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Renfrew County</string>
+         </property>
+        </item>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="tab_3">
+      <attribute name="title">
+       <string>Waiting List Size</string>
+      </attribute>
+      <widget class="QFrame" name="frame_waitingListSize">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>651</width>
+         <height>211</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QLabel" name="label_11">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>631</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Report will include a graph displaying the number of patients on a waiting list in selected area(s):</string>
+        </property>
+       </widget>
+       <widget class="QListWidget" name="listWidget_3">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>40</y>
+          <width>221</width>
+          <height>131</height>
+         </rect>
+        </property>
+        <property name="alternatingRowColors">
+         <bool>false</bool>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::MultiSelection</enum>
+        </property>
+        <property name="sortingEnabled">
+         <bool>true</bool>
+        </property>
+        <item>
+         <property name="text">
+          <string>Eastern counties</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>North Lanark/North Grenville</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Ottawa Centre</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Ottawa East</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Ottawa West</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Renfrew County</string>
+         </property>
+        </item>
+       </widget>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_waitingListSize">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>281</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Include graph about waiting list size</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Mismatch in Care Type</string>
+      </attribute>
+      <widget class="QCheckBox" name="checkBox_careMismatch">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>20</y>
+         <width>371</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Include graphs about mismatch in care type</string>
+       </property>
+      </widget>
+      <widget class="QFrame" name="frame_careMismatch">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>50</y>
+         <width>691</width>
+         <height>211</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QFrame" name="frame_9">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>661</width>
+          <height>71</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QLabel" name="label_9">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>8</y>
+           <width>521</width>
+           <height>18</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>11</pointsize>
+           <weight>75</weight>
+           <italic>false</italic>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Display number of mismatches of the following type(s):</string>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="checkBox_13">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>32</y>
+           <width>280</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Patient requires LTC, occupies AC bed</string>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="checkBox_14">
+         <property name="geometry">
+          <rect>
+           <x>320</x>
+           <y>30</y>
+           <width>280</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Patient requires LTC, occupies CCC bed</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QListWidget" name="listWidget_4">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>110</y>
+          <width>221</width>
+          <height>81</height>
+         </rect>
+        </property>
+        <property name="alternatingRowColors">
+         <bool>false</bool>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::MultiSelection</enum>
+        </property>
+        <property name="sortingEnabled">
+         <bool>true</bool>
+        </property>
+        <item>
+         <property name="text">
+          <string>Eastern counties</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>North Lanark/North Grenville</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Ottawa Centre</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Ottawa East</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Ottawa West</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Renfrew County</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QLabel" name="label_10">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>90</y>
+          <width>511</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>11</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Mismatch information will be from the following selected area(s):</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>261</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>11</pointsize>
+       <weight>75</weight>
+       <italic>false</italic>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Date Range (inclusive) dd-mm-yyyy:</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>36</y>
+      <width>301</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Generate a report over the following dates:</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>856</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>CancelButton</sender>
+   <signal>clicked()</signal>
+   <receiver>statusbar</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>817</x>
+     <y>540</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>827</x>
+     <y>573</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

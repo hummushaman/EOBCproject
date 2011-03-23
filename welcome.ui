@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Welcome</class>
+ <widget class="QMainWindow" name="Welcome">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Welcome</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>120</y>
+      <width>131</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Welcome to EOBC!</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuUpdateFacility">
+    <property name="title">
+     <string>Update Facility</string>
+    </property>
+    <addaction name="actionAdd_beds"/>
+    <addaction name="actionRemove_patient_from_bed"/>
+    <addaction name="actionView_facility_information"/>
+    <addaction name="actionAssign_bed"/>
+   </widget>
+   <widget class="QMenu" name="menuMap">
+    <property name="title">
+     <string>Map</string>
+    </property>
+    <addaction name="actionViewMap"/>
+   </widget>
+   <widget class="QMenu" name="menuWaiting_List">
+    <property name="title">
+     <string>Waiting List</string>
+    </property>
+    <addaction name="actionAdd_patient"/>
+    <addaction name="actionRemove_patient"/>
+    <addaction name="actionView_waiting_list"/>
+   </widget>
+   <widget class="QMenu" name="menuReport">
+    <property name="title">
+     <string>Report</string>
+    </property>
+    <addaction name="actionGenerate_report"/>
+   </widget>
+   <widget class="QMenu" name="menuSystem_Administration">
+    <property name="title">
+     <string>System Administration</string>
+    </property>
+    <addaction name="actionAdd_user"/>
+    <addaction name="actionAdd_facility"/>
+   </widget>
+   <addaction name="menuUpdateFacility"/>
+   <addaction name="menuMap"/>
+   <addaction name="menuWaiting_List"/>
+   <addaction name="menuReport"/>
+   <addaction name="menuSystem_Administration"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionAdd_beds">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Add beds</string>
+   </property>
+  </action>
+  <action name="actionRemove_patient_from_bed">
+   <property name="text">
+    <string>Remove patients</string>
+   </property>
+  </action>
+  <action name="actionView_facility_information">
+   <property name="text">
+    <string>View facility information</string>
+   </property>
+  </action>
+  <action name="actionAssign_bed">
+   <property name="text">
+    <string>Assign patient from waiting list</string>
+   </property>
+  </action>
+  <action name="actionViewMap">
+   <property name="text">
+    <string>View map</string>
+   </property>
+  </action>
+  <action name="actionAdd_patient">
+   <property name="text">
+    <string>Add patient</string>
+   </property>
+  </action>
+  <action name="actionRemove_patient">
+   <property name="text">
+    <string>Remove patient</string>
+   </property>
+  </action>
+  <action name="actionView_waiting_list">
+   <property name="text">
+    <string>View waiting list</string>
+   </property>
+  </action>
+  <action name="actionGenerate_report">
+   <property name="text">
+    <string>Generate new report</string>
+   </property>
+  </action>
+  <action name="actionAdd_user">
+   <property name="text">
+    <string>Add user account</string>
+   </property>
+  </action>
+  <action name="actionAdd_facility">
+   <property name="text">
+    <string>Add facility</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

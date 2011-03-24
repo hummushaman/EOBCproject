@@ -16,7 +16,7 @@ public:
     explicit AddBed(QWidget *parent = 0);
     ~AddBed();
 private slots:
-    void clickedOK();
+    void clickedOK(); // user clicks on the ok button
 
 private:
     Ui::AddBed *ui;

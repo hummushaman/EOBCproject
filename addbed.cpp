@@ -43,6 +43,8 @@ AddBed::~AddBed()
 void AddBed::clickedOK()
 
 {
+    //added something to the the addBed class
+
     int numBeds = ui->lineEditNumBeds->text().toInt();
     QString careType = ui->comboBox_careTypes->currentText();
     QString facilName = ui->comboBox_facilities->currentText();

@@ -26,7 +26,7 @@ AddFacility::~AddFacility()
 
 void AddFacility::clickedOK()
 {
-
+    //gets the information from the GUI and sends a request to the datastorage
 
     close();
 

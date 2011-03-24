@@ -26,6 +26,6 @@ AddUser::~AddUser()
 
 void AddUser::clickedOK()
 {
-    close();
+    //close();
 
 }

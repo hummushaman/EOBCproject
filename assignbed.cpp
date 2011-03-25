@@ -26,6 +26,7 @@ void AssignBed::clickedOK()
 {
     //get data from the GUI
 
+
     //request from the data storage classes that a patient is assigned a bed
 
     //close the form window

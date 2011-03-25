@@ -26,6 +26,16 @@ AddPatientToWaitingList::~AddPatientToWaitingList()
 
 void AddPatientToWaitingList::clickedOK()
 {
+    //get data from the GUI
+
+
+    //request from the data storage classes that a patient be added to a waiting list
+
+    //close the form window
+
+
+
+
     /*
     int numBeds = ui->lineEditNumBeds->text().toInt();
     QString careType = ui->comboBox_careTypes->currentText();

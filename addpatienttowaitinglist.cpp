@@ -29,6 +29,8 @@ void AddPatientToWaitingList::clickedOK()
     //get data from the GUI
 
 
+    //ADDED THIS  COMMENT ON NEWFEATURE BRANCH
+
     //request from the data storage classes that a patient be added to a waiting list
 
     //close the form window

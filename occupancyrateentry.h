@@ -1,10 +1,18 @@
 #ifndef OCCUPANCYRATEENTRY_H
 #define OCCUPANCYRATEENTRY_H
 
-class occupancyrateentry
+#include <QObject>
+
+class OccupancyRateEntry : public QObject
 {
+    Q_OBJECT
 public:
-    occupancyrateentry();
+    explicit OccupancyRateEntry(QObject *parent = 0);
+
+signals:
+
+public slots:
+
 };
 
 #endif // OCCUPANCYRATEENTRY_H

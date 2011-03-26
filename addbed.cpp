@@ -11,7 +11,6 @@
 #include "addbed.h"
 #include "ui_addbed.h"
 
-#include "facility.h"
 
 
 
@@ -28,9 +27,6 @@ AddBed::AddBed(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->OKButton,SIGNAL(clicked()),this,SLOT(clickedOK()));
-
-
-
 
 }
 

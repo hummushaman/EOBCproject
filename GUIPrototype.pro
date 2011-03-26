@@ -24,16 +24,10 @@ SOURCES += main.cpp\
     adduser.cpp \
     addfacility.cpp \
     map.cpp \
-    facility.cpp \
-    area.cpp \
-    hospital.cpp \
-    occupanyratelog.cpp \
-    waitinglist.cpp \
+    generatereport.cpp \
+    numpatientsentry.cpp \
     occupancyrateentry.cpp \
-    waitinglistentry.cpp \
-    waittimeslog.cpp \
-    waittimesentry.cpp \
-    generatereport.cpp
+    waittimesentry.cpp
 
 HEADERS  += login.h \
     welcome.h \
@@ -47,16 +41,11 @@ HEADERS  += login.h \
     adduser.h \
     addfacility.h \
     map.h \
-    facility.h \
     area.h \
-    hospital.h \
-    occupanyratelog.h \
-    waitinglist.h \
+    generatereport.h \
+    numpatientsentry.h \
     occupancyrateentry.h \
-    waitinglistentry.h \
-    waittimeslog.h \
-    waittimesentry.h \
-    generatereport.h
+    waittimesentry.h
 
 FORMS    += login.ui \
     welcome.ui \

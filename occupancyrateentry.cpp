@@ -1,5 +1,6 @@
 #include "occupancyrateentry.h"
 
-occupancyrateentry::occupancyrateentry()
+OccupancyRateEntry::OccupancyRateEntry(QObject *parent) :
+    QObject(parent)
 {
 }

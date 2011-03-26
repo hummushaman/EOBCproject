@@ -1,10 +1,18 @@
 #ifndef WAITTIMESENTRY_H
 #define WAITTIMESENTRY_H
 
-class waittimesentry
+#include <QObject>
+
+class WaitTimesEntry : public QObject
 {
+    Q_OBJECT
 public:
-    waittimesentry();
+    explicit WaitTimesEntry(QObject *parent = 0);
+
+signals:
+
+public slots:
+
 };
 
 #endif // WAITTIMESENTRY_H

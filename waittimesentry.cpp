@@ -1,5 +1,7 @@
 #include "waittimesentry.h"
 
-waittimesentry::waittimesentry()
+WaitTimesEntry::WaitTimesEntry(QObject *parent) :
+    QObject(parent)
 {
+
 }

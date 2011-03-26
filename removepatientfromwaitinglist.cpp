@@ -27,7 +27,7 @@ RemovePatientFromWaitingList::~RemovePatientFromWaitingList()
 void RemovePatientFromWaitingList::clickedOK()
 {
     //get data from the GUI
-    QString patientName = ui->
+    QString patientName;
 
     //request from the data storage classes that a patient be removed from a waiting list
 

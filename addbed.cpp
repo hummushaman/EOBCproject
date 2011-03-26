@@ -11,13 +11,11 @@
 #include "addbed.h"
 #include "ui_addbed.h"
 
-
-
-
 #include <QMessageBox>
 
 #include <iostream>
 #include <string>
+
 using namespace std;
 
 AddBed::AddBed(QWidget *parent) :
@@ -28,7 +26,9 @@ AddBed::AddBed(QWidget *parent) :
 
     connect(ui->OKButton,SIGNAL(clicked()),this,SLOT(clickedOK()));
 
+    QVector<int> facilities; //= database.
 
+    //for (int i-0; i< facil)
 
 }
 

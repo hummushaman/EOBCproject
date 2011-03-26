@@ -29,7 +29,7 @@ static void addPatientToWaitingList(QString firstName, QString lastName, int are
 
 }
 
-static void addPatientToWaitingList(QString firstName, QString lastName, int areaID, QDate dateAdded, QDate dateAdded) //outpatient
+static void addPatientToWaitingList(QString firstName, QString lastName, int areaID, QDate dateAdded) //outpatient
 {
 
 }
@@ -161,12 +161,12 @@ int requestMismatch(int currentCareType, int requiredCareType, int areaID)
 
 }
 
-static void addUser(string username, string password, int userType) //for system administrators and LHIN staff
+static void addUser(QString username, QString password, int userType) //for system administrators and LHIN staff
 {
 
 }
 
-static void addUser(string username, string password, int userType, int facilityID) //facility staff
+static void addUser(QString  username, QString  password, int userType, int facilityID) //facility staff
 {
 
 }

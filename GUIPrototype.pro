@@ -27,7 +27,9 @@ SOURCES += main.cpp\
     generatereport.cpp \
     numpatientsentry.cpp \
     occupancyrateentry.cpp \
-    waittimesentry.cpp
+    waittimesentry.cpp \
+    datastorage.cpp \
+    patient.cpp
 
 HEADERS  += login.h \
     welcome.h \
@@ -45,7 +47,9 @@ HEADERS  += login.h \
     generatereport.h \
     numpatientsentry.h \
     occupancyrateentry.h \
-    waittimesentry.h
+    waittimesentry.h \
+    datastorage.h \
+    patient.h
 
 FORMS    += login.ui \
     welcome.ui \

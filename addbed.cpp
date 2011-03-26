@@ -28,6 +28,8 @@ AddBed::AddBed(QWidget *parent) :
 
     connect(ui->OKButton,SIGNAL(clicked()),this,SLOT(clickedOK()));
 
+
+
 }
 
 AddBed::~AddBed()

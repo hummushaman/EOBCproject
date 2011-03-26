@@ -3,11 +3,11 @@
 
 #include <QObject>
 
-class OccupancyRateEntry : public QObject
+class OccupancyRateEntry
 {
-    Q_OBJECT
+
 public:
-    explicit OccupancyRateEntry(QObject *parent = 0);
+    explicit OccupancyRateEntry();
 
 signals:
 

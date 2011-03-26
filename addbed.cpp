@@ -12,7 +12,7 @@
 #include "ui_addbed.h"
 
 #include <QMessageBox>
-
+#include "datastorage.h"
 #include <iostream>
 #include <string>
 
@@ -23,12 +23,16 @@ AddBed::AddBed(QWidget *parent) :
     ui(new Ui::AddBed)
 {
     ui->setupUi(this);
-
     connect(ui->OKButton,SIGNAL(clicked()),this,SLOT(clickedOK()));
 
-    QVector<int> facilities; //= database.
+    QVector<int> facilities = DataStorage::getAllFacilities();
 
-    //for (int i-0; i< facil)
+
+    for(int i=0; i< facilities.size();i++)
+    {
+        QString facilName = DataStorage::getFacilityName(facilities.at(i));
+       ui->comboBox_facilities->addItem(facilName);
+    }
 
 }
 
@@ -51,18 +55,38 @@ void AddBed::clickedOK()
 
     QMessageBox msgBox;
 
-    msgBox.setText("You have requested to add " + s.setNum(numBeds) +" "+ careType + " care beds to " + facilName);
+    //error checking
+    QString facilType = DataStorage::getFacilityType(DataStorage::getFacilityID(facilName));
 
-    msgBox.setInformativeText("Do you want to save and propogate this change?");
-    msgBox.setStandardButtons( QMessageBox::Cancel | QMessageBox::Ok);
-    msgBox.setDefaultButton(QMessageBox::Cancel);
-    int ret = msgBox.exec();
+    if((facilType == "Hospital")&&(careType == "Long Term Care"))
+    {
+        QMessageBox msgBox2;
+        msgBox2.setText("The selected facility is a hospital. You can only add 'acute care'' or 'complex continuing care' beds");
+        msgBox2.exec();
 
-    if(ret == QMessageBox::Ok)
-    {   //call addBed in the DatabaseWrapper with numBeds, careType and the facilityID
-
-
-        close(); //if user clicks Cancel, we do not close the addBeds form
 
     }
+    else if((facilType == "Nursing Home")&&(careType != "Long Term Care"))
+    {
+        QMessageBox msgBox3;
+        msgBox3.setText("The selected facility is a nursing home. You can only add 'long term care' beds");
+        msgBox3.exec();
+
+    }
+    else{
+        msgBox.setText("You have requested to add " + s.setNum(numBeds) +" "+ careType + " care beds to " + facilName);
+
+        msgBox.setInformativeText("Do you want to save and propogate this change?");
+        msgBox.setStandardButtons( QMessageBox::Cancel | QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Cancel);
+        int ret = msgBox.exec();
+
+        if(ret == QMessageBox::Ok)
+        {   //call addBed in the DatabaseWrapper with numBeds, careType and the facilityID
+
+            close(); //if user clicks Cancel, we do not close the addBeds form
+
+        }
+    }
+
 }

@@ -19,9 +19,9 @@ public:
     static void addBeds(int facilityID, int numBeds, int bedType);
     static void removePatientFromWaitingList(int areaID, int patientID);
 
-    static void addPatientToWaitingList(QString firstName, QString lastName, int areaID, QDate dateAdded, QDate dateAdmittedToFacility, int currentFacility, int currentCareType); //inpatient
+    static void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QDate dateAdded, QDate dateAdmittedToFacility, int currentFacility, int currentCareType); //inpatient
 
-    static void addPatientToWaitingList(QString firstName, QString lastName, int areaID, QDate dateAdded); //outpatient
+    static void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QDate dateAdded); //outpatient
 
     static QVector<int> getAllAreas();
     static QString getAreaName(int areaID);
@@ -29,6 +29,8 @@ public:
     static QVector<int> getAllFacilitiesInArea(int areaID);
     static int getAreaForFacility(int facilityID);
     static QVector<int> getAllFacilities();
+
+    static QString getFacilityName(int facilityID);
 
     static float getFacilityX(int facilityID);
     static float getFacilityY(int facilityID);
@@ -41,7 +43,7 @@ public:
 
     static QVector<Patient> getPatientsAtFacility(int facilityID);
 
-    static int getFacilityType(int facilityID);       //0=hospital, 1=nursinghome
+    static QString getFacilityType(int facilityID); //"Hospital" or "Nursing Home"
 
     static QVector<OccupancyRateEntry>getOccupancyRateEntries(QDate startDate, QDate endDate, int careType, int facilityID);
     static int getFacilityID(QString name);
@@ -55,7 +57,7 @@ public:
     static int getUserType(QString username);
     static int getUserFacility(QString username);
 
-    int requestMismatch(int currentCareType, int requiredCareType, int areaID);
+    static int requestMismatch(int currentCareType, int requiredCareType, int areaID);
 
     static void addUser(QString username, QString password, int userType); //for system administrators and LHIN staff
     static void addUser(QString username, QString password, int userType, int facilityID); //facility staff

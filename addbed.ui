@@ -55,12 +55,17 @@
              <widget class="QComboBox" name="comboBox_careTypes">
               <item>
                <property name="text">
-                <string>Acute</string>
+                <string>Acute Care</string>
                </property>
               </item>
               <item>
                <property name="text">
-                <string>Complex Continuing</string>
+                <string>Complex Continuing Care</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Long Term Care</string>
                </property>
               </item>
              </widget>

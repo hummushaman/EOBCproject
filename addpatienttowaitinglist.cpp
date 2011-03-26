@@ -11,12 +11,26 @@
 #include "addpatienttowaitinglist.h"
 #include "ui_addpatienttowaitinglist.h"
 
+#include "datastorage.h"
+
 AddPatientToWaitingList::AddPatientToWaitingList(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::AddPatientToWaitingList)
 {
     ui->setupUi(this);
     connect(ui->OKButton,SIGNAL(clicked()),this,SLOT(clickedOK()));
+
+    QVector<int> areas = DataStorage::getAllAreas();
+    for (int i=0;i<areas.size();i++)
+    {
+        ui->comboBox_areas->addItem(DataStorage::getAreaName(areas.at(i)));
+
+    }
+
+
+
+
+
 }
 
 AddPatientToWaitingList::~AddPatientToWaitingList()

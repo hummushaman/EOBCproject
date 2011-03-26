@@ -3,4 +3,5 @@
 NumPatientsEntry::NumPatientsEntry(QObject *parent) :
     QObject(parent)
 {
+
 }

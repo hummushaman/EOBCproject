@@ -35,7 +35,7 @@ Welcome::Welcome(QWidget *parent) :
     connect(ui->actionAdd_facility, SIGNAL(triggered()),this,SLOT(openAddFacility()));
     connect(ui->actionAdd_user, SIGNAL(triggered()),this,SLOT(openAddUser()));
 
-    connect(ui->actionView_facility_information, SIGNAL(triggered()),this,SLOT(openViewWaitingList()));
+    connect(ui->actionView_facility_information, SIGNAL(triggered()),this,SLOT(openViewFacility()));
     connect(ui->actionView_waiting_list, SIGNAL(triggered()),this,SLOT(openViewWaitingList()));
 
     connect(ui->actionViewMap, SIGNAL(triggered()),this,SLOT(openViewMap()));

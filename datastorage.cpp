@@ -15,7 +15,7 @@ void DataStorage::removePatientFromBed(int facilityID, int patientID)
 
 }
 
-void DataStorage::addBeds(int facilityID, int numBeds, int bedType)
+void DataStorage::addBeds(int facilityID, int numBeds, QString bedtype)
 {
 
 }
@@ -117,9 +117,13 @@ void DataStorage::removePatientFromWaitingList(int areaID, int patientID)
 
 }
 
- QVector<Patient> DataStorage::getPatientsAtFacility(int facilityID)
+ QVector<Patient*> DataStorage::getPatientsAtFacility(int facilityID)
 {
-
+    QVector<Patient*> patients;
+    Patient* patient1 = new Patient("1234 pw", "Joe", "Smith");
+    Patient* patient2 = new Patient("3456 x","Mary", "Black");
+    patients<<patient1<<patient2;
+    return patients;
 }
 
 QString DataStorage::getFacilityType(int facilityID)     //0=hospital, 1=nursinghome
@@ -144,7 +148,7 @@ QString DataStorage::getFacilityType(int facilityID)     //0=hospital, 1=nursing
 
 }
 
- QVector<Patient> DataStorage::getWaitingListPatients(int areaID)
+ QVector<Patient*> DataStorage::getWaitingListPatients(int areaID)
 {
      /*Patient x = new Patient();
 

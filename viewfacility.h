@@ -15,6 +15,8 @@ public:
     explicit ViewFacility(QWidget *parent = 0);
     ~ViewFacility();
 
+private slots:
+    void displayInformation();
 
 private:
     Ui::ViewFacility *ui;

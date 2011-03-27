@@ -12,6 +12,8 @@
 #include "ui_addpatienttowaitinglist.h"
 
 #include "datastorage.h"
+#include <QMessageBox>
+
 
 AddPatientToWaitingList::AddPatientToWaitingList(QWidget *parent) :
     QMainWindow(parent),
@@ -27,9 +29,12 @@ AddPatientToWaitingList::AddPatientToWaitingList(QWidget *parent) :
 
     }
 
+    QVector<int> facilities = DataStorage::getAllFacilities();
+    for (int i=0;i<facilities.size();i++)
+    {
+        ui->comboBox_facilities->addItem(DataStorage::getFacilityName(facilities.at(i)));
 
-
-
+    }
 
 }
 
@@ -42,40 +47,54 @@ void AddPatientToWaitingList::clickedOK()
 {
     //get data from the GUI
 
+    QString firstname = ui->lineEdit_firstname->text();
+    QString lastname = ui->lineEdit_lastname->text();
+    QString HCN = ui->lineEdit_HCN->text();
 
-    //ADDED THIS  COMMENT ON NEWFEATURE BRANCH
-
-    //request from the data storage classes that a patient be added to a waiting list
-
-    //close the form window
-
+    QString patientType = ui->comboBox_patientType->currentText();
 
 
+    QDate dateAdded = ui->dateEdit_dateAdded->date();
 
-    /*
-    int numBeds = ui->lineEditNumBeds->text().toInt();
-    QString careType = ui->comboBox_careTypes->currentText();
+    QDate dateAdmitted = ui->dateEdit_dateAdmitted->date();
+
+
+    QString areaName = ui->comboBox_areas->currentText();
+
+    QString careType = ui->comboBox_careType->currentText();
     QString facilName = ui->comboBox_facilities->currentText();
 
     QString s;
 
     QMessageBox msgBox;
 
-    msgBox.setText("You have requested to add " + s.setNum(numBeds) +" "+ careType + " care beds to " + facilName);
+    //error checking
 
-    msgBox.setInformativeText("Do you want to save and propogate this change?");
-    msgBox.setStandardButtons( QMessageBox::Cancel|QMessageBox::Ok);
+
+    msgBox.setInformativeText("You have requested to add this patient to the waiting list of area. \n" + areaName + "Do you want to save and propogate this change?");
+    msgBox.setStandardButtons( QMessageBox::Cancel | QMessageBox::Ok);
     msgBox.setDefaultButton(QMessageBox::Cancel);
     int ret = msgBox.exec();
 
     if(ret == QMessageBox::Ok)
-    {   //call addBed in the DatabaseWrapper with numBeds, careType and the facilityID
+    {
 
+        //areaid = DataStorage::getAreaID(areaName);
+        int facilID = DataStorage::getFacilityID(facilName);
 
-        close(); //if user clicks Cancel, we do not close the addBeds form
+        if(patientType == "Inpatient")
+        {
+            //DataStorage::addPatientToWaitingList(HCN,firstname, lastname,areaid,dateAdded, dateAdmitted, facilID,careType);
+        }
+        else
+        {
+           // DataStorage::addPatientToWaitingList(HCN,firstname, lastname,areaid,dateAdded);
+        }
+
+        close();
 
     }
-*/
+
 
     close();
 

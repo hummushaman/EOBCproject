@@ -16,7 +16,7 @@ public:
 
     static void removePatientFromBed(int facilityID, int patientID);
     static void assignPatientToBed(int facilityID, int patientID);
-    static void addBeds(int facilityID, int numBeds, int bedType);
+    static void addBeds(int facilityID, int numBeds, QString bedType);
     static void removePatientFromWaitingList(int areaID, int patientID);
 
     static void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QDate dateAdded, QDate dateAdmittedToFacility, int currentFacility, int currentCareType); //inpatient
@@ -41,14 +41,14 @@ public:
     static float getTotalNumBeds(int facilityID);
     static float getTotalNumBedsOccupied(int facilityID);
 
-    static QVector<Patient> getPatientsAtFacility(int facilityID);
+    static QVector<Patient*> getPatientsAtFacility(int facilityID);
 
     static QString getFacilityType(int facilityID); //"Hospital" or "Nursing Home"
 
     static QVector<OccupancyRateEntry>getOccupancyRateEntries(QDate startDate, QDate endDate, int careType, int facilityID);
     static int getFacilityID(QString name);
 
-    static QVector<Patient> getWaitingListPatients(int areaID);
+    static QVector<Patient*> getWaitingListPatients(int areaID);
     static int getWaitingListSize(int areaID);
     static QVector<WaitTimesEntry> getWaitTimesEntries(QDate startDate, QDate endDate, int areaID);
     static QVector<NumPatientsEntry> getWaitingListSizeEntries(QDate startDate, QDate endDate, int areaID);

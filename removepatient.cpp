@@ -7,6 +7,8 @@ RemovePatient::RemovePatient(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->OKButton,SIGNAL(clicked()),this,SLOT(clickedOK()));
+
+
 }
 
 RemovePatient::~RemovePatient()

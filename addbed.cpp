@@ -45,7 +45,7 @@ AddBed::~AddBed()
 void AddBed::clickedOK()
 
 {
-    //added something to the the addBed class
+
 
     int numBeds = ui->lineEditNumBeds->text().toInt();
     QString careType = ui->comboBox_careTypes->currentText();
@@ -55,10 +55,20 @@ void AddBed::clickedOK()
 
     QMessageBox msgBox;
 
-    //error checking
-    QString facilType = DataStorage::getFacilityType(DataStorage::getFacilityID(facilName));
+    if(careType == "Long Term Care")
+        careType = "LTC";
+    else if (careType == "Acute Care")
+        careType = "AC";
+    else
+        careType = "CCC";
 
-    if((facilType == "Hospital")&&(careType == "Long Term Care"))
+
+
+    //error checking
+    int facilID = DataStorage::getFacilityID(facilName);
+    QString facilType = DataStorage::getFacilityType(facilID);
+
+    if((facilType == "Hospital")&&(careType == "LTC"))
     {
         QMessageBox msgBox2;
         msgBox2.setText("The selected facility is a hospital. You can only add 'acute care'' or 'complex continuing care' beds");
@@ -66,7 +76,7 @@ void AddBed::clickedOK()
 
 
     }
-    else if((facilType == "Nursing Home")&&(careType != "Long Term Care"))
+    else if((facilType == "Nursing Home")&&(careType != "LTC"))
     {
         QMessageBox msgBox3;
         msgBox3.setText("The selected facility is a nursing home. You can only add 'long term care' beds");
@@ -84,6 +94,7 @@ void AddBed::clickedOK()
         if(ret == QMessageBox::Ok)
         {   //call addBed in the DatabaseWrapper with numBeds, careType and the facilityID
 
+            DataStorage::addBeds(facilID,numBeds,careType);
             close(); //if user clicks Cancel, we do not close the addBeds form
 
         }

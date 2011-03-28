@@ -1,7 +1,13 @@
 #include "datastorage.h"
 
-DataStorage::DataStorage()
+DataStorage::DataStorage(QSqlDatabase databaseConnection)
 {
+
+    //request information from the other facilities?
+    //create temporary database
+    QSqlDatabase temporaryDatabase = QSqlDatabase::addDatabase("QSQLITE");
+    temporaryDatabase.setDatabaseName(":memory:");
+
 }
 
 void DataStorage::removePatientFromBed(int facilityID, QString HCN)

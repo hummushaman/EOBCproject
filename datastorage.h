@@ -9,7 +9,9 @@
 #include "occupancyrateentry.h"
 
 #include <QDateTime>
-#include "eobcproject.h"
+#include <QVector>
+#include <QSqlDatabase>
+
 
 
 class DataStorage
@@ -17,7 +19,7 @@ class DataStorage
 private:
     //QVector <WaitingList> =
 public:
-    DataStorage();
+    DataStorage(QSqlDatabase databaseConnection);
 
     static void removePatientFromBed(int facilityID, QString HCN);
     static void assignPatientToBed(int facilityID, QString HCN);

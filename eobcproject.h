@@ -2,17 +2,10 @@
 #define EOBCPROJECT_H
 
 #include "datastorage.h"
-
-#include <QVector>
 #include <QMessageBox>
-#include <QDateTime>
-
-
 
 //gloabl variables
-DataStorage storage;
-int myFacilityID;
-
-
+extern DataStorage storage;
+extern int myFacilityID;
 
 #endif // EOBCPROJECT_H

@@ -20,7 +20,10 @@ Login::Login(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Login)
 {
+
     ui->setupUi(this);
+
+    //ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
     connect(ui->loginOK,SIGNAL(clicked()),this,SLOT(checkLogin()));
 }
 

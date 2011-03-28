@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui //need this for the GUI to work
+QT       += core gui
 QT       += sql
 
 TARGET = GUIPrototype

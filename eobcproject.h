@@ -3,15 +3,13 @@
 
 #include "datastorage.h"
 
-#include <QVector>
+
 #include <QMessageBox>
-#include <QDateTime>
 
 
-
-//gloabl variables
-DataStorage storage;
-int myFacilityID;
+//global variables
+extern DataStorage storage;
+extern int myFacilityID;
 
 
 

@@ -53,9 +53,12 @@ void AddPatientToWaitingList::clickedOK()
     QString patientType = ui->comboBox_patientType->currentText();
 
 
-    QDate dateAdded = ui->dateEdit_dateAdded->date();
+    QDateTime dateAdded = QDateTime::currentDateTime();
+    QString datetime = dateAdded.toString("yyyy-MM-ddThh:mm:ss");
 
-    QDate dateAdmitted = ui->dateEdit_dateAdmitted->date();
+            //ui->dateEdit_dateAdded->date();
+
+    //QDate dateAdmitted = ui->dateEdit_dateAdmitted->date();
 
 
     QString areaName = ui->comboBox_areas->currentText();
@@ -75,21 +78,25 @@ void AddPatientToWaitingList::clickedOK()
     if(ret == QMessageBox::Ok)
     {
 
-        //areaid = DataStorage::getAreaID(areaName);
+        int areaid = DataStorage::getAreaID(areaName);
         int facilID = DataStorage::getFacilityID(facilName);
 
         if(patientType == "Inpatient")
         {
-            //DataStorage::addPatientToWaitingList(HCN,firstname, lastname,areaid,dateAdded, dateAdmitted, facilID,careType);
+
+            DataStorage::addPatientToWaitingList(HCN,firstname, lastname,areaid,datetime, facilID,careType);
         }
         else
         {
-           // DataStorage::addPatientToWaitingList(HCN,firstname, lastname,areaid,dateAdded);
+            DataStorage::addPatientToWaitingList(HCN,firstname, lastname,areaid,datetime);
         }
 
         close();
 
     }
+    QMessageBox msgbox2;
+    msgbox2.setText("todays date and time: "+ datetime);
+    msgbox2.exec();
 
 
     close();

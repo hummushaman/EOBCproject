@@ -16,7 +16,6 @@
 
 #include "eobcproject.h"
 
-using namespace std;
 
 
 
@@ -42,7 +41,7 @@ int main(int argc, char *argv[])
 
     //initialize DataStorage object
 
-    storage = DataStorage();
+    //storage = DataStorage();
 
 
 

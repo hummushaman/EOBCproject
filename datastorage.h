@@ -9,7 +9,7 @@
 #include "occupancyrateentry.h"
 
 #include <QDateTime>
-#include "eobcproject.h"
+#include <QVector>
 
 
 class DataStorage
@@ -24,9 +24,9 @@ public:
     static void addBeds(int facilityID, int numBeds, QString bedType);
     static void removePatientFromWaitingList(int areaID, QString HCN);
 
-    static void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QDateTime dateAdded, QDateTime dateAdmittedToFacility, int currentFacility, int currentCareType); //inpatient
+    static void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded,  int currentFacility, QString currentCareType); //inpatient
 
-    static void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QDateTime dateAdded); //outpatient
+    static void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded); //outpatient
 
     static QVector<int> getAllAreas();
     static QString getAreaName(int areaID);

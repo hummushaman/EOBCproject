@@ -25,12 +25,12 @@ void DataStorage::removePatientFromWaitingList(int areaID, QString HCN)
 
 }
 
- void DataStorage::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QDateTime dateAdded, QDateTime dateAdmittedToFacility, int currentFacility, int currentCareType) //inpatient
+ void DataStorage::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded, int currentFacility, QString currentCareType) //inpatient
 {
 
 }
 
- void DataStorage::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QDateTime dateAdded) //outpatient
+ void DataStorage::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded) //outpatient
 {
 
 }

@@ -41,7 +41,11 @@
          <widget class="QLineEdit" name="usernNameLineEdit"/>
         </item>
         <item>
-         <widget class="QLineEdit" name="passwordLineEdit"/>
+         <widget class="QLineEdit" name="passwordLineEdit">
+          <property name="inputMask">
+           <string/>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

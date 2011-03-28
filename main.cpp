@@ -16,6 +16,7 @@
 
 #include "eobcproject.h"
 
+using namespace std;
 
 
 
@@ -32,6 +33,17 @@ int main(int argc, char *argv[])
     //  IP addresses of other facilities ( mapped to FacilityID's)
     //
 
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+
+    db.setDatabaseName("/home/4user3/jpowers3/eobc");
+    bool isOpen = db.open();
+    if (!isOpen){
+        //error message
+    }else {
+
+        storage = DataStorage(db);
+
+    }
 
     //connect to the database
     //pass "connection handle" to the Database class
@@ -41,7 +53,11 @@ int main(int argc, char *argv[])
 
     //initialize DataStorage object
 
+<<<<<<< HEAD
     //storage = DataStorage();
+=======
+
+>>>>>>> d2f3f8fedce26ee049226f3d4377cd3428db04d0
 
 
 

@@ -13,6 +13,8 @@
 
 #include"datastorage.h"
 #include <QListWidgetItem>
+#include <QMessageBox>
+
 
 RemovePatientFromWaitingList::RemovePatientFromWaitingList(QWidget *parent) :
     QMainWindow(parent),
@@ -21,24 +23,18 @@ RemovePatientFromWaitingList::RemovePatientFromWaitingList(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->OKButton,SIGNAL(clicked()),this,SLOT(clickedOK()));
 
-    //CDADcb::CMessage* pMess = (CDADcb::CMessage*)i.value();
+    connect(ui->DisplayButton,SIGNAL(clicked()),this,SLOT(displayPatients()));
 
-    //connect(ui->, SIGNAL(triggered()),this,SLOT(openAddBeds()));
-   /*
-    int facilID =
-    Vector<Patient*> patients = DataStorage::getPatientsAtFacility(facilID);
-    if( pMess )
+
+    //populate area combo box
+    QVector<int> areas = DataStorage::getAllAreas();
+
+    for(int i=0; i< areas.size();i++)
     {
-            QListWidgetItem *newItem = new QListWidgetItem;
-            newItem->setFlags( newItem->flags() | Qt::ItemIsUserCheckable );
-            newItem->setCheckState(Qt::Unchecked);
-            newItem->setText( pMess->name );
-            newItem->setData( Qt::UserRole, pMess );
-                    ui.messageList->insertItem( ui.messageList->count(), newItem);
+        QString areaname = DataStorage::getAreaName(areas[i]);
+        ui->comboBox_areas->addItem(areaname);
+
     }
-
-
-    ui->comboBox*/
 }
 
 RemovePatientFromWaitingList::~RemovePatientFromWaitingList()
@@ -49,19 +45,73 @@ RemovePatientFromWaitingList::~RemovePatientFromWaitingList()
 void RemovePatientFromWaitingList::displayPatients()
 {
 
-}
+    ui->listWidget_patients->clear();
 
+    QString areaname = ui->comboBox_areas->currentText();
+
+    int areaID = DataStorage::getAreaID(areaname);
+
+    QVector<Patient*> patients = DataStorage::getPatientsAtFacility(areaID);
+
+    for(int i;i<patients.size();i++)
+    {
+        ui->listWidget_patients->addItem(patients[i]->getHCN());
+
+
+
+    //attempt to add patients to the list as objects *is not working*
+
+
+        /*if( patients[i])
+        {
+            QListWidgetItem *newItem = new QListWidgetItem;
+            newItem->setFlags( newItem->flags() | Qt::ItemIsUserCheckable );
+            newItem->setCheckState(Qt::Unchecked);
+
+            newItem->setText( patients[i]->getFirstname() + " " + patients[i]->getLastname() );
+
+
+            newItem->setData( Qt::UserRole, patients[i] );
+            ui->listWidget_patients->insertItem( ui->listWidget_patients->count(), newItem);
+        }*/
+    }
+   // QObject * obj = qvariant_cast<QObject *>(item->data(Qt::UserRole));
+    // from QObject* to myClass*
+    //myClass * lmyClass = qobject_cast<myClass *>(obj);
+
+
+}
 
 void RemovePatientFromWaitingList::clickedOK()
 {
     //get data from the GUI
-    QString patientName;
+    QString patientHCN = ui->listWidget_patients->currentItem()->text();
 
-    //request from the data storage classes that a patient be removed from a waiting list
+    //check that the user is sure this is what they want to do.
 
-    //close the form window
+    QMessageBox msgBox;
 
+    QString firstname = DataStorage::getPatientFirstName(patientHCN);
+    QString lastname = DataStorage::getPatientLastName(patientHCN);
 
-    close();
+    QString areaname = ui->comboBox_areas->currentText();
+
+    msgBox.setText("You have requested to *remove* the following patient from the waiting list for " +areaname+ ":\n\nHealth Card Number: " + patientHCN +"\nFirst Name: "+ firstname + "\nLast Name: " + lastname);
+
+    msgBox.setInformativeText("Do you want to save and propogate this change?");
+    msgBox.setStandardButtons( QMessageBox::Cancel | QMessageBox::Ok);
+    msgBox.setDefaultButton(QMessageBox::Cancel);
+    int ret = msgBox.exec();
+
+    int areaid = DataStorage::getAreaID(areaname);
+
+    if(ret == QMessageBox::Ok)
+    {   //call removePatientFromWaitingList from datastorage class
+
+        DataStorage::removePatientFromWaitingList(areaid, patientHCN);
+
+        close(); //if user clicks Cancel, we do *not* close the form
+
+    }
 
 }

@@ -14,10 +14,10 @@ class DataStorage
 public:
     DataStorage();
 
-    static void removePatientFromBed(int facilityID, int patientID);
-    static void assignPatientToBed(int facilityID, int patientID);
+    static void removePatientFromBed(int facilityID, QString HCN);
+    static void assignPatientToBed(int facilityID, QString HCN);
     static void addBeds(int facilityID, int numBeds, QString bedType);
-    static void removePatientFromWaitingList(int areaID, int patientID);
+    static void removePatientFromWaitingList(int areaID, QString HCN);
 
     static void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QDate dateAdded, QDate dateAdmittedToFacility, int currentFacility, int currentCareType); //inpatient
 
@@ -25,6 +25,8 @@ public:
 
     static QVector<int> getAllAreas();
     static QString getAreaName(int areaID);
+
+    static int getAreaID(QString areaname);
 
     static QVector<int> getAllFacilitiesInArea(int areaID);
     static int getAreaForFacility(int facilityID);
@@ -42,6 +44,10 @@ public:
     static float getTotalNumBedsOccupied(int facilityID);
 
     static QVector<Patient*> getPatientsAtFacility(int facilityID);
+
+    static QString getPatientFirstName(QString patientHCN);
+    static QString getPatientLastName(QString patientHCN);
+
 
     static QString getFacilityType(int facilityID); //"Hospital" or "Nursing Home"
 

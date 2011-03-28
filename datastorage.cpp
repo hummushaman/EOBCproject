@@ -4,13 +4,13 @@ DataStorage::DataStorage()
 {
 }
 
-void DataStorage::removePatientFromBed(int facilityID, int patientID)
+void DataStorage::removePatientFromBed(int facilityID, QString HCN)
 {
 
 
 }
 
- void DataStorage::assignPatientToBed(int facilityID, int patientID)
+ void DataStorage::assignPatientToBed(int facilityID, QString HCN)
 {
 
 }
@@ -20,7 +20,7 @@ void DataStorage::addBeds(int facilityID, int numBeds, QString bedtype)
 
 }
 
-void DataStorage::removePatientFromWaitingList(int areaID, int patientID)
+void DataStorage::removePatientFromWaitingList(int areaID, QString HCN)
 {
 
 }
@@ -148,6 +148,10 @@ QString DataStorage::getFacilityType(int facilityID)     //0=hospital, 1=nursing
 
 }
 
+int DataStorage::getAreaID(QString areaname)
+{
+
+}
  QVector<Patient*> DataStorage::getWaitingListPatients(int areaID)
 {
      /*Patient x = new Patient();
@@ -216,3 +220,12 @@ QString DataStorage::getFacilityType(int facilityID)     //0=hospital, 1=nursing
 
 }
 
+ QString DataStorage::getPatientFirstName(QString patientHCN)
+{
+    return "Bob";
+}
+
+QString DataStorage::getPatientLastName(QString patientHCN)
+{
+    return "Smith";
+}

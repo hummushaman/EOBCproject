@@ -16,6 +16,7 @@ public:
     ~RemovePatientFromWaitingList();
 
 private slots:
+    void displayPatients();
     void clickedOK();
 
 private:

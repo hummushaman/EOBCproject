@@ -68,7 +68,7 @@ void AddPatientToWaitingList::clickedOK()
 
     QMessageBox msgBox;
 
-    //error checking
+
 
 
     msgBox.setInformativeText("You have requested to add this patient to the waiting list of area. \n" + areaName + "Do you want to save and propogate this change?");

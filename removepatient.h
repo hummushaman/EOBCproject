@@ -2,6 +2,7 @@
 #define REMOVEPATIENT_H
 
 #include <QMainWindow>
+#include "eobcproject.h"
 
 namespace Ui {
     class RemovePatient;
@@ -17,6 +18,7 @@ public:
 
 private slots:
     void clickedOK();
+    void displayPatients();
 
 private:
     Ui::RemovePatient *ui;

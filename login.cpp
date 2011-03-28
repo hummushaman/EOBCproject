@@ -15,8 +15,6 @@
 #include "ui_login.h"
 
 
-#include "welcome.h"
-#include "ui_welcome.h"
 
 Login::Login(QWidget *parent) :
     QMainWindow(parent),

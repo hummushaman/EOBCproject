@@ -11,8 +11,7 @@
 #include "addpatienttowaitinglist.h"
 #include "ui_addpatienttowaitinglist.h"
 
-#include "datastorage.h"
-#include <QMessageBox>
+
 
 
 AddPatientToWaitingList::AddPatientToWaitingList(QWidget *parent) :
@@ -67,9 +66,6 @@ void AddPatientToWaitingList::clickedOK()
     QString s;
 
     QMessageBox msgBox;
-
-
-
 
     msgBox.setInformativeText("You have requested to add this patient to the waiting list of area. \n" + areaName + "Do you want to save and propogate this change?");
     msgBox.setStandardButtons( QMessageBox::Cancel | QMessageBox::Ok);

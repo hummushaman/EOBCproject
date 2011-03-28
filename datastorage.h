@@ -7,10 +7,15 @@
 #include "waittimesentry.h"
 #include "numpatientsentry.h"
 #include "occupancyrateentry.h"
-#include <QVector>
-#include <QDate>
+
+#include <QDateTime>
+#include "eobcproject.h"
+
+
 class DataStorage
 {
+private:
+    //QVector <WaitingList> =
 public:
     DataStorage();
 
@@ -19,9 +24,9 @@ public:
     static void addBeds(int facilityID, int numBeds, QString bedType);
     static void removePatientFromWaitingList(int areaID, QString HCN);
 
-    static void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QDate dateAdded, QDate dateAdmittedToFacility, int currentFacility, int currentCareType); //inpatient
+    static void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QDateTime dateAdded, QDateTime dateAdmittedToFacility, int currentFacility, int currentCareType); //inpatient
 
-    static void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QDate dateAdded); //outpatient
+    static void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QDateTime dateAdded); //outpatient
 
     static QVector<int> getAllAreas();
     static QString getAreaName(int areaID);

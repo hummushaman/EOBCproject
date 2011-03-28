@@ -3,6 +3,13 @@
 
 #include <QMainWindow>
 
+#include<QGraphicsView>
+#include<QGraphicsEllipseItem>
+#include<QGraphicsScene>
+#include<QGraphicsPixmapItem>
+#include<QPixmap>
+
+
 namespace Ui {
     class Map;
 }

@@ -11,10 +11,6 @@
 #include "addbed.h"
 #include "ui_addbed.h"
 
-#include <QMessageBox>
-#include "datastorage.h"
-#include <iostream>
-#include <string>
 
 using namespace std;
 

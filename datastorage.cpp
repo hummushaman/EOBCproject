@@ -25,12 +25,12 @@ void DataStorage::removePatientFromWaitingList(int areaID, QString HCN)
 
 }
 
- void DataStorage::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QDate dateAdded, QDate dateAdmittedToFacility, int currentFacility, int currentCareType) //inpatient
+ void DataStorage::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QDateTime dateAdded, QDateTime dateAdmittedToFacility, int currentFacility, int currentCareType) //inpatient
 {
 
 }
 
- void DataStorage::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QDate dateAdded) //outpatient
+ void DataStorage::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QDateTime dateAdded) //outpatient
 {
 
 }
@@ -154,12 +154,11 @@ int DataStorage::getAreaID(QString areaname)
 }
  QVector<Patient*> DataStorage::getWaitingListPatients(int areaID)
 {
-     /*Patient x = new Patient();
-
-     QVector<Patient> log;
-     log<<x;
-
-     return log;*/
+     QVector<Patient*> patients;
+     Patient* patient1 = new Patient("12343653 xw", "Joe", "Smith");
+     Patient* patient2 = new Patient("345645362 x","Rebecca", "Black");
+     patients<<patient1<<patient2;
+     return patients;
 }
 
  int DataStorage::getWaitingListSize(int areaID)

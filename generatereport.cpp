@@ -1,7 +1,7 @@
 #include "generatereport.h"
 #include "ui_generatereport.h"
 
-#include <stdio.h>
+
 
 using namespace std;
 

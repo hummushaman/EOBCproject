@@ -13,16 +13,12 @@
 #include <QtGui/QApplication>
 #include "login.h"
 
-#include <iostream>
-#include <stdio.h>
 
-#include<QGraphicsView>
-#include<QGraphicsEllipseItem>
-#include<QGraphicsScene>
-#include<QGraphicsPixmapItem>
-#include<QPixmap>
+#include "eobcproject.h"
 
 using namespace std;
+
+
 
 int main(int argc, char *argv[])
 {
@@ -30,29 +26,33 @@ int main(int argc, char *argv[])
     Login w;
     w.show();
 
-
-   // QGraphicsScene scene;
-
-   // scene.setSceneRect( -100.0, -100.0, 200.0, 200.0 );
-
-    //QGraphicsEllipseItem *item = new QGraphicsEllipseItem( 0, &scene );
-    //item->setRect( -50.0, -50.0, 100.0, 100.0 );
-
-    //QGraphicsView view( &scene);
-    //view.setRenderHints( QPainter::Antialiasing );
-    //view.show();
+    //read configuration file
+    //should include:
+    //  database path
+    //  myFacilityID
+    //  IP addresses of other facilities ( mapped to FacilityID's)
+    //
 
 
-    //QString fileName = "/home/4user1/naseido/map.svg";
-    //QGraphicsScene scene;
-    //QGraphicsView view(&scene);
-    //QGraphicsPixmapItem item(QPixmap(filename));
-    //scene.addItem(&item);
-    //view.show();
+    //connect to the database
+    //pass "connection handle" to the Database class
+        //handle errors if database connection fails
+                //check that tables exist
+
+
+    //initialize DataStorage object
+
+    storage = DataStorage();
 
 
 
-    std::cout << "Hello";
 
+
+
+   // std::cout << "Hello";
+
+
+
+    //close database connection
     return a.exec();
 }

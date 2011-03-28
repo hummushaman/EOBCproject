@@ -11,9 +11,7 @@
 #include "removepatientfromwaitinglist.h"
 #include "ui_removepatientfromwaitinglist.h"
 
-#include"datastorage.h"
-#include <QListWidgetItem>
-#include <QMessageBox>
+
 
 
 RemovePatientFromWaitingList::RemovePatientFromWaitingList(QWidget *parent) :
@@ -51,7 +49,7 @@ void RemovePatientFromWaitingList::displayPatients()
 
     int areaID = DataStorage::getAreaID(areaname);
 
-    QVector<Patient*> patients = DataStorage::getPatientsAtFacility(areaID);
+    QVector<Patient*> patients = DataStorage::getWaitingListPatients(areaID);
 
     for(int i;i<patients.size();i++)
     {

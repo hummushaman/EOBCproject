@@ -2,6 +2,7 @@
 #define VIEWFACILITY_H
 
 #include <QMainWindow>
+#include "eobcproject.h"
 
 namespace Ui {
     class ViewFacility;

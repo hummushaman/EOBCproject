@@ -3,6 +3,13 @@
 
 #include <QMainWindow>
 
+//#include"datastorage.h"
+
+
+#include "eobcproject.h"
+#include <QListWidgetItem>
+#include <QMessageBox>
+
 namespace Ui {
     class RemovePatientFromWaitingList;
 }

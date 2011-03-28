@@ -3,6 +3,11 @@
 
 #include <QMainWindow>
 
+//#include "datastorage.h"
+//#include <QMessageBox>
+
+#include "eobcproject.h"
+
 namespace Ui {
     class AddPatientToWaitingList;
 }

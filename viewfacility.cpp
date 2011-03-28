@@ -1,7 +1,8 @@
+
 #include "viewfacility.h"
 #include "ui_viewfacility.h"
 
-#include"datastorage.h"
+
 
 ViewFacility::ViewFacility(QWidget *parent) :
     QMainWindow(parent),

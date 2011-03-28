@@ -49,7 +49,8 @@ HEADERS  += login.h \
     occupancyrateentry.h \
     waittimesentry.h \
     datastorage.h \
-    patient.h
+    patient.h \
+    eobcproject.h
 
 FORMS    += login.ui \
     welcome.ui \

@@ -2,7 +2,9 @@
 #define ADDBED_H
 
 #include <QMainWindow>
-#include <welcome.h>
+
+
+#include "eobcproject.h"
 
 namespace Ui {
     class AddBed;

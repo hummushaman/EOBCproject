@@ -3,6 +3,22 @@
 
 #include <QMainWindow>
 
+#include "addbed.h"
+#include "assignbed.h"
+#include "removepatient.h"
+
+#include "addpatienttowaitinglist.h"
+#include "removepatientfromwaitinglist.h"
+
+#include "addfacility.h"
+#include "adduser.h"
+
+#include "viewfacility.h"
+#include "viewwaitinglist.h"
+
+#include "map.h"
+#include "generatereport.h"
+
 namespace Ui {
     class Welcome;
 }

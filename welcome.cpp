@@ -47,6 +47,9 @@ void Welcome::openAddBeds()
 
 void Welcome::openAssignBed()
 {
+    QMessageBox msgbox;
+    msgbox.setText("open assign patient to bed.");
+    msgbox.exec();
 
     AssignBed* aWindow = new AssignBed();
     aWindow->show();

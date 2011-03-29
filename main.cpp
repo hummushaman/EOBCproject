@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
         //error message
     }else {
 
-        storage = DataStorage(db);
+        //storage = DataStorage(db);
 
     }
 
@@ -53,11 +53,9 @@ int main(int argc, char *argv[])
 
     //initialize DataStorage object
 
-<<<<<<< HEAD
     //storage = DataStorage();
-=======
 
->>>>>>> d2f3f8fedce26ee049226f3d4377cd3428db04d0
+
 
 
 

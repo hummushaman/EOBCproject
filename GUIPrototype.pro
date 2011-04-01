@@ -7,6 +7,7 @@
 QT       += core gui
 
 QT       += sql
+QT       += network
 
 TARGET = GUIPrototype
 TEMPLATE = app
@@ -30,7 +31,11 @@ SOURCES += main.cpp\
     occupancyrateentry.cpp \
     waittimesentry.cpp \
     datastorage.cpp \
-    patient.cpp
+    patient.cpp \
+    messagecontrol.cpp \
+    receivemessage.cpp \
+    xmlgenerator.cpp \
+    xmlparser.cpp
 
 HEADERS  += login.h \
     welcome.h \
@@ -51,7 +56,11 @@ HEADERS  += login.h \
     waittimesentry.h \
     datastorage.h \
     patient.h \
-    eobcproject.h
+    eobcproject.h \
+    messagecontrol.h \
+    receivemessage.h \
+    xmlgenerator.h \
+    xmlparser.h
 
 FORMS    += login.ui \
     welcome.ui \

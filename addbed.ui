@@ -73,7 +73,14 @@
            </layout>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEditNumBeds"/>
+           <widget class="QSpinBox" name="spinBox_numBeds">
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
+            <property name="accelerated">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>

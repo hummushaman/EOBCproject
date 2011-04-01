@@ -12,6 +12,14 @@ ViewFacility::ViewFacility(QWidget *parent) :
 
     connect(ui->DisplayButton, SIGNAL(clicked()),this,SLOT(displayInformation()));
 
+
+    QVector<int> facilities = DataStorage::getAllFacilities();
+    for(int i=0; i< facilities.size();i++)
+     {
+            QString facilName = DataStorage::getFacilityName(facilities.at(i));
+            ui->comboBox_facilities->addItem(facilName);
+     }
+
 }
 
 ViewFacility::~ViewFacility()
@@ -29,14 +37,37 @@ void ViewFacility::displayInformation()
 
     for(int i= 0; i<patients.size();i++)
     {
-        //need to add these functions to DataStorage
 
         QString firstname = patients[i]->getFirstname();
-
         QString lastname = patients[i]->getLastname();
-
         ui->listWidget_patients->addItem(firstname + " " + lastname + " ("+ patients[i]->getHCN() + ")");
 
     }
+
+
+    //get occupancy rate information
+
+    /***********change data storage class so that the following functions actually return something!!*********/
+
+    float totalNumBeds = DataStorage::getTotalNumBeds(facilID);
+    float totalBedsOccupied = DataStorage::getTotalNumBedsOccupied(facilID);
+
+    float occRate = totalBedsOccupied/ totalNumBeds * 100;
+
+    int totalACBeds = DataStorage::getTotalACBeds(facilID);
+    int totalCCCBeds = DataStorage::getTotalCCCBeds(facilID);
+
+    int numCCCoccupied = DataStorage::getNumCCCBedsOccupied(facilID);
+    int numACoccupied = DataStorage::getNumACBedsOccupied(facilID);
+
+    //print to the labels
+    //use formatting to limit the occrate to 2 decimal spaces
+
+    ui->label_numACbeds->setText( QString::number(totalACBeds));
+
+
+
+
+
 
 }

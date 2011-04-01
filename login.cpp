@@ -15,7 +15,6 @@
 #include "ui_login.h"
 
 
-
 Login::Login(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Login)
@@ -36,15 +35,38 @@ void Login::checkLogin()
 {
     //****check username and password***
 
+    QString username = ui->usernameLineEdit->text();
+    QString password = ui->passwordLineEdit->text();
+
+    bool isValid = DataStorage::isLoginValid(username, password);   //write part of the function to test this (get the configurated default user)
+
+    if(isValid)
+    {
+        //get the user type
+        DataStorage::usertype = DataStorage::getUserType(username);
+
+        Welcome* welcome_window = new Welcome();
+        close();
+        welcome_window->show();
 
 
-   //find out user type
+
+    }
+    else
+    {
+        //return an error message and stay on the
+        QMessageBox msgbox;
+        msgbox.setText("This username/password combination does not exist.");
+        msgbox.exec();
+    }
+
+
+
+
     //disable certain "welcome" window options
 
     //if (usertype = facility staff)
     //they can only change information about this facility...
 
-    Welcome* welcome_window = new Welcome();
-    close();
-    welcome_window->show();
+
 }

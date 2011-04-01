@@ -15,6 +15,9 @@ public:
     explicit ViewWaitingList(QWidget *parent = 0);
     ~ViewWaitingList();
 
+private slots:
+    void displayInformation();
+
 private:
     Ui::ViewWaitingList *ui;
 };

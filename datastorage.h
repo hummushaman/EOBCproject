@@ -19,6 +19,10 @@ class DataStorage
 private:
     //QVector <WaitingList> =
 public:
+    static int myFacilityID;
+    static QString myFacilityIPaddress;
+    static QString usertype;
+
     DataStorage(QSqlDatabase databaseConnection);
 
     static void removePatientFromBed(int facilityID, QString HCN);
@@ -67,7 +71,7 @@ public:
     static QVector<NumPatientsEntry> getWaitingListSizeEntries(QDate startDate, QDate endDate, int areaID);
 
     static bool isLoginValid(QString username, QString password);
-    static int getUserType(QString username);
+    static QString getUserType(QString username);
     static int getUserFacility(QString username);
 
     static int requestMismatch(int currentCareType, int requiredCareType, int areaID);

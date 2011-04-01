@@ -29,11 +29,11 @@ AddPatientToWaitingList::AddPatientToWaitingList(QWidget *parent) :
     }
 
     QVector<int> facilities = DataStorage::getAllFacilities();
-    for (int i=0;i<facilities.size();i++)
-    {
-        ui->comboBox_facilities->addItem(DataStorage::getFacilityName(facilities.at(i)));
-
-    }
+    for(int i=0; i< facilities.size();i++)
+     {
+            QString facilName = DataStorage::getFacilityName(facilities.at(i));
+            ui->comboBox_facilities->addItem(facilName);
+     }
 
 }
 

@@ -21,14 +21,24 @@ AddBed::AddBed(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->OKButton,SIGNAL(clicked()),this,SLOT(clickedOK()));
 
-    QVector<int> facilities = DataStorage::getAllFacilities();
 
 
-    for(int i=0; i< facilities.size();i++)
+    if(DataStorage::usertype == "FACILITY")
     {
-        QString facilName = DataStorage::getFacilityName(facilities.at(i));
-       ui->comboBox_facilities->addItem(facilName);
+        QString facilName = DataStorage::getFacilityName(DataStorage::myFacilityID);
+        ui->comboBox_facilities->addItem(facilName);
+
     }
+    else
+    {
+        QVector<int> facilities = DataStorage::getAllFacilities();
+        for(int i=0; i< facilities.size();i++)
+        {
+            QString facilName = DataStorage::getFacilityName(facilities.at(i));
+           ui->comboBox_facilities->addItem(facilName);
+        }
+    }
+
 
 }
 
@@ -41,13 +51,11 @@ AddBed::~AddBed()
 void AddBed::clickedOK()
 
 {
+    int numBeds = ui->spinBox_numBeds->value();
 
-
-    int numBeds = ui->lineEditNumBeds->text().toInt();
     QString careType = ui->comboBox_careTypes->currentText();
     QString facilName = ui->comboBox_facilities->currentText();
 
-    QString s;
 
     QMessageBox msgBox;
 
@@ -80,7 +88,7 @@ void AddBed::clickedOK()
 
     }
     else{
-        msgBox.setText("You have requested to add " + s.setNum(numBeds) +" "+ careType + " care beds to " + facilName);
+        msgBox.setText("You have requested to add " + QString::number(numBeds) +" "+ careType + " care beds to " + facilName);
 
         msgBox.setInformativeText("Do you want to save and propogate this change?");
         msgBox.setStandardButtons( QMessageBox::Cancel | QMessageBox::Ok);

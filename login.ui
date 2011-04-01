@@ -38,7 +38,7 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QLineEdit" name="usernNameLineEdit"/>
+         <widget class="QLineEdit" name="usernameLineEdit"/>
         </item>
         <item>
          <widget class="QLineEdit" name="passwordLineEdit">

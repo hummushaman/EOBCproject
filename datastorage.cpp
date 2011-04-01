@@ -1,5 +1,16 @@
 #include "datastorage.h"
 
+int DataStorage::myFacilityID = 0;
+QString DataStorage::myFacilityIPaddress = "0.0.0.0";
+QString DataStorage::usertype = "ADMIN";
+
+int totalNumBeds = 0;
+int totalACBeds = 0;
+int totalCCCBeds = 0;
+int occupiedBeds = 0;
+int occupiedACBeds = 0;
+int occupiedCCCBeds = 0;
+
 DataStorage::DataStorage(QSqlDatabase databaseConnection)
 {
 
@@ -13,7 +24,6 @@ DataStorage::DataStorage(QSqlDatabase databaseConnection)
 void DataStorage::removePatientFromBed(int facilityID, QString HCN)
 {
 
-
 }
 
  void DataStorage::assignPatientToBed(int facilityID, QString HCN)
@@ -23,7 +33,7 @@ void DataStorage::removePatientFromBed(int facilityID, QString HCN)
 
 void DataStorage::addBeds(int facilityID, int numBeds, QString bedtype)
 {
-
+       totalNumBeds += numBeds;
 }
 
 void DataStorage::removePatientFromWaitingList(int areaID, QString HCN)
@@ -100,7 +110,7 @@ void DataStorage::removePatientFromWaitingList(int areaID, QString HCN)
  float DataStorage::getNumACBedsOccupied(int facilityID)
 {
 
-
+    return totalACBeds;
 }
 
  float DataStorage::getTotalCCCBeds(int facilityID)
@@ -192,15 +202,16 @@ int DataStorage::getAreaID(QString areaname)
 
  bool DataStorage::isLoginValid(QString username, QString password)
 {
-
+    //if((username == "JNF") && (password == "comp3004"))
+     return true;
 }
 
- int DataStorage::getUserType(QString username)
+QString DataStorage::getUserType(QString username)
 {
-
+    return "FACILITY";
 }
 
- int DataStorage::getUserFacility(QString username)
+int DataStorage::getUserFacility(QString username)
 {
 
 }

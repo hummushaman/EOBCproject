@@ -1,5 +1,10 @@
 #include "patient.h"
 
+Patient::Patient()
+{
+
+}
+
 Patient::Patient(QString aHCN, QString aFirstname, QString aLastname)
 {
     HCN = aHCN;
@@ -22,3 +27,9 @@ QString Patient::getLastname()
 {
     return lastname;
 }
+
+QString Patient::getDateAdded()
+{
+
+}
+

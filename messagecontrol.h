@@ -16,8 +16,8 @@ class MessageControl : public QObject
 public:
     explicit MessageControl(QObject *parent = 0);
 
-    void sendMessage(QString message, int facilID);
-    void sendMessageToAll(QString message);
+    static void sendMessage(QString message, int facilID);
+    static void sendMessageToAll(QString message);
 
 private slots:
     void readPendingDatagrams();
@@ -26,7 +26,6 @@ private:
     QUdpSocket *serverSocket;
     quint16 port;
 
-    QMap<int, QString> facilities;
 
 };
 

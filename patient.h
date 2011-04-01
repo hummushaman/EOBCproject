@@ -7,17 +7,20 @@ class Patient
 {
 public:
     Patient(QString HCN,QString firstname,QString lastname);
-
+    Patient();
     QString getHCN();
     QString getFirstname();
     QString getLastname();
+    QString getDateAdded();
 
 
 
-private:
+protected:
     QString HCN;
     QString firstname;
     QString lastname;
+    QString dateAdded;
+
 
 
 };

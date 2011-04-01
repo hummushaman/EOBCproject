@@ -33,7 +33,7 @@ void ViewFacility::displayInformation()
     QString facilName = ui->comboBox_facilities->currentText();
     int facilID = DataStorage::getFacilityID(facilName);
 
-    QVector<Patient*> patients = DataStorage::getPatientsAtFacility(facilID);
+    QVector<InPatient*> patients = DataStorage::getPatientsAtFacility(facilID);
 
     for(int i= 0; i<patients.size();i++)
     {

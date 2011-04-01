@@ -6,26 +6,9 @@
 MessageControl::MessageControl(QObject *parent) :
     QObject(parent)
 {
-
-    //read configuration file and create list of current facilities
-
     QSettings settings("JNFconfig");
-
-    //the following code reads the IP address given the facilityID.
-
-    settings.beginReadArray("facilities");
-    QString s1 = settings.value("1").toString();
-    QString s2 = settings.value("2").toString();
-    settings.endArray();
-
-    if(s1 != "") facilities.insert(1,s1);
-    if(s2 != "") facilities.insert(2,s2);
-
-
     serverSocket = new QUdpSocket();
     port = settings.value("port").toInt();
-
-
 
     //bind to the port in order to receive messages from others on this port
     if(!serverSocket->bind(QHostAddress(DataStorage::myFacilityIPaddress), port, QUdpSocket::ShareAddress))
@@ -63,7 +46,10 @@ void MessageControl::readPendingDatagrams()
     //get the ipaddress of the facility who sent the message
     QString senderIP = anAddress->toString();
 
-    facilities.insert(3, senderIP);
+    QSettings settings("JNFconfig");
+    settings.beginWriteArray("facilities");
+
+    settings.setValue("3", senderIP);
 
     //check whether this ipaddress is in the config file. if not, add it.
 
@@ -72,11 +58,38 @@ void MessageControl::readPendingDatagrams()
 
 void MessageControl::sendMessage(QString message, int facilityID) //this is a static method
 {
+    QSettings settings("JNFconfig");
+    QUdpSocket* serverSocket = new QUdpSocket();
+    int port = settings.value("port").toInt();
+
     int errorCode = serverSocket->writeDatagram(message.toLatin1(), QHostAddress("134.117.27.75"), port);
+
+
 }
 
 void MessageControl::sendMessageToAll(QString message)
 {
+
+    //read configuration file and create list of current facilities
+
+    QSettings settings("JNFconfig");
+
+    QUdpSocket* serverSocket = new QUdpSocket();
+    int port = settings.value("port").toInt();
+
+    //the following code reads the IP address given the facilityID.
+
+    settings.beginReadArray("facilities");
+    QString s1 = settings.value("1").toString();
+    QString s2 = settings.value("2").toString();
+    settings.endArray();
+
+    static QMap<int, QString> facilities;
+
+    if(s1 != "") facilities.insert(1,s1);
+    if(s2 != "") facilities.insert(2,s2);
+
+
     //send the message to all the facilities that are in the "facilities" map.
     for(int i= 0; i> facilities.size();i++)
     {

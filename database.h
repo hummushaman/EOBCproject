@@ -70,7 +70,7 @@ public:
     QVector<NumPatientsEntry> getWaitingListSizeEntries(QString startDate, QString endDate, int areaID);
 
     bool isLoginValid(QString username, QString password);
-    int getUserType(QString username);
+    QString getUserType(QString username);
     int getUserFacility(QString username);
 
     int requestMismatch(int currentCareType, int requiredCareType, int areaID);

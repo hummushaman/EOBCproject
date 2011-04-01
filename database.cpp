@@ -189,7 +189,6 @@ void Database::removePatientFromBed(QString databaseConnection, int facilityID, 
     QString facilityType = getFacilityType(facilityID);
     if (facilityType == "Hospital")
     {
-
     }*/
 
     /*
@@ -461,11 +460,20 @@ QVector<NumPatientsEntry> Database::getWaitingListSizeEntries(QString startDate,
 
 bool Database::isLoginValid(QString username, QString password)
 {
-
+    //kind of repeated code***************
+    QString aQuery = "SELECT * FROM users WHERE (username = " + username + "AND password = " + password + ")";
+    QSqlQuery queryTemporary(QSqlDatabase::database("temporary"));
+    queryTemporary.exec(aQuery);
+    if (queryTemporary.size() == 1) //there shouldn't be the same user...
+    {
+        return true;
+    }
+    return false;
 }
 
-int Database::getUserType(QString username)
+QString Database::getUserType(QString username)
 {
+    //QString aQuery = "SELECT
 
 }
 

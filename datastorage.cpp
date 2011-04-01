@@ -23,7 +23,7 @@ void DataStorage::removePatientFromWaitingList(int areaID, QString HCN)
 
 }
 
- void DataStorage::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded, int currentFacility, int currentCareType) //inpatient
+ void DataStorage::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded, int currentFacility, QString currentCareType) //inpatient
 {
 
 }
@@ -132,7 +132,7 @@ QString DataStorage::getFacilityType(int facilityID)     //0=hospital, 1=nursing
 
 }
 
- QVector<OccupancyRateEntry> DataStorage::getOccupancyRateEntries(QString startDate, QString endDate, int careType, int facilityID)
+ QVector<OccupancyRateEntry> DataStorage::getOccupancyRateEntries(QString startDate, QString endDate, QString careType, int facilityID)
 {
     ///OccupancyRateEntry x = new OccupancyRateEntry();
 

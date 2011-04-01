@@ -55,7 +55,7 @@ void AddPatientToWaitingList::clickedOK()
 
     QDate dateAdded = ui->dateEdit_dateAdded->date();
 
-    QDate dateAdmitted = ui->dateEdit_dateAdmitted->date();
+    //QDate dateAdmitted = ui->dateEdit_dateAdmitted->date();
 
 
     QString areaName = ui->comboBox_areas->currentText();

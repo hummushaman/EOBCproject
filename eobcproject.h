@@ -5,7 +5,6 @@
 #include <QMessageBox>
 
 //gloabl variables
-extern DataStorage storage;
 extern int myFacilityID;
 
 #endif // EOBCPROJECT_H

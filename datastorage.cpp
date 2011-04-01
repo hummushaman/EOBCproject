@@ -1,18 +1,10 @@
 #include "datastorage.h"
 
-DataStorage::DataStorage(QSqlDatabase databaseConnection)
-{
+DataStorage::DataStorage(){}
 
-    //request information from the other facilities?
-    //create temporary database
-    QSqlDatabase temporaryDatabase = QSqlDatabase::addDatabase("QSQLITE");
-    temporaryDatabase.setDatabaseName(":memory:");
-
-}
 
 void DataStorage::removePatientFromBed(int facilityID, QString HCN)
 {
-
 
 }
 
@@ -31,12 +23,12 @@ void DataStorage::removePatientFromWaitingList(int areaID, QString HCN)
 
 }
 
- void DataStorage::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QDateTime dateAdded, QDateTime dateAdmittedToFacility, int currentFacility, int currentCareType) //inpatient
+ void DataStorage::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded, int currentFacility, int currentCareType) //inpatient
 {
 
 }
 
- void DataStorage::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QDateTime dateAdded) //outpatient
+ void DataStorage::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded) //outpatient
 {
 
 }
@@ -140,7 +132,7 @@ QString DataStorage::getFacilityType(int facilityID)     //0=hospital, 1=nursing
 
 }
 
- QVector<OccupancyRateEntry> DataStorage::getOccupancyRateEntries(QDate startDate, QDate endDate, int careType, int facilityID)
+ QVector<OccupancyRateEntry> DataStorage::getOccupancyRateEntries(QString startDate, QString endDate, int careType, int facilityID)
 {
     ///OccupancyRateEntry x = new OccupancyRateEntry();
 
@@ -172,7 +164,7 @@ int DataStorage::getAreaID(QString areaname)
 
 }
 
- QVector<WaitTimesEntry> DataStorage::getWaitTimesEntries(QDate startDate, QDate endDate, int areaID)
+ QVector<WaitTimesEntry> DataStorage::getWaitTimesEntries(QString startDate, QString endDate, int areaID)
 {
     /* WaitTimesEntry x = new WaitTimesEntry();
 
@@ -181,7 +173,7 @@ int DataStorage::getAreaID(QString areaname)
      return log;*/
 }
 
- QVector<NumPatientsEntry> DataStorage::getWaitingListSizeEntries(QDate startDate, QDate endDate, int areaID)
+ QVector<NumPatientsEntry> DataStorage::getWaitingListSizeEntries(QString startDate, QString endDate, int areaID)
 {
     /*NumPatientsEntry x = new NumPatientsEntry();
 

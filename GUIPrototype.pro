@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     occupancyrateentry.cpp \
     waittimesentry.cpp \
     datastorage.cpp \
-    patient.cpp
+    patient.cpp \
+    database.cpp
 
 HEADERS  += login.h \
     welcome.h \
@@ -51,7 +52,8 @@ HEADERS  += login.h \
     waittimesentry.h \
     datastorage.h \
     patient.h \
-    eobcproject.h
+    eobcproject.h \
+    database.h
 
 FORMS    += login.ui \
     welcome.ui \

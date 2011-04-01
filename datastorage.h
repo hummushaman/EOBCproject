@@ -3,32 +3,27 @@
 #ifndef DATASTORAGE_H
 #define DATASTORAGE_H
 
-#include "patient.h"
-#include "waittimesentry.h"
-#include "numpatientsentry.h"
-#include "occupancyrateentry.h"
-
-#include <QDateTime>
-#include <QVector>
-#include <QSqlDatabase>
-
-
+#include "database.h"
 
 class DataStorage
 {
 private:
-    //QVector <WaitingList> =
+    Database *database;
 public:
-    DataStorage(QSqlDatabase databaseConnection);
+    DataStorage();
+    static int myFacilityID;
+    static QString myFacilityIPaddress;
+    static QString usertype;
 
     static void removePatientFromBed(int facilityID, QString HCN);
     static void assignPatientToBed(int facilityID, QString HCN);
+
     static void addBeds(int facilityID, int numBeds, QString bedType);
     static void removePatientFromWaitingList(int areaID, QString HCN);
 
-    static void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QDateTime dateAdded, QDateTime dateAdmittedToFacility, int currentFacility, int currentCareType); //inpatient
+    static void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded, int currentFacility, int currentCareType); //inpatient
 
-    static void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QDateTime dateAdded); //outpatient
+    static void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded); //outpatient
 
     static QVector<int> getAllAreas();
     static QString getAreaName(int areaID);
@@ -58,13 +53,13 @@ public:
 
     static QString getFacilityType(int facilityID); //"Hospital" or "Nursing Home"
 
-    static QVector<OccupancyRateEntry>getOccupancyRateEntries(QDate startDate, QDate endDate, int careType, int facilityID);
+    static QVector<OccupancyRateEntry>getOccupancyRateEntries(QString startDate, QString endDate, int careType, int facilityID);
     static int getFacilityID(QString name);
 
     static QVector<Patient*> getWaitingListPatients(int areaID);
     static int getWaitingListSize(int areaID);
-    static QVector<WaitTimesEntry> getWaitTimesEntries(QDate startDate, QDate endDate, int areaID);
-    static QVector<NumPatientsEntry> getWaitingListSizeEntries(QDate startDate, QDate endDate, int areaID);
+    static QVector<WaitTimesEntry> getWaitTimesEntries(QString startDate, QString endDate, int areaID);
+    static QVector<NumPatientsEntry> getWaitingListSizeEntries(QString startDate, QString endDate, int areaID);
 
     static bool isLoginValid(QString username, QString password);
     static int getUserType(QString username);

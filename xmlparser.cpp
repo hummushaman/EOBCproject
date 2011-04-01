@@ -1,5 +1,5 @@
 #include "xmlparser.h"
-
+/*
 //don't forget to have QT += xml in your project class
 
     XMLParser::XMLParser(QString msg)      //passing by value or reference - need to be sure I'm doing it right
@@ -348,3 +348,4 @@
 
 
     }
+*/

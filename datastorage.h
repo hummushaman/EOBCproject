@@ -17,16 +17,18 @@
 class DataStorage
 {
 private:
-    //QVector <WaitingList> =
+    Database *database;
 public:
+    DataStorage();
     static int myFacilityID;
     static QString myFacilityIPaddress;
     static QString usertype;
 
-    DataStorage(QSqlDatabase databaseConnection);
+    
 
     static void removePatientFromBed(int facilityID, QString HCN);
     static void assignPatientToBed(int facilityID, QString HCN);
+
     static void addBeds(int facilityID, int numBeds, QString bedType);
     static void removePatientFromWaitingList(int areaID, QString HCN);
 
@@ -62,13 +64,13 @@ public:
 
     static QString getFacilityType(int facilityID); //"Hospital" or "Nursing Home"
 
-    static QVector<OccupancyRateEntry>getOccupancyRateEntries(QDate startDate, QDate endDate, int careType, int facilityID);
+    static QVector<OccupancyRateEntry>getOccupancyRateEntries(QString startDate, QString endDate, int careType, int facilityID);
     static int getFacilityID(QString name);
 
     static QVector<Patient*> getWaitingListPatients(int areaID);
     static int getWaitingListSize(int areaID);
-    static QVector<WaitTimesEntry> getWaitTimesEntries(QDate startDate, QDate endDate, int areaID);
-    static QVector<NumPatientsEntry> getWaitingListSizeEntries(QDate startDate, QDate endDate, int areaID);
+    static QVector<WaitTimesEntry> getWaitTimesEntries(QString startDate, QString endDate, int areaID);
+    static QVector<NumPatientsEntry> getWaitingListSizeEntries(QString startDate, QString endDate, int areaID);
 
     static bool isLoginValid(QString username, QString password);
     static QString getUserType(QString username);

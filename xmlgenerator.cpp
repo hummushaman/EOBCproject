@@ -1,7 +1,8 @@
 #include "xmlgenerator.h"
-
+/*
 xmlgenerator::xmlgenerator()
 {
+
 }
 QString xmlgenerator::patientOperationXML(QString operation, QString healthCard,int facilNum, int areaNum, bool remote,QString dateAdded, QString dateAdmitted, QString first, QString last, int reqCare, int occCare){        //facilNum = -1 means we are dealing with a waiting list
    QDomDocument message;
@@ -242,3 +243,4 @@ QString xmlgenerator::addFacility(int facilNum, int areaNum,double xcoor, double
 
      return message.toString();
 }
+*/

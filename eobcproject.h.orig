@@ -1,0 +1,29 @@
+#ifndef EOBCPROJECT_H
+#define EOBCPROJECT_H
+
+#include "datastorage.h"
+#include <QMessageBox>
+#include <QSettings>
+#include <QDebug>
+
+
+
+//global variables
+
+//extern int myFacilityID;
+//extern QString myFacilityIPaddress;
+
+//extern QString userType;
+
+
+
+
+
+
+<<<<<<< HEAD
+=======
+//gloabl variables
+extern int myFacilityID;
+>>>>>>> 0b099df25802e0e1000d457760d1097caedf073d
+
+#endif // EOBCPROJECT_H

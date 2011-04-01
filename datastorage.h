@@ -12,12 +12,12 @@
 #include <QVector>
 #include <QSqlDatabase>
 
-
+#include "database.h"
 
 class DataStorage
 {
 private:
-    Database *database;
+    //Database *database;
 public:
     DataStorage();
     static int myFacilityID;

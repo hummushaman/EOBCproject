@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     messagecontrol.cpp \
     receivemessage.cpp \
     xmlgenerator.cpp \
-    xmlparser.cpp
+    xmlparser.cpp \
+    database.cpp
 
 HEADERS  += login.h \
     welcome.h \
@@ -60,7 +61,7 @@ HEADERS  += login.h \
     messagecontrol.h \
     receivemessage.h \
     xmlgenerator.h \
-    xmlparser.h
+    xmlparser.h \
 	database.h
 
 

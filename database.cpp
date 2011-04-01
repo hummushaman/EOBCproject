@@ -1,4 +1,5 @@
 #include "database.h"
+
 //ADD ERROR CHECKING->AT LEAST MIGHT HAVE TO ADD GETRECORD() FOR FLOAT, GET RECORD FOR VECTOR (MAYBE BUT INTO THE DATASTORAGE CLASS!!!)
 Database* Database::databaseClassInstance = NULL;
 

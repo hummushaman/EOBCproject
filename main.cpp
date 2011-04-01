@@ -19,7 +19,7 @@
 
 using namespace std;
 
-<<<<<<< HEAD
+
 /*******make sure the file JNFconfig.conf is in home/<userfolder>/<yourusername>/.config directory*************/
 
 
@@ -54,49 +54,10 @@ int main(int argc, char *argv[])
 
 
 
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-
-    //db.setDatabaseName("/home/4user3/jpowers3/eobc");
-    //bool isOpen = db.open();
-   // if (!isOpen){
-        //error message
-    //}else {
-
-        //storage = DataStorage(db);
-
-   // }
-
-    //connect to the database
-    //pass "connection handle" to the Database class
-        //handle errors if database connection fails
-                //check that tables exist
-
-
-    //initialize DataStorage object
-
-    //storage = DataStorage();
-
-
-
-
-
-
-
-
-   // std::cout << "Hello";
-
-=======
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-
-
-    //read configuration file
-    //should include:
-    //  database path
-    //  myFacilityID
-    //  IP addresses of other facilities ( mapped to FacilityID's)
-    //
+   //pass "connection handle" to the Database class
+   //handle errors if database connection fails
+   //check that tables exist
+   //close database connection
     {
         QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", "permanent");
         QMessageBox error;
@@ -113,13 +74,7 @@ int main(int argc, char *argv[])
             Database::Initialize();
         }
     }
-    Login w;
-    w.show();
 
 
-    //pass "connection handle" to the Database class
-    //handle errors if database connection fails
-    //check that tables exist
-    //close database connection
     return a.exec();
 }

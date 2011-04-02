@@ -55,6 +55,9 @@ int main(int argc, char *argv[])
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
 
+
+
+
     //db.setDatabaseName("/home/4user3/jpowers3/eobc");
     //bool isOpen = db.open();
    // if (!isOpen){

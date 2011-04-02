@@ -13,10 +13,12 @@ using namespace std;
 class XMLParser
 {
     QDomDocument original;
+    QString ip;
 
 public:
     //QString dateFormat;
-    XMLParser(QString msg);
+    XMLParser();
+    int parseMessage(QString message, QString ip);
     int startParsing(QDomElement element);
     int parseFacilityOrWaitingList(QDomElement ForW,bool remote, int area, QString operation);
     int parseFacility(QDomElement ForW,bool remote, int area, QString operation);

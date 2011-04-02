@@ -5,7 +5,10 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <QDebug>
+#include"messagecontrol.h"
 
+#include"xmlgenerator.h"
+#include"xmlparser.h"
 
 
 //global variables

@@ -1,7 +1,5 @@
 #include "messagecontrol.h"
 
-#include "eobcproject.h"
-
 
 MessageControl::MessageControl(QObject *parent) :
     QObject(parent)
@@ -40,26 +38,55 @@ void MessageControl::readPendingDatagrams()
     msgbox.exec();
 
     QHostAddress* anAddress;
+    QString theMessage;
 
     while (serverSocket->hasPendingDatagrams()) {
         QByteArray datagram;
         datagram.resize(serverSocket->pendingDatagramSize());
 
 
-        serverSocket->readDatagram(datagram.data(), datagram.size(), anAddress); //OKAY?
+        int errorcode = serverSocket->readDatagram(datagram.data(), datagram.size(), anAddress); //OKAY?
+
+        theMessage = datagram.data();
+
+        msgbox.setText(theMessage);
+        msgbox.exec();
         //ui->receive->setText(tr("Received datagram: \"%1\"").arg(datagram.data()));
     }
 
     //get the ipaddress of the facility who sent the message
     QString senderIP = anAddress->toString();
 
+
+    //parse the message and get the id of the facility who sent the message
+    //XMLParser xmlparser = new XMLParser();
+    int facilID = 0;
+    //facilID= xmlparser.parseMessage(theMessage,senderIP);
+
+    if(facilID != -1)// -1 is returned when the message is not a rebuild message
+    {
+        //check whether this id is in the config file. if it isnt, add it.
+
+        QSettings settings("JNFconfig");
+        settings.beginWriteArray("facilities");
+
+        if(!settings.contains(QString::number(facilID)))
+        {
+            settings.setValue(QString::number(facilID),senderIP);
+        }
+    }
+
+}
+
+void MessageControl::assignIPtoFacility(QString ipaddress, int facilID)
+{
     QSettings settings("JNFconfig");
     settings.beginWriteArray("facilities");
 
-    settings.setValue("3", senderIP);
-
-    //check whether this ipaddress is in the config file. if not, add it.
-
+    if(!settings.contains(QString::number(facilID)))
+    {
+        settings.setValue(QString::number(facilID),ipaddress);
+    }
 }
 
 
@@ -67,10 +94,23 @@ void MessageControl::sendMessage(QString message, int facilityID) //this is a st
 {
     QSettings settings("JNFconfig");
     QUdpSocket* serverSocket = new QUdpSocket();
+    QString recipientIP;
+    QMessageBox msgbox;
+
     int port = settings.value("port").toInt();
 
-    int errorCode = serverSocket->writeDatagram(message.toLatin1(), QHostAddress("134.117.27.75"), port);
+    if(!settings.contains(QString::number(facilityID)))
+    {
+        msgbox.setText("Cannot send a message to an offline facility");
+        msgbox.exec();
+    }
+    else
+    {
+        recipientIP = settings.value(QString::number(facilityID)).toString();
+    }
 
+    //need to get the ipaddress of facility
+    int errorCode = serverSocket->writeDatagram(message.toLatin1(), QHostAddress(recipientIP), port);
 
 }
 
@@ -86,21 +126,34 @@ void MessageControl::sendMessageToAll(QString message)
 
     //the following code reads the IP address given the facilityID.
 
-    settings.beginReadArray("facilities");
-    QString s1 = settings.value("1").toString();
-    QString s2 = settings.value("2").toString();
+    settings.beginReadArray("lamdas");
+    static QMap<int, QString> servers;
+
+    for(int i=1; i<=12;i++)
+    {
+        QString anIP = settings.value(QString::number(i)).toString();
+        servers.insert(i,anIP);
+    }
+
     settings.endArray();
 
-    static QMap<int, QString> facilities;
-
-    if(s1 != "") facilities.insert(1,s1);
-    if(s2 != "") facilities.insert(2,s2);
-
+    /*QString s1 = settings.value("1").toString();
+    QString s2 = settings.value("2").toString();
+    QString s3 = settings.value("3").toString();
+    QString s4 = settings.value("4").toString();
+    QString s5 = settings.value("5").toString();
+    QString s6 = settings.value("6").toString();
+    QString s7 = settings.value("7").toString();
+    QString s8 = settings.value("8").toString();
+    QString s9 = settings.value("9").toString();
+    QString s10 = settings.value("10").toString();
+    QString s11 = settings.value("11").toString();
+    QString s12 = settings.value("12").toString();*/
 
     //send the message to all the facilities that are in the "facilities" map.
-    for(int i= 0; i> facilities.size();i++)
+    for(int i= 0; i> servers.size();i++)
     {
-        int errorCode = serverSocket->writeDatagram(message.toLatin1(),QHostAddress(facilities.value(i)),port);
+        int errorCode = serverSocket->writeDatagram(message.toLatin1(),QHostAddress(servers.value(i)),port);
     }
 
 }

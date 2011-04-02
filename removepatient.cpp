@@ -49,7 +49,7 @@ void RemovePatient::displayPatients()
     QString facilname = ui->comboBox_facilities->currentText();
 
     int facilID = DataStorage::getFacilityID(facilname);
-    QVector<Patient*> patients = DataStorage::getPatientsAtFacility(facilID);
+    QVector<InPatient*> patients = DataStorage::getPatientsAtFacility(facilID);
 
     for(int i;i<patients.size();i++)
     {

@@ -3,6 +3,7 @@
 #ifndef DATASTORAGE_H
 #define DATASTORAGE_H
 
+#include "inpatient.h"
 #include "patient.h"
 #include "waittimesentry.h"
 #include "numpatientsentry.h"
@@ -23,7 +24,6 @@ public:
     static int myFacilityID;
     static QString myFacilityIPaddress;
     static QString usertype;
-
     
 
     static void removePatientFromBed(int facilityID, QString HCN);
@@ -56,7 +56,9 @@ public:
     static float getTotalNumBeds(int facilityID);
     static float getTotalNumBedsOccupied(int facilityID);
 
-    static QVector<Patient*> getPatientsAtFacility(int facilityID);
+    static float getTotalLTCBeds(int facilityID);
+
+    static QVector<InPatient*> getPatientsAtFacility(int facilityID);
 
     static QString getPatientFirstName(QString patientHCN);
     static QString getPatientLastName(QString patientHCN);
@@ -80,7 +82,20 @@ public:
 
     static void addUser(QString username, QString password, int userType); //for system administrators and LHIN staff
     static void addUser(QString username, QString password, int userType, int facilityID); //facility staff
-    static void addFacility(QString name, float x, float y);
+    static void addFacility(QString name, float x, float y, int area, int id);
+
+    static int myArea();
+    static int getMyFacilityID();
+    static int getCareType(QString care);
+    static QString getCareType(int care);
+    static bool isMainFacility();
+    static void clearPatientsAtFacility(int facilNum);
+    static bool facilityExists(int facilNum);
+    static void clearPatientsOnAreaWL(int area);
+    static bool isInpatient(QString hcn);
+    static int getCurrentFacilityForPatient(QString hcn);
+
+
 };
 
 #endif // DATASTORAGE_H

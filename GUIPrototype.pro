@@ -8,6 +8,7 @@ QT       += core gui
 
 QT       += sql
 QT       += network
+QT       += xml
 
 TARGET = GUIPrototype
 TEMPLATE = app
@@ -36,7 +37,10 @@ SOURCES += main.cpp\
     receivemessage.cpp \
     xmlgenerator.cpp \
     xmlparser.cpp \
-    database.cpp
+    inpatient.cpp\
+	database.cpp
+
+
 
 HEADERS  += login.h \
     welcome.h \
@@ -62,8 +66,8 @@ HEADERS  += login.h \
     receivemessage.h \
     xmlgenerator.h \
     xmlparser.h \
-	database.h
-
+	database.h\
+    inpatient.h
 
 FORMS    += login.ui \
     welcome.ui \

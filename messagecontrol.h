@@ -8,6 +8,8 @@
 //#include <stdio>
 //#include <stdlib>
 
+#include "eobcproject.h"
+
 using namespace std;
 
 class MessageControl : public QObject
@@ -18,6 +20,7 @@ public:
 
     static void sendMessage(QString message, int facilID);
     static void sendMessageToAll(QString message);
+    static void assignIPtoFacility(QString ipaddress, int facilID);
 
 private slots:
     void readPendingDatagrams();
@@ -25,6 +28,7 @@ private slots:
 private:
     QUdpSocket *serverSocket;
     quint16 port;
+
 
 };
 

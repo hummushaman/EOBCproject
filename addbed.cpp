@@ -99,6 +99,10 @@ void AddBed::clickedOK()
         {   //call addBed in the DatabaseWrapper with numBeds, careType and the facilityID
 
             DataStorage::addBeds(facilID,numBeds,careType);
+
+
+            MessageControl::sendMessage("added some beds to some facility", 1);  /*******testing to see if it is possible to send messages!!!!*****************/
+
             close(); //if user clicks Cancel, we do not close the addBeds form
 
         }

@@ -108,6 +108,11 @@ void DataStorage::removePatientFromWaitingList(int areaID, QString HCN)
 
 }
 
+ float DataStorage::getTotalLTCBeds(int facilityID)
+ {
+
+ }
+
  float DataStorage::getNumCCCBedsOccupied(int facilityID)
 {
 
@@ -123,12 +128,12 @@ void DataStorage::removePatientFromWaitingList(int areaID, QString HCN)
 
 }
 
- QVector<Patient*> DataStorage::getPatientsAtFacility(int facilityID)
+ QVector<InPatient*> DataStorage::getPatientsAtFacility(int facilityID)
 {
-    QVector<Patient*> patients;
-    Patient* patient1 = new Patient("1234 pw", "Joe", "Smith");
-    Patient* patient2 = new Patient("3456 x","Mary", "Black");
-    patients<<patient1<<patient2;
+    QVector<InPatient*> patients;
+    //Patient* patient1 = new Patient("1234 pw", "Joe", "Smith");
+    //Patient* patient2 = new Patient("3456 x","Mary", "Black");
+    //patients<<patient1<<patient2;
     return patients;
 }
 
@@ -221,7 +226,7 @@ int DataStorage::getUserFacility(QString username)
 
 }
 
- void DataStorage::addFacility(QString name, float x, float y)
+ void DataStorage::addFacility(QString name, float x, float y, int area, int id)
 {
 
 }
@@ -235,3 +240,54 @@ QString DataStorage::getPatientLastName(QString patientHCN)
 {
     return "Smith";
 }
+
+int DataStorage::myArea()
+{
+
+}
+
+int DataStorage::getMyFacilityID()
+{
+
+}
+
+int DataStorage::getCareType(QString care)
+{
+
+}
+
+QString DataStorage::getCareType(int care)
+{
+
+}
+
+bool DataStorage::isMainFacility()
+{
+
+}
+
+int DataStorage::getCurrentFacilityForPatient(QString hcn)
+{
+
+}
+
+bool DataStorage::isInpatient(QString hcn)
+{
+
+}
+
+void DataStorage::clearPatientsAtFacility(int facilNum)
+{
+
+}
+
+void DataStorage::clearPatientsOnAreaWL(int area)
+{
+
+}
+
+bool DataStorage::facilityExists(int facilNum)
+{
+
+}
+

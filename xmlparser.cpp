@@ -1,43 +1,24 @@
 #include "xmlparser.h"
-/*
+
 //don't forget to have QT += xml in your project class
 
-    XMLParser::XMLParser(QString msg)      //passing by value or reference - need to be sure I'm doing it right
+    XMLParser::XMLParser()
     {
 
-       // dateFormat = "ddMMyy";          //MAY NEED TO CHANGE!
-
-
-        //TO DO:
-        //  - add facility
-        //  - rebuild and reporting features
         //  data storage should remove patient from wl when it is placed
         //  ds should also update history
 
-
-
-
         //QFile myFile(msg);
 
+    }
+
+    int XMLParser::parseMessage(QString msg, QString theip){
+        ip=theip;
         QDomDocument doc("aMessage");
         original = doc;
-
-
-
-
-
-
         doc.setContent(msg );
 
         //will this work?
-
-
-
-
-
-
-
-
 
         QDomElement docElement = doc.documentElement();
 
@@ -49,14 +30,14 @@
           //  docElement=docElement.firstChildElement();
         //}
 
-        startParsing(docElement);
+        return startParsing(docElement);
 
     }
 
     int XMLParser::startParsing(QDomElement rootElement){       //don't we need "public" ?
         QString remoteString= rootElement.attribute("remote","error");
 
-        if (remoteString == "error")return 1;
+        if (remoteString == "error")return -2;
 
         QString operation=rootElement.tagName();
 
@@ -66,7 +47,7 @@
 
         QString areaString=areaElement.attribute("ID","error");
 
-        if (areaString == "error")return 1;
+        if (areaString == "error")return -2;
 
         int areaVal = areaString.toInt();                            //make sure the conversion works the way you want
 
@@ -75,13 +56,16 @@
         bool remoteBool=true;
         if (remoteString=="false")remoteBool=false;
 
+        int targetID=-1;
         bool here=false;
         while (!facilityOrWL.isNull()){
             XMLParser::parseFacilityOrWaitingList(facilityOrWL,remoteBool,areaVal,operation);
 
-            if (facilityOrWL.attribute("ID","error")!="error")
-                if (facilityOrWL.attribute("ID","error").toInt()==DataStorage::getMyFacilityID())
+            if (facilityOrWL.attribute("ID","error")!="error"){
+                targetID=facilityOrWL.attribute("ID""error").toInt();
+                if (targetID==DataStorage::getMyFacilityID())
                     here=true;
+            }
 
             facilityOrWL=facilityOrWL.nextSiblingElement();
         }
@@ -93,7 +77,14 @@
             MessageControl::sendMessageToAll(original.toString());
         }
 
-        return 0;
+
+        if (!remoteBool){
+            return targetID;
+
+        }
+
+
+        return -1;
     }
 
     int XMLParser::parseFacilityOrWaitingList(QDomElement ForW,bool remote, int area, QString operation){
@@ -106,7 +97,14 @@
     }
 
     int XMLParser::parseFacility(QDomElement facility,bool remote, int area, QString operation){
+        QString facString=facility.attribute("ID","error");
+
+        if (facString=="error")return -2;
+
         int facilityNumber = facility.attribute("ID","error").toInt();
+
+        MessageControl::assignIPtoFacility(ip, facilityNumber);
+
         //case 1: remote and other
         if (remote&&facilityNumber!=DataStorage::getMyFacilityID())return 1;   //nothing happens if its remote and has got the wrong facility
 
@@ -347,4 +345,4 @@
         }
 
 
-    }*/
+    }

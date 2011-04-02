@@ -1,5 +1,5 @@
 #include "xmlgenerator.h"
-/*
+
 xmlgenerator::xmlgenerator()
 {
 
@@ -243,4 +243,4 @@ QString xmlgenerator::addFacility(int facilNum, int areaNum,double xcoor, double
 
      return message.toString();
 }
-*/
+

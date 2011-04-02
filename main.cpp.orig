@@ -1,4 +1,12 @@
 /********
+  CLASS NAME: Main
+  PURPOSE: Starts up the system. Displays the login form to the user.
+
+  TRACEABILITY: This class traces back to..
+
+  CREATED BY: Nisrin Abou-Seido
+  LAST MODIFIED: March 20, 2011
+
 ***********/
 
 
@@ -8,10 +16,10 @@
 #include <iostream>
 
 #include "eobcproject.h"
-
+#include "messagecontrol.h"
 using namespace std;
 
-<<<<<<< HEAD
+
 /*******make sure the file JNFconfig.conf is in home/<userfolder>/<yourusername>/.config directory*************/
 
 
@@ -23,8 +31,6 @@ int main(int argc, char *argv[])
 
 
     QSettings settings("JNFconfig"); // opens the configuration file. File should be located in: home/<userfolder>/<yourusername>/.config
-
-
     //read configuration file
 
     //get the database path
@@ -40,6 +46,8 @@ int main(int argc, char *argv[])
 
     settings.endArray();
 
+<<<<<<< HEAD
+=======
    QMessageBox msgbox;
     //msgbox.setText("This facility's information:\nID: "+ QString::number(DataStorage::myFacilityID) + "\nIPaddress: " + DataStorage::myFacilityIPaddress);
    // msgbox.exec();
@@ -47,6 +55,9 @@ int main(int argc, char *argv[])
 
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+
+
+
 
     //db.setDatabaseName("/home/4user3/jpowers3/eobc");
     //bool isOpen = db.open();
@@ -72,23 +83,17 @@ int main(int argc, char *argv[])
 
 
 
+>>>>>>> fd102dc9f6dda9daa1062a2b5efa5ade1da851c9
+
+    //initializa the Message control which listens for incoming messages
+    MessageControl* messageControl = new MessageControl();
 
 
 
-   // std::cout << "Hello";
-
-=======
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-
-
-    //read configuration file
-    //should include:
-    //  database path
-    //  myFacilityID
-    //  IP addresses of other facilities ( mapped to FacilityID's)
-    //
+   //pass "connection handle" to the Database class
+   //handle errors if database connection fails
+   //check that tables exist
+   //close database connection
     {
         QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", "permanent");
         QMessageBox error;
@@ -105,14 +110,7 @@ int main(int argc, char *argv[])
             Database::Initialize();
         }
     }
-    Login w;
-    w.show();
->>>>>>> 0b099df25802e0e1000d457760d1097caedf073d
 
 
-    //pass "connection handle" to the Database class
-    //handle errors if database connection fails
-    //check that tables exist
-    //close database connection
     return a.exec();
 }

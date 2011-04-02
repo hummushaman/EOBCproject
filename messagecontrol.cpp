@@ -57,6 +57,10 @@ void MessageControl::readPendingDatagrams()
     //get the ipaddress of the facility who sent the message
     QString senderIP = anAddress->toString();
 
+    //QSettings settings("JNFconfig");
+    //settings.beginWriteArray("facilities");
+
+    //settings.setValue("3", senderIP);
 
     //parse the message and get the id of the facility who sent the message
     //XMLParser xmlparser = new XMLParser();

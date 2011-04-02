@@ -26,8 +26,6 @@ private:
     QUdpSocket *serverSocket;
     quint16 port;
 
-    QMap<int, QString> facilities;
-
 };
 
 #endif // MESSAGECONTROL_H

@@ -16,7 +16,7 @@
 #include <iostream>
 
 #include "eobcproject.h"
-
+#include "messagecontrol.h"
 using namespace std;
 
 
@@ -31,8 +31,6 @@ int main(int argc, char *argv[])
 
 
     QSettings settings("JNFconfig"); // opens the configuration file. File should be located in: home/<userfolder>/<yourusername>/.config
-
-
     //read configuration file
 
     //get the database path
@@ -48,9 +46,9 @@ int main(int argc, char *argv[])
 
     settings.endArray();
 
-   QMessageBox msgbox;
-    //msgbox.setText("This facility's information:\nID: "+ QString::number(DataStorage::myFacilityID) + "\nIPaddress: " + DataStorage::myFacilityIPaddress);
-   // msgbox.exec();
+
+    //initializa the Message control which listens for incoming messages
+    MessageControl* messageControl = new MessageControl();
 
 
 

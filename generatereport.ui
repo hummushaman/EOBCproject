@@ -94,7 +94,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QDateEdit" name="dateEdit">
+        <widget class="QDateEdit" name="startdate">
          <property name="displayFormat">
           <string>dd-MM-yyyy</string>
          </property>
@@ -118,7 +118,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QDateEdit" name="dateEdit_2">
+        <widget class="QDateEdit" name="enddate">
          <property name="displayFormat">
           <string>dd-MM-yyyy</string>
          </property>
@@ -171,13 +171,13 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab_1">
       <attribute name="title">
        <string>Bed Occupancy Rate</string>
       </attribute>
-      <widget class="QCheckBox" name="checkBox_occupancyRate">
+      <widget class="QCheckBox" name="occratebox">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -247,21 +247,21 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_3">
+           <widget class="QCheckBox" name="cccbox">
             <property name="text">
              <string>Complex Continuing Care</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_8">
+           <widget class="QCheckBox" name="acbox">
             <property name="text">
              <string>Acute Care</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_9">
+           <widget class="QCheckBox" name="ltcbox">
             <property name="text">
              <string>Long Term Care</string>
             </property>
@@ -311,14 +311,14 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox">
+           <widget class="QCheckBox" name="hospbox">
             <property name="text">
              <string>Hospital</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox_2">
+           <widget class="QCheckBox" name="nursbox">
             <property name="text">
              <string>Nusring Home</string>
             </property>
@@ -327,10 +327,10 @@
          </layout>
         </widget>
        </widget>
-       <widget class="QCheckBox" name="checkBox_7">
+       <widget class="QCheckBox" name="faciltypebox">
         <property name="geometry">
          <rect>
-          <x>10</x>
+          <x>230</x>
           <y>10</y>
           <width>170</width>
           <height>22</height>
@@ -340,10 +340,10 @@
          <string>Graph by facility type</string>
         </property>
        </widget>
-       <widget class="QCheckBox" name="checkBox_10">
+       <widget class="QCheckBox" name="caretypebox">
         <property name="geometry">
          <rect>
-          <x>230</x>
+          <x>10</x>
           <y>10</y>
           <width>153</width>
           <height>22</height>
@@ -353,7 +353,7 @@
          <string>Graph by care type</string>
         </property>
        </widget>
-       <widget class="QListWidget" name="listWidget">
+       <widget class="QListWidget" name="facillist">
         <property name="geometry">
          <rect>
           <x>420</x>
@@ -361,6 +361,9 @@
           <width>261</width>
           <height>181</height>
          </rect>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::MultiSelection</enum>
         </property>
         <item>
          <property name="text">
@@ -383,7 +386,7 @@
          </property>
         </item>
        </widget>
-       <widget class="QCheckBox" name="checkBox_11">
+       <widget class="QCheckBox" name="selectfacilbox">
         <property name="geometry">
          <rect>
           <x>430</x>

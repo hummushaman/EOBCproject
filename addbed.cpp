@@ -32,6 +32,7 @@ AddBed::AddBed(QWidget *parent) :
     else
     {
         QVector<int> facilities = DataStorage::getAllFacilities();
+
         for(int i=0; i< facilities.size();i++)
         {
             QString facilName = DataStorage::getFacilityName(facilities.at(i));
@@ -59,6 +60,7 @@ void AddBed::clickedOK()
 
     QMessageBox msgBox;
 
+
     if(careType == "Long Term Care")
         careType = "LTC";
     else if (careType == "Acute Care")
@@ -67,10 +69,16 @@ void AddBed::clickedOK()
         careType = "CCC";
 
 
-
     //error checking
     int facilID = DataStorage::getFacilityID(facilName);
+    if(facilID == 0)
+    {
+        msgBox.setText("Selected facility is not valid");
+        msgBox.exec();
+    }
+
     QString facilType = DataStorage::getFacilityType(facilID);
+
 
     if((facilType == "Hospital")&&(careType == "LTC"))
     {

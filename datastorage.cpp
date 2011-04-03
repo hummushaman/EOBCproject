@@ -214,7 +214,27 @@ QVector<NumPatientsEntry> DataStorage::getWaitingListSizeEntries(QString startDa
 
 bool DataStorage::isLoginValid(QString username, QString password)
 {
-    return true;
+    QSettings settings("JNFconfig");
+    settings.beginGroup("default_user");
+    QString default_username = settings.value("username").toString();
+    QString default_password = settings.value("password").toString();
+    QString default_usertype = settings.value("userType").toString();
+
+
+    //qDebug() << username;
+    //qDebug() << password;
+
+    //qDebug() << default_username;
+    //qDebug() << default_password;
+    //qDebug() << default_usertype;
+
+    if((username == default_username) && (password == default_password))
+    {
+        DataStorage::currentUserType = default_usertype;
+        return true;
+    }
+    else
+        return false;
 }
 
 QString DataStorage::getUserType(QString username)

@@ -38,7 +38,8 @@ SOURCES += main.cpp\
     xmlgenerator.cpp \
     xmlparser.cpp \
     inpatient.cpp\
-	database.cpp
+	database.cpp \
+    reportdisplay.cpp
 
 
 
@@ -67,7 +68,8 @@ HEADERS  += login.h \
     xmlgenerator.h \
     xmlparser.h \
     database.h\
-    inpatient.h
+    inpatient.h \
+    reportdisplay.h
 
 
 FORMS    += login.ui \
@@ -82,4 +84,5 @@ FORMS    += login.ui \
     adduser.ui \
     addfacility.ui \
     map.ui \
-    generatereport.ui
+    generatereport.ui \
+    reportdisplay.ui

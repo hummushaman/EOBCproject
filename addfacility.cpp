@@ -36,15 +36,32 @@ AddFacility::~AddFacility()
 
 void AddFacility::clickedOK()
 {
+    QMessageBox msgbox;
+
     //gets the information from the GUI and sends a request to the datastorage
     QString name = ui->lineEdit_name->text();
 
-    float x = ui->lineEdit_x->text().toFloat();
-    float y = ui->lineEdit_x->text().toFloat();
+    int facilID = ui->spinBox_ID->text().toInt();
 
+    bool x_ok, y_ok;
 
+    float x  = ui->lineEdit_x->text().toFloat(&x_ok);
+    float y =  ui->lineEdit_x->text().toFloat(&y_ok);
 
+    QString areaname = ui->comboBox_areas->currentText();
 
-    close();
+    QString facilType = ui->comboBox_facilTypes->currentText();
 
+    int areaid = DataStorage::getAreaID(areaname);
+
+    if(y_ok && x_ok)
+    {
+        DataStorage::addFacility(name,x,y,areaid,facilID,facilType);
+        close();
+    }
+    else
+    {
+        msgbox.setText("Please enter valid coordinates");
+        msgbox.exec();
+    }
 }

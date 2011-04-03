@@ -81,14 +81,31 @@ void AddPatientToWaitingList::clickedOK()
         int areaid = DataStorage::getAreaID(areaName);
         int facilID = DataStorage::getFacilityID(facilName);
 
+        //check that patient is not already on the waiting list
+        QVector<Patient*> patients = DataStorage::getWaitingListPatients(areaid);
+
+        bool remote = true;
+        if(facilID == DataStorage::getMyFacilityID())
+            remote = false;
+
+        QDateTime date = QDateTime::currentDateTime();
+        QString dateAdded = date.toString("yyyy-MM-ddThh:mm:ss");
+
+
+        QString dateAdmitted = DataStorage::getPatientDateAdmitted(HCN);
+
+
         if(patientType == "Inpatient")
         {
-
-            DataStorage::addPatientToWaitingList(HCN,firstname, lastname,areaid,datetime, facilID,careType);
+            DataStorage::addPatientToWaitingList(HCN,areaid,datetime);
+            //call XMLGenerator
+            xmlgenerator::patientOperationXML("Add",HCN,facilID, areaid, remote, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
         }
         else
         {
-            DataStorage::addPatientToWaitingList(HCN,firstname, lastname,areaid,datetime);
+            //DataStorage::addPatientToWaitingList(HCN,firstname, lastname,areaid,datetime, facilID,careType);
+            DataStorage::addPatientToWaitingList(HCN, firstname,lastname, areaid, dateAdded); //outpatient
+
         }
 
         close();

@@ -1,16 +1,12 @@
 #include "patient.h"
 
-Patient::Patient()
-{
-
-}
-
-Patient::Patient(QString aHCN, QString aFirstname, QString aLastname)
+Patient::Patient(QString aHCN, QString aFirstname, QString aLastname, QString aDateAdded, QString aRequiredCare)
 {
     HCN = aHCN;
     firstname = aFirstname;
     lastname = aLastname;
-
+    dateAdded = aDateAdded;
+    requiredCare=aRequiredCare;
 }
 
 QString Patient::getHCN()
@@ -30,6 +26,9 @@ QString Patient::getLastname()
 
 QString Patient::getDateAdded()
 {
-
+    return dateAdded;
 }
-
+QString Patient::getRequiredCare()
+{
+    return requiredCare;
+}

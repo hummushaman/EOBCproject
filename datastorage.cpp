@@ -11,12 +11,12 @@ int occupiedBeds = 0;
 int occupiedACBeds = 0;
 int occupiedCCCBeds = 0;
 
-void DataStorage::removePatientFromBed(int facilityID, QString HCN)
+void DataStorage::removePatientFromBed(int facilityID, QString HCN, int areaid, QString dateRemoved)
 {
 
 }
 
- void DataStorage::assignPatientToBed(int facilityID, QString HCN)
+ void DataStorage::assignPatientToBed(int facilityID, QString HCN, int areaid, QString dateAdded)
 {
 
 }
@@ -26,12 +26,12 @@ void DataStorage::addBeds(int facilityID, int numBeds, QString bedtype)
        totalNumBeds += numBeds;
 }
 
-void DataStorage::removePatientFromWaitingList(int areaID, QString HCN)
+void DataStorage::removePatientFromWaitingList(int areaID, QString HCN, QString dateRemoved)
 {
 
 }
 
- void DataStorage::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded, int currentFacility, QString currentCareType) //inpatient
+ void DataStorage::addPatientToWaitingList(QString HCN, int areaID, QString dateAdded) //inpatient
 {
 
 }
@@ -128,9 +128,9 @@ void DataStorage::removePatientFromWaitingList(int areaID, QString HCN)
 
 }
 
- QVector<InPatient*> DataStorage::getPatientsAtFacility(int facilityID)
+ QVector<Inpatient*> DataStorage::getPatientsAtFacility(int facilityID)
 {
-    QVector<InPatient*> patients;
+    QVector<Inpatient*> patients;
     //Patient* patient1 = new Patient("1234 pw", "Joe", "Smith");
     //Patient* patient2 = new Patient("3456 x","Mary", "Black");
     //patients<<patient1<<patient2;
@@ -145,7 +145,7 @@ QString DataStorage::getFacilityType(int facilityID)     //0=hospital, 1=nursing
 
 }
 
- QVector<OccupancyRateEntry> DataStorage::getOccupancyRateEntries(QString startDate, QString endDate, int careType, int facilityID)
+ QVector<OccupancyRateEntry> DataStorage::getOccupancyRateEntries(QString startDate, QString endDate, QString careType, int facilityID)
 {
     ///OccupancyRateEntry x = new OccupancyRateEntry();
 
@@ -162,13 +162,14 @@ QString DataStorage::getFacilityType(int facilityID)     //0=hospital, 1=nursing
 int DataStorage::getAreaID(QString areaname)
 {
 
+
 }
  QVector<Patient*> DataStorage::getWaitingListPatients(int areaID)
 {
      QVector<Patient*> patients;
-     Patient* patient1 = new Patient("12343653 xw", "Joe", "Smith");
-     Patient* patient2 = new Patient("345645362 x","Rebecca", "Black");
-     patients<<patient1<<patient2;
+     //Patient* patient1 = new Patient("12343653 xw", "Joe", "Smith");
+    // Patient* patient2 = new Patient("345645362 x","Rebecca", "Black");
+     //patients<<patient1<<patient2;
      return patients;
 }
 
@@ -211,7 +212,7 @@ int DataStorage::getUserFacility(QString username)
 
 }
 
- int DataStorage::requestMismatch(int currentCareType, int requiredCareType, int areaID)
+ int DataStorage::requestMismatch(QString currentCareType, QString requiredCareType, int areaID)
 {
 
 }
@@ -226,7 +227,7 @@ int DataStorage::getUserFacility(QString username)
 
 }
 
- void DataStorage::addFacility(QString name, float x, float y, int area, int id)
+ void DataStorage::addFacility(QString name, float x, float y, int area, int id, QString facilityType)
 {
 
 }
@@ -266,10 +267,7 @@ bool DataStorage::isMainFacility()
 
 }
 
-int DataStorage::getCurrentFacilityForPatient(QString hcn)
-{
 
-}
 
 bool DataStorage::isInpatient(QString hcn)
 {
@@ -291,3 +289,17 @@ bool DataStorage::facilityExists(int facilNum)
 
 }
 
+
+int DataStorage::getCurrentFacilityForPatient(QString hcn)
+{
+
+}
+
+QString DataStorage::getPatientDateAdmitted(QString hcn)
+{
+    return "2011328T11:34:12"; //fake data for testing..
+}
+QString DataStorage::getPatientDateAdded(QString hcd)
+{
+    return "";
+}

@@ -6,23 +6,21 @@
 class Patient
 {
 public:
-    Patient(QString HCN,QString firstname,QString lastname);
-    Patient();
+    Patient(QString HCN,QString firstname,QString lastname,QString dateAdded, QString requiredCare);
+
     QString getHCN();
     QString getFirstname();
     QString getLastname();
     QString getDateAdded();
+    QString getRequiredCare();
 
-
-
-protected:
+private:
     QString HCN;
     QString firstname;
     QString lastname;
     QString dateAdded;
-
-
-
+    QString requiredCare;
 };
+
 
 #endif // PATIENT_H

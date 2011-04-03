@@ -18,21 +18,24 @@ RemovePatient::RemovePatient(QWidget *parent) :
 
 
 
-    /*****IF the user is a Facilities Staff then we can only display the facility they are employed at*******/
 
-    /****How do we get which facility the user is employed at****/
-    /***where do we store the name of the current user??****/
-
-
-    //populate facilities combo box
-    QVector<int> facilities = DataStorage::getAllFacilities();
-
-    for(int i=0; i< facilities.size();i++)
+    if(DataStorage::usertype == "FACILITY")
     {
-        QString facilname = DataStorage::getFacilityName(facilities[i]);
-        ui->comboBox_facilities->addItem(facilname);
+        QString facilName = DataStorage::getFacilityName(DataStorage::myFacilityID);
+        ui->comboBox_facilities->addItem(facilName);
 
     }
+    else
+    {
+        QVector<int> facilities = DataStorage::getAllFacilities();
+        for(int i=0; i< facilities.size();i++)
+        {
+            QString facilName = DataStorage::getFacilityName(facilities.at(i));
+           ui->comboBox_facilities->addItem(facilName);
+        }
+    }
+
+
 }
 
 RemovePatient::~RemovePatient()
@@ -46,7 +49,7 @@ void RemovePatient::displayPatients()
     QString facilname = ui->comboBox_facilities->currentText();
 
     int facilID = DataStorage::getFacilityID(facilname);
-    QVector<Patient*> patients = DataStorage::getPatientsAtFacility(facilID);
+    QVector<Inpatient*> patients = DataStorage::getPatientsAtFacility(facilID);
 
     for(int i;i<patients.size();i++)
     {
@@ -81,7 +84,7 @@ void RemovePatient::clickedOK()
     if(ret == QMessageBox::Ok)
     {   //call removePatientFromBed from datastorage class
 
-        DataStorage::removePatientFromBed(facilid, patientHCN);
+        //DataStorage::removePatientFromBed(facilid, patientHCN);
 
         close(); //if user clicks Cancel, we do *not* close the form
 

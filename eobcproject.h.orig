@@ -20,5 +20,10 @@
 
 
 
+<<<<<<< HEAD
+=======
+//gloabl variables
+extern int myFacilityID;
+>>>>>>> 0b099df25802e0e1000d457760d1097caedf073d
 
 #endif // EOBCPROJECT_H

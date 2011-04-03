@@ -106,7 +106,7 @@ void RemovePatientFromWaitingList::clickedOK()
     if(ret == QMessageBox::Ok)
     {   //call removePatientFromWaitingList from datastorage class
 
-        DataStorage::removePatientFromWaitingList(areaid, patientHCN);
+        //DataStorage::removePatientFromWaitingList(areaid, patientHCN);
 
         close(); //if user clicks Cancel, we do *not* close the form
 

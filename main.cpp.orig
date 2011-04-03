@@ -1,12 +1,4 @@
 /********
-  CLASS NAME: Main
-  PURPOSE: Starts up the system. Displays the login form to the user.
-
-  TRACEABILITY: This class traces back to..
-
-  CREATED BY: Nisrin Abou-Seido
-  LAST MODIFIED: March 20, 2011
-
 ***********/
 
 
@@ -19,7 +11,7 @@
 
 using namespace std;
 
-
+<<<<<<< HEAD
 /*******make sure the file JNFconfig.conf is in home/<userfolder>/<yourusername>/.config directory*************/
 
 
@@ -54,10 +46,49 @@ int main(int argc, char *argv[])
 
 
 
-   //pass "connection handle" to the Database class
-   //handle errors if database connection fails
-   //check that tables exist
-   //close database connection
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+
+    //db.setDatabaseName("/home/4user3/jpowers3/eobc");
+    //bool isOpen = db.open();
+   // if (!isOpen){
+        //error message
+    //}else {
+
+        //storage = DataStorage(db);
+
+   // }
+
+    //connect to the database
+    //pass "connection handle" to the Database class
+        //handle errors if database connection fails
+                //check that tables exist
+
+
+    //initialize DataStorage object
+
+    //storage = DataStorage();
+
+
+
+
+
+
+
+
+   // std::cout << "Hello";
+
+=======
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+
+
+    //read configuration file
+    //should include:
+    //  database path
+    //  myFacilityID
+    //  IP addresses of other facilities ( mapped to FacilityID's)
+    //
     {
         QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", "permanent");
         QMessageBox error;
@@ -74,7 +105,14 @@ int main(int argc, char *argv[])
             Database::Initialize();
         }
     }
+    Login w;
+    w.show();
+>>>>>>> 0b099df25802e0e1000d457760d1097caedf073d
 
 
+    //pass "connection handle" to the Database class
+    //handle errors if database connection fails
+    //check that tables exist
+    //close database connection
     return a.exec();
 }

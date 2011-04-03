@@ -17,6 +17,8 @@ public:
 
 private slots:
     void clickedOK();
+    void displayClicked();
+
 
 private:
     Ui::AssignBed *ui;

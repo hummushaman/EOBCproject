@@ -56,8 +56,11 @@ void AddPatientToWaitingList::clickedOK()
     QDateTime dateAdded = QDateTime::currentDateTime();
     QString datetime = dateAdded.toString("yyyy-MM-ddThh:mm:ss");
 
+<<<<<<< HEAD
             //ui->dateEdit_dateAdded->date();
 
+=======
+>>>>>>> 0b099df25802e0e1000d457760d1097caedf073d
     //QDate dateAdmitted = ui->dateEdit_dateAdmitted->date();
 
 
@@ -83,7 +86,8 @@ void AddPatientToWaitingList::clickedOK()
 
         if(patientType == "Inpatient")
         {
-            DataStorage::addPatientToWaitingList(HCN,areaid,datetime);
+
+            DataStorage::addPatientToWaitingList(HCN,firstname, lastname,areaid,datetime, facilID,careType);
         }
         else
         {

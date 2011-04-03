@@ -38,10 +38,14 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QLineEdit" name="usernNameLineEdit"/>
+         <widget class="QLineEdit" name="usernameLineEdit"/>
         </item>
         <item>
-         <widget class="QLineEdit" name="passwordLineEdit"/>
+         <widget class="QLineEdit" name="passwordLineEdit">
+          <property name="inputMask">
+           <string/>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

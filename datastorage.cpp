@@ -1,147 +1,48 @@
 #include "datastorage.h"
 
-DataStorage::DataStorage(){}
+int DataStorage::myFacilityID = 0;
+QString DataStorage::myFacilityIPaddress = "0.0.0.0";
+QString DataStorage::usertype = "ADMIN";
 
-
-void DataStorage::removePatientFromBed(int facilityID, QString HCN)
+void DataStorage::removePatientFromBed(int facilityID, QString HCN,int areaid, QString dateRemoved) //i don't need area...
 {
-
+    Database::Initialize()->removePatientFromBed(facilityID, HCN, dateRemoved);
 }
 
- void DataStorage::assignPatientToBed(int facilityID, QString HCN)
+void DataStorage::assignPatientToBed(int facilityID, QString HCN,int areaid, QString dateAdded)
 {
-
+    //Database::Initialize()->assignPatientToBed(); MORE COMPLEX THAN I ORIGINALLY THOUGHT
 }
 
-void DataStorage::addBeds(int facilityID, int numBeds, QString bedtype)
-{
 
+void DataStorage::addBeds(int facilityID, int numBeds, QString bedType)
+{
+    Database::Initialize()->addBeds(facilityID, numBeds, bedType);
 }
 
-void DataStorage::removePatientFromWaitingList(int areaID, QString HCN)
+void DataStorage::removePatientFromWaitingList(int areaID, QString HCN, QString dateRemoved)
 {
-
+    Database::Initialize()->removePatientFromWaitingList(areaID, HCN, dateRemoved);
 }
 
- void DataStorage::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded, int currentFacility, QString currentCareType) //inpatient
-{
 
+void DataStorage::addPatientToWaitingList(QString HCN,int areaID, QString dateAdded)  //inpatient
+{
+    Database::Initialize()->addPatientToWaitingList(HCN, areaID, dateAdded);
 }
 
- void DataStorage::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded) //outpatient
+void DataStorage::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded) //outpatient
 {
-
+    Database::Initialize()->addPatientToWaitingList(HCN, firstName, lastName, areaID, dateAdded);
 }
 
- QVector<int> DataStorage::getAllAreas()
+QVector<int> DataStorage::getAllAreas()
 {
-    QVector<int> areas;
-    areas <<1<<2<<3;
-    return areas;
-
+    QVector<int> areaIDs = convertToOneFieldIntVector(Database::Initialize()->getAllAreas());
+    return areaIDs;
 }
 
- QString DataStorage::getAreaName(int areaID)
-{
-    QString aString = " An Area";
-    return aString;
-}
-
- QVector<int> DataStorage::getAllFacilitiesInArea(int areaID)
-{
-     QVector<int> facilities;
-     facilities << 1 << 2 << 3;
-     return facilities;
-
-}
-
- int DataStorage::getAreaForFacility(int facilityID)
-{
-
-}
-
- QVector<int> DataStorage::getAllFacilities()
-{
-     QVector<int> facilities;
-     facilities << 1 << 2 << 3;
-     return facilities;
-}
-
- QString DataStorage::getFacilityName(int facilityID)
- {
-    QString facilname = "a facility";
-    return facilname;
- }
-
- float DataStorage::getFacilityX(int facilityID)
-{
-
-
-}
-
- float DataStorage::getFacilityY(int facilityID)
-{
-
-}
-
- float DataStorage::getTotalACBeds(int facilityID)
-{
-
-}
-
- float DataStorage::getNumACBedsOccupied(int facilityID)
-{
-
-
-}
-
- float DataStorage::getTotalCCCBeds(int facilityID)
-{
-
-}
-
- float DataStorage::getNumCCCBedsOccupied(int facilityID)
-{
-
-}
-
- float DataStorage::getTotalNumBeds(int facilityID)
-{
-
-}
-
- float DataStorage::getTotalNumBedsOccupied(int facilityID)
-{
-
-}
-
- QVector<Patient*> DataStorage::getPatientsAtFacility(int facilityID)
-{
-    QVector<Patient*> patients;
-    Patient* patient1 = new Patient("1234 pw", "Joe", "Smith");
-    Patient* patient2 = new Patient("3456 x","Mary", "Black");
-    patients<<patient1<<patient2;
-    return patients;
-}
-
-QString DataStorage::getFacilityType(int facilityID)     //0=hospital, 1=nursinghome
-{
-    if (facilityID == 0)
-        return "Hospital";
-    else return "Nursing Home";
-
-}
-
- QVector<OccupancyRateEntry> DataStorage::getOccupancyRateEntries(QString startDate, QString endDate, QString careType, int facilityID)
-{
-    ///OccupancyRateEntry x = new OccupancyRateEntry();
-
-    /*QVector<OccupancyRateEntry> log;
-    log<<x;
-    return log;*/
-}
-
- int DataStorage::getFacilityID(QString name)
+QString DataStorage::getAreaName(int areaID)
 {
 
 }
@@ -150,79 +51,230 @@ int DataStorage::getAreaID(QString areaname)
 {
 
 }
- QVector<Patient*> DataStorage::getWaitingListPatients(int areaID)
-{
-     QVector<Patient*> patients;
-     Patient* patient1 = new Patient("12343653 xw", "Joe", "Smith");
-     Patient* patient2 = new Patient("345645362 x","Rebecca", "Black");
-     patients<<patient1<<patient2;
-     return patients;
-}
 
- int DataStorage::getWaitingListSize(int areaID)
+QVector<int> DataStorage::getAllFacilitiesInArea(int areaID)
 {
 
 }
 
- QVector<WaitTimesEntry> DataStorage::getWaitTimesEntries(QString startDate, QString endDate, int areaID)
-{
-    /* WaitTimesEntry x = new WaitTimesEntry();
-
-     QVector<WaitTimesEntry> log;
-     log<<x;
-     return log;*/
-}
-
- QVector<NumPatientsEntry> DataStorage::getWaitingListSizeEntries(QString startDate, QString endDate, int areaID)
-{
-    /*NumPatientsEntry x = new NumPatientsEntry();
-
-     QVector<NumPatientsEntry> log;
-     log<<x;
-     return log;*/
-}
-
- bool DataStorage::isLoginValid(QString username, QString password)
+int DataStorage::getAreaForFacility(int facilityID)
 {
 
 }
 
- int DataStorage::getUserType(QString username)
+QVector<int> DataStorage::getAllFacilities()
 {
 
 }
 
- int DataStorage::getUserFacility(QString username)
+QString DataStorage::getFacilityName(int facilityID)
 {
 
 }
 
- int DataStorage::requestMismatch(int currentCareType, int requiredCareType, int areaID)
+float DataStorage::getFacilityX(int facilityID)
 {
 
 }
 
- void DataStorage::addUser(QString username, QString password, int userType) //for system administrators and LHIN staff
+float DataStorage::getFacilityY(int facilityID)
 {
 
 }
 
- void DataStorage::addUser(QString  username, QString  password, int userType, int facilityID) //facility staff
+int DataStorage::getTotalACBeds(int facilityID)
 {
 
 }
 
- void DataStorage::addFacility(QString name, float x, float y)
+int DataStorage::getNumACBedsOccupied(int facilityID)
 {
 
 }
 
- QString DataStorage::getPatientFirstName(QString patientHCN)
+int DataStorage::getTotalCCCBeds(int facilityID)
 {
-    return "Bob";
+
+}
+
+int DataStorage::getNumCCCBedsOccupied(int facilityID)
+{
+
+}
+
+int DataStorage::getTotalNumBeds(int facilityID)
+{
+
+}
+
+int DataStorage::getTotalNumBedsOccupied(int facilityID)
+{
+
+}
+
+//what about LTC occupied? kind of a redundant function but it assumes that you have no knowledge of the database class (which is good)
+int DataStorage::getTotalLTCBeds(int facilityID)
+{
+
+}
+
+
+QVector<Inpatient*> DataStorage::getPatientsAtFacility(int facilityID)
+{
+
+}
+
+QString DataStorage::getPatientFirstName(QString patientHCN)
+{
+
 }
 
 QString DataStorage::getPatientLastName(QString patientHCN)
 {
-    return "Smith";
+
+}
+
+
+QString DataStorage::getFacilityType(int facilityID) //"Hospital" or "Nursing Home"
+{
+
+}
+
+QVector<OccupancyRateEntry >DataStorage::getOccupancyRateEntries(QString startDate, QString endDate, QString careType, int facilityID)
+{
+
+}
+
+int DataStorage::getFacilityID(QString name)
+{
+
+}
+
+QVector<Patient*> DataStorage::getWaitingListPatients(int areaID)
+{
+
+}
+
+int DataStorage::getWaitingListSize(int areaID)
+{
+
+}
+
+QVector<WaitTimesEntry> DataStorage::getWaitTimesEntries(QString startDate, QString endDate, int areaID)
+{
+
+}
+
+QVector<NumPatientsEntry> DataStorage::getWaitingListSizeEntries(QString startDate, QString endDate, int areaID)
+{
+
+}
+
+bool DataStorage::isLoginValid(QString username, QString password)
+{
+
+}
+
+QString DataStorage::getUserType(QString username)
+{
+
+}
+
+//static int getUserFacility(QString username); useless since we only store our own users
+
+int DataStorage::requestMismatch(QString currentCareType, QString requiredCareType, int areaID)
+{
+
+}
+
+void DataStorage::addUser(QString username, QString password, QString userType) //for system administrators and LHIN staff
+{
+
+}
+
+void DataStorage::addUser(QString username, QString password, QString userType, int facilityID) //facility staff
+{
+
+}
+
+void DataStorage::addFacility(QString name, float x, float y, int area, int facilityID, QString facilityType)
+{
+
+}
+
+int DataStorage::myArea()
+{
+
+}
+
+int DataStorage::getMyFacilityID()
+{
+
+}
+
+bool DataStorage::isMainFacility()
+{
+
+}
+
+int DataStorage::getCareType(QString care)
+{
+
+}
+
+QString DataStorage::getCareType(int care)
+{
+
+}
+
+void DataStorage::clearPatientsOnAreaWL(int area)
+{
+
+}
+
+bool DataStorage::isInpatient(QString hcn)
+{
+
+}
+
+int DataStorage::getCurrentFacilityForPatient(QString hcn)
+{
+
+}
+
+QString DataStorage::getPatientDateAdmitted(QString hcn)
+{
+
+}
+
+QString DataStorage::getPatientDateAdded(QString hcn)
+{
+
+}
+
+QVector<int> DataStorage::convertToOneFieldIntVector(QSqlQuery aQuery)
+{
+    printQueryResults(aQuery);
+    QVector<int> intVector;
+    while (aQuery.next())
+    {
+        intVector.append(aQuery.value(0).toInt());
+    }
+    return intVector;
+}
+
+void DataStorage::printQueryResults(QSqlQuery aQuery)
+{
+    qDebug() << "Query results: ";
+    QString row;
+    int numberOfColumns = aQuery.record().count();
+    while (aQuery.next())
+    {
+        row = "";
+        for (int columnIndex = 0; columnIndex < numberOfColumns; columnIndex++)
+        {
+            row += aQuery.value(columnIndex).toString() + " ";
+        }
+        qDebug() << row;
+    }
 }

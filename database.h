@@ -28,76 +28,94 @@ public:
     void removePatientFromBed(int facilityID, QString HCN, QString dateRemoved);
     void assignPatientToBed(int facilityID, QString HCN);
     void addBeds(int facilityID, int numBeds, QString bedType);
-    void removePatientFromWaitingList(int areaID, QString HCN);
 
-    void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded, int currentFacility, int currentCareType); //inpatient
-
+    void removePatientFromWaitingList(int areaID, QString HCN, QString dateRemoved);
+    void addPatientToWaitingList(QString HCN, int areaID, QString dateAdded); //inpatient
     void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded); //outpatient
 
-    QVector<int> getAllAreas();
-    QString getAreaName(int areaID);
+    QSqlQuery getAllAreas();
+    QSqlQuery getAreaName(int areaID);
 
-    int getAreaID(QString areaname);
+    QSqlQuery getAreaID(QString areaname);
 
-    QVector<int> getAllFacilitiesInArea(int areaID);
-    int getAreaForFacility(int facilityID);
-    QVector<int> getAllFacilities();
+    QSqlQuery getAllFacilitiesInArea(int areaID);
+    QSqlQuery getAreaForFacility(int facilityID);
+    QSqlQuery getAllFacilities();
 
-    QString getFacilityName(int facilityID);
+    QSqlQuery getFacilityName(int facilityID);
 
-    float getFacilityX(int facilityID);
-    float getFacilityY(int facilityID);
-    float getTotalACBeds(int facilityID);
-    float getNumACBedsOccupied(int facilityID);
-    float getTotalCCCBeds(int facilityID);
-    float getNumCCCBedsOccupied(int facilityID);
-    float getTotalNumBeds(int facilityID);
-    float getTotalNumBedsOccupied(int facilityID);
+    QSqlQuery getFacilityX(int facilityID);
+    QSqlQuery getFacilityY(int facilityID);
+    QSqlQuery getTotalACBeds(int facilityID);
+    QSqlQuery getNumACBedsOccupied(int facilityID);
+    QSqlQuery getTotalCCCBeds(int facilityID);
+    QSqlQuery getNumCCCBedsOccupied(int facilityID);
+    QSqlQuery getTotalNumBeds(int facilityID);
+    QSqlQuery getTotalNumBedsOccupied(int facilityID);
 
-    QVector<Patient*> getPatientsAtFacility(int facilityID);
+    QSqlQuery getPatientsAtFacility(int facilityID);
 
-    QString getPatientFirstName(QString patientHCN);
-    QString getPatientLastName(QString patientHCN);
+    QSqlQuery getPatientFirstName(QString patientHCN);
+    QSqlQuery getPatientLastName(QString patientHCN);
 
-    QString getFacilityType(int facilityID); //"Hospital" or "Nursing Home"
+    QSqlQuery getFacilityType(int facilityID); //"Hospital" or "Nursing Home"
 
-    QVector<OccupancyRateEntry>getOccupancyRateEntries(QString startDate, QString endDate, int careType, int facilityID);
-    int getFacilityID(QString name);
+    QSqlQuery getOccupancyRateEntries(QString startDate, QString endDate, QString careType, int facilityID);
+    QSqlQuery getFacilityID(QString name);
 
-    QVector<Patient*> getWaitingListPatients(int areaID);
-    int getWaitingListSize(int areaID);
-    QVector<WaitTimesEntry> getWaitTimesEntries(QString startDate, QString endDate, int areaID);
-    QVector<NumPatientsEntry> getWaitingListSizeEntries(QString startDate, QString endDate, int areaID);
+    QSqlQuery getWaitingListInpatients(int areaID);
+    QSqlQuery getWaitingListOutpatients(int areaID);
 
-    bool isLoginValid(QString username, QString password);
-    QString getUserType(QString username);
-    int getUserFacility(QString username);
+    QSqlQuery getWaitingListSize(int areaID);
+    QSqlQuery getWaitTimesEntries(QString startDate, QString endDate, int areaID);
+    QSqlQuery getWaitingListSizeEntries(QString startDate, QString endDate, int areaID);
 
-    int requestMismatch(int currentCareType, int requiredCareType, int areaID);
+    QSqlQuery isLoginValid(QString username, QString password);
+    QSqlQuery getUserType(QString username);
+    QSqlQuery getUserFacility(QString username);
 
-    void addUser(QString username, QString password, int userType); //for system administrators and LHIN staff
-    void addUser(QString username, QString password, int userType, int facilityID); //facility staff
-    void addFacility(QString name, float x, float y);
+    QSqlQuery requestMismatch(int currentCareType, int requiredCareType, int areaID);
 
+    void addUser(QString username, QString password, QString userType);
+    void addFacility(QString name, float x, float y, int areaID, int facilityID, QString facilityType);
+    QSqlQuery getCareType(int careType);
+    QSqlQuery getCareTypeID(QString careType);
     ~Database();
 private:
-   Database();
-   Database(QSqlDatabase aDatabaseConnection);
-   //QSqlDatabase permanentDatabase;
-   //QSqlDatabase temporaryDatabase;
-   static Database* databaseClassInstance;
-   //------------------------------------------------------------------------------------------------------------------
-   //HELPER FUNCTIONS
-   //------------------------------------------------------------------------------------------------------------------
-   bool isMyFacility(int facilityID);
-   QString getOneRecord(QString aQuery);
-   //PRIVATE VERSIONS OF "DATASTORAGE CLASSES FUNCTIONS" TO REDUCE REDUNDANT CODE (due to the fact of two databases)
-   //------------------------------------------------------------------------------------------------------------------
-   void removePatientFromBed(QString databaseConnection, int facilityID, QString HCN, QString dateRemoved);
-   //------------------------------------------------------------------------------------------------------------------
-   int myFacilityID;
+    Database();
+    //QSqlDatabase permanentDatabase;
+    //QSqlDatabase temporaryDatabase;
+    static Database* databaseClassInstance;
+    //------------------------------------------------------------------------------------------------------------------
+    //HELPER FUNCTIONS
+    //------------------------------------------------------------------------------------------------------------------
+    bool isMyFacility(int facilityID);
+    int getUserTypeID(QString username, QString password, QString userType);
+    QSqlQuery queryDatabase(QString aQuery, QString databaseConnection);
+    void updateDatabase(QString aQuery, QString databaseConnection);
+    int getID(QSqlQuery queryTemporary);
+    int getFacilityTypeID(QString facilityType);
+    QString getType(QSqlQuery queryTemporary);
+    bool isPermanentDatabaseConnection(QString aConnection);
 
+    void updateNumberOfACBedsOccupied(QString databaseConnection, int facilityID, int amount);
+    void updateNumberOfCCCBedsOccupied(QString databaseConnection, int facilityID, int amount);
+    void updateTotalNumberOfBedsOccupied(QString databaseConnection, int facilityID, int amount, bool updateLog);
 
+    void updateNumberOfACBeds(QString databaseConnection, int facilityID, int amount);
+    void updateNumberOfCCCBeds(QString databaseConnection, int facilityID, int amount);
+    void updateTotalNumberOfBeds(QString databaseConnection, int facilityID, int amount, bool updateLog);
+    //PRIVATE VERSIONS OF "DATASTORAGE CLASSES FUNCTIONS" TO REDUCE REDUNDANT CODE (due to the fact of two databases)
+    //------------------------------------------------------------------------------------------------------------------
+    void removePatientFromBed(QString databaseConnection, int facilityID, QString HCN, QString dateRemoved);
+    void removePatientFromWaitingList(QString databaseConnection, int areaID, QString HCN, QString dateRemoved);
+    void addPatientToWaitingList(QString databaseConnection, QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded);
+    void assignPatientToBed(QString databaseConnection, int facilityID, QString HCN, int areaID, QString dateAssigned);
+
+    void addPatientToWaitingList(QString databaseConnection, QString HCN, int areaID, QString dateAdded);
+    void addBeds(QString databaseConnection, int facilityID, int numBeds, QString bedType);
+    //------------------------------------------------------------------------------------------------------------------
+    int myFacilityID;
 };
 
 #endif // DATABASE_H

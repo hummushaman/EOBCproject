@@ -8,6 +8,25 @@ Welcome::Welcome(QWidget *parent) :
     ui->setupUi(this);
     this->isEnabled();
 
+    //disable certain options if the user is not an ADMIN
+
+    if(DataStorage::usertype == "FACILITY")
+    {
+        QMessageBox msgbox; msgbox.setText("is a facil staff"); msgbox.exec();
+
+        ui->menuSystem_Administration->setEnabled(false);
+        ui->menuReport->setEnabled(false);
+    }
+    else if (DataStorage::usertype == "REPORT")
+    {
+        QMessageBox msgbox; msgbox.setText("is a lhin staff"); msgbox.exec();
+
+        ui->menuSystem_Administration->setEnabled(false);
+
+
+    }
+
+
     connect(ui->actionAdd_beds, SIGNAL(triggered()),this,SLOT(openAddBeds()));
     connect(ui->actionAssign_bed, SIGNAL(triggered()),this,SLOT(openAssignBed()));
     connect(ui->actionRemove_patient_from_bed, SIGNAL(triggered()),this,SLOT(openRemovePatient()));

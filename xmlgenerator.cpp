@@ -70,7 +70,7 @@ QString xmlgenerator::rebuild(){
 
     QDomElement facilityChild=message.createElement("Facility");
     QDomElement patientListChild=message.createElement("PatientList");
-    int facilNum=DataStorage::getMyFacilityID();
+    int facilNum=DataStorage::myFacilityID;
 
 
      facilityChild.setAttribute("ID",facilNum);
@@ -125,7 +125,7 @@ QString xmlgenerator::rebuildResponse(){
 
     QDomElement facilityChild=message.createElement("Facility");
     QDomElement patientListChild=message.createElement("PatientList");
-    int facilNum=DataStorage::getMyFacilityID();
+    int facilNum=DataStorage::myFacilityID;
 
 
      facilityChild.setAttribute("ID",facilNum);

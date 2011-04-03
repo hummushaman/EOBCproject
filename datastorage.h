@@ -19,20 +19,42 @@ class DataStorage
 {
 private:
     //Database *database;
+
+    //helper functions
+    static QVector<int> convertToOneFieldIntVector(QSqlQuery aQuery);
+    static void printQueryResults(QSqlQuery aQuery);
+    static QString convertToOneString(QSqlQuery queryTemporary);
+    static int convertToOneInt(QSqlQuery queryTemporary);
+    static float convertToOneFloat(QSqlQuery queryTemporary);
+
+
 public:
     DataStorage();
+
+
     static int myFacilityID;
     static QString myFacilityIPaddress;
-    static QString usertype;
+    static QString currentUserType;
+
+    //static void setMyFacilityID(int id);
+    //static void setMyFacilityIPAddress(QString ipadress);
+    //static void setCurrentUserType(QString aUserType);
+    //static QString getCurrentUserType();
+
+    static int myArea();
+    static int getMyFacilityID();
+    static QString getMyFacilityIPAddress();
+    static bool isMainFacility();
     
-    static void removePatientFromBed(int facilityID, QString HCN,int areaid, QString dateRemoved);
+    static void removePatientFromBed(int facilityID, QString HCN,QString dateRemoved);
     static void assignPatientToBed(int facilityID, QString HCN,int areaid, QString dateAdded);
 
     static void addBeds(int facilityID, int numBeds, QString bedType);
+
     static void removePatientFromWaitingList(int areaID, QString HCN, QString dateRemoved);
 
-    static void addPatientToWaitingList(QString HCN,int areaID, QString dateAdded); //inpatient
 
+    static void addPatientToWaitingList(QString HCN,int areaID, QString dateAdded); //inpatient
     static void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded); //outpatient
 
     static QVector<int> getAllAreas();
@@ -48,19 +70,27 @@ public:
 
     static float getFacilityX(int facilityID);
     static float getFacilityY(int facilityID);
-    static float getTotalACBeds(int facilityID);
-    static float getNumACBedsOccupied(int facilityID);
-    static float getTotalCCCBeds(int facilityID);
-    static float getNumCCCBedsOccupied(int facilityID);
-    static float getTotalNumBeds(int facilityID);
-    static float getTotalNumBedsOccupied(int facilityID);
 
-    static float getTotalLTCBeds(int facilityID);
+    static int getTotalACBeds(int facilityID);
+    static int getNumACBedsOccupied(int facilityID);
+
+    static int getTotalCCCBeds(int facilityID);
+    static int getNumCCCBedsOccupied(int facilityID);
+
+    static int getTotalNumBeds(int facilityID);
+    static int getTotalNumBedsOccupied(int facilityID);
+
+    static int getTotalLTCBeds(int facilityID);
+    static int getNumLTCBedsOccupied(int facilityID);
 
     static QVector<Inpatient*> getPatientsAtFacility(int facilityID);
 
     static QString getPatientFirstName(QString patientHCN);
     static QString getPatientLastName(QString patientHCN);
+    static bool isInpatient(QString hcn);
+    static int getCurrentFacilityForPatient(QString hcn);
+    static QString getPatientDateAdmitted(QString hcn);
+    static QString getPatientDateAdded(QString hcn);
 
 
     static QString getFacilityType(int facilityID); //"Hospital" or "Nursing Home"
@@ -75,26 +105,22 @@ public:
 
     static bool isLoginValid(QString username, QString password);
     static QString getUserType(QString username);
-    static int getUserFacility(QString username);
 
     static int requestMismatch(QString currentCareType, QString requiredCareType, int areaID);
 
-    static void addUser(QString username, QString password, int userType); //for system administrators and LHIN staff
-    static void addUser(QString username, QString password, int userType, int facilityID); //facility staff
+    static void addUser(QString username, QString password, QString userType); //for system administrators and LHIN staff
+    static void addUser(QString username, QString password, QString userType, int facilityID); //facility staff
     static void addFacility(QString name, float x, float y, int area, int facilityID, QString facilityType);
 
-    static int myArea();
-    static int getMyFacilityID();
+
+
     static int getCareType(QString care);
     static QString getCareType(int care);
-    static bool isMainFacility();
-    static void clearPatientsAtFacility(int facilNum);
-    static bool facilityExists(int facilNum);
+
+    static void clearPatientsAtFacility(int facilityID);  //rename??
     static void clearPatientsOnAreaWL(int area);
-    static bool isInpatient(QString hcn);
-    static int getCurrentFacilityForPatient(QString hcn);
-    static QString getPatientDateAdmitted(QString hcn);
-    static QString getPatientDateAdded(QString hcn);
+
+    static bool facilityExists(int facilityID);
 
 };
 

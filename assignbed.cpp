@@ -23,7 +23,7 @@ AssignBed::AssignBed(QWidget *parent) :
 
     //populate facilities combo box //Shoudl we only show long term care facilities????????
 
-    if(DataStorage::usertype == "FACILITY")
+    if(DataStorage::currentUserType== "FACILITY")
     {
         QString facilName = DataStorage::getFacilityName(DataStorage::myFacilityID);
         ui->comboBox_facilities->addItem(facilName);
@@ -78,7 +78,7 @@ void AssignBed::clickedOK()
         {
 
             bool remote = true;
-            if(facilid == DataStorage::getMyFacilityID())
+            if(facilid == DataStorage::myFacilityID)
                 remote = false;
 
             QDateTime date = QDateTime::currentDateTime();
@@ -104,6 +104,7 @@ void AssignBed::clickedOK()
 }
 void AssignBed::displayClicked()
 {
+
     ui->listWidget_patients->clear();
 
     QString facilname = ui->comboBox_facilities->currentText();

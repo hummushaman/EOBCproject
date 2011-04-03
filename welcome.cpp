@@ -10,14 +10,14 @@ Welcome::Welcome(QWidget *parent) :
 
     //disable certain options if the user is not an ADMIN
 
-    if(DataStorage::usertype == "FACILITY")
+    if(DataStorage::currentUserType== "FACILITY")
     {
         QMessageBox msgbox; msgbox.setText("is a facil staff"); msgbox.exec();
 
         ui->menuSystem_Administration->setEnabled(false);
         ui->menuReport->setEnabled(false);
     }
-    else if (DataStorage::usertype == "REPORT")
+    else if (DataStorage::currentUserType == "LHIN")
     {
         QMessageBox msgbox; msgbox.setText("is a lhin staff"); msgbox.exec();
 

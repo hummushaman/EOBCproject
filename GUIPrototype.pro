@@ -66,8 +66,9 @@ HEADERS  += login.h \
     receivemessage.h \
     xmlgenerator.h \
     xmlparser.h \
-	database.h\
+    database.h\
     inpatient.h
+
 
 FORMS    += login.ui \
     welcome.ui \

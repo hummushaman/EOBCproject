@@ -85,7 +85,7 @@ void AddPatientToWaitingList::clickedOK()
         QVector<Patient*> patients = DataStorage::getWaitingListPatients(areaid);
 
         bool remote = true;
-        if(facilID == DataStorage::getMyFacilityID())
+        if(facilID == DataStorage::myFacilityID)
             remote = false;
 
         QDateTime date = QDateTime::currentDateTime();

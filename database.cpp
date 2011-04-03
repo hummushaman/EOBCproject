@@ -272,6 +272,7 @@ void Database::updateTotalNumberOfBedsOccupied(QString databaseConnection, int f
     }
 }
 
+
 void Database::assignPatientToBed(QString databaseConnection, int facilityID, QString HCN, int areaID, QString dateAssigned) //only applicable to Nursing Home("LTC")
 {
 
@@ -354,7 +355,7 @@ void Database::addBeds(QString databaseConnection, int facilityID, int numBeds, 
 void Database::updateNumberOfACBeds(QString databaseConnection, int facilityID, int amount)
 {
     QString aQuery = "SELECT totalACBeds FROM hospital WHERE hospitalid = " + facilityID;
-    int numberOfACBeds = getID(aQuery) + amount; //odd function name-> maybe rename to get int
+    int numberOfACBeds = getID(aQuery) + amount; //odd function name-> maybe rename to getInt
 
     aQuery = "UPDATE hospital SET totalACBeds = " + QString::number(numberOfACBeds) + " WHERE hospitalid = " + facilityID;
     updateDatabase(aQuery, databaseConnection);
@@ -401,13 +402,13 @@ void Database::removePatientFromWaitingList(int areaID, QString HCN, QString dat
 }
 void Database::removePatientFromWaitingList(QString databaseConnection, int areaID, QString HCN, QString dateRemoved)
 {
-    QString aQuery = "DELETE FROM waitinglistentries WHERE (healthcarenumber = " + HCN + " AND " + "areaid" + areaID + ")";
+    QString aQuery = "DELETE FROM waitinglistentries WHERE (healthcarenumber = " + HCN + " AND " + "areaid = " + areaID + ")";
     updateDatabase(aQuery, databaseConnection);
     //update log! if my facility ***********************
 }
 
 //inpatient version: assumed that they are not on this the waiting list && they are already at a facility
-void Database::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded, int currentFacility, QString currentCareType)
+void Database::addPatientToWaitingList(QString HCN, int areaID, QString dateAdded)
 {
 
     addPatientToWaitingList("temporary", HCN, areaID, dateAdded);
@@ -447,164 +448,111 @@ void Database::addPatientToWaitingList(QString databaseConnection, QString HCN, 
 
 QSqlQuery Database::getAllAreas()
 {
-    //REDUNDANT CODE****************************
-    //    QVector<int> areaID = QVector<int>();
-    //  QSqlQuery queryTemporary(QSqlDatabase::database("temporary"));
     QString aQuery = "SELECT areaid FROM area";
-    //queryTemporary.exec(aQuery);
-    //while (queryTemporary.next())
-    //{
-    //  areaID.append(queryTemporary.value(0).toInt());
-    //  }
     return queryDatabase(aQuery, "temporary");
 }
 
 QSqlQuery Database::getAreaName(int areaID)
 {
     QString aQuery = "SELECT name FROM area WHERE areaid = " + areaID;
-    //QString areaName = getOneRecord(aQuery);
-    //return areaName;
     return queryDatabase(aQuery, "temporary");
 }
 
 QSqlQuery Database::getAreaID(QString areaname)
 {
     QString aQuery = "SELECT areaid FROM area WHERE name =" + areaname;
-    //int areaID = getOneRecord(aQuery).toInt(); //POTENTIAL PROBLEM FOR CONVERSION: WHAT ABOUT IF IT'S A NULL STRING?
-    //return areaID;
     return queryDatabase(aQuery, "temporary");
 }
 
 QSqlQuery Database::getAllFacilitiesInArea(int areaID)
 {
-    //REDUNDANT CODE******************************************
-    //QVector<int> facilityID = QVector<int>();
-    //QSqlQuery queryTemporary(QSqlDatabase::database("temporary"));
     QString aQuery = "SELECT facilityid FROM facility WHERE areaid = " + areaID;
-    // queryTemporary.exec(aQuery);
-    //while (queryTemporary.next())
-    //{
-    //    facilityID.append(queryTemporary.value(0).toInt());
-    //
-    //return facilityID;
     return queryDatabase(aQuery, "temporary");
 }
 
 QSqlQuery Database::getAreaForFacility(int facilityID)
 {
     QString aQuery = "SELECT areaid FROM facility WHERE facilityid = " + facilityID;
-    //int areaID = getOneRecord(aQuery).toInt(); //POTENTIAL PROBLEM FOR CONVERSION: WHAT ABOUT IF IT'S A NULL STRING?
-    //return areaID;
     return queryDatabase(aQuery, "temporary");
 }
 
 QSqlQuery Database::getAllFacilities()
 {
-    //REDUNDANT CODE******************************************
-    //QVector<int> facilityID = QVector<int>();
-    //QSqlQuery queryTemporary(QSqlDatabase::database("temporary"));
     QString aQuery = "SELECT facilityid FROM facility";
-    //queryTemporary.exec(aQuery);
-    // while (queryTemporary.next())
-    //{
-    //    facilityID.append(queryTemporary.value(0).toInt());
-    //}
-    //return facilityID;
     return queryDatabase(aQuery, "temporary");
 }
 
 QSqlQuery Database::getFacilityName(int facilityID)
 {
     QString aQuery = "SELECT name FROM facility WHERE facilityid = " + facilityID;
-    //QString facilityName = getOneRecord(aQuery);
-    // return facilityName;
     return queryDatabase(aQuery, "temporary");
 }
 
 QSqlQuery Database::getFacilityX(int facilityID)
 {
     QString aQuery = "SELECT x FROM facility WHERE facilityid = " + facilityID;
-    //float facilityX = getOneRecord(aQuery).toFloat(); //POTENTIAL PROBLEM FOR CONVERSION: WHAT ABOUT IF IT'S A NULL STRING?
-    //return facilityX;
     return queryDatabase(aQuery, "temporary");
 }
 
 QSqlQuery Database::getFacilityY(int facilityID)
 {
     QString aQuery = "SELECT y FROM facility WHERE facilityid = " + facilityID;
-    //float facilityY = getOneRecord(aQuery).toFloat(); //POTENTIAL PROBLEM FOR CONVERSION: WHAT ABOUT IF IT'S A NULL STRING?
-    //return facilityY;
     return queryDatabase(aQuery, "temporary");
 }
 
 QSqlQuery Database::getTotalACBeds(int facilityID)
 {
     QString aQuery = "SELECT totalACBeds FROM hospital WHERE hospitalid = " + facilityID;
-    //float totalACBeds = getOneRecord(aQuery).toFloat(); //POTENTIAL PROBLEM FOR CONVERSION: WHAT ABOUT IF IT'S A NULL STRING?
-    // return totalACBeds;
     return queryDatabase(aQuery, "temporary");
 }
 
 QSqlQuery Database::getNumACBedsOccupied(int facilityID)
 {
     QString aQuery = "SELECT numACBedsOccupied FROM hospital WHERE hospitalid = " + facilityID;
-    //float numACBedsOccupied = getOneRecord(aQuery).toFloat(); //POTENTIAL PROBLEM FOR CONVERSION: WHAT ABOUT IF IT'S A NULL STRING?
-    //return numACBedsOccupied;
     return queryDatabase(aQuery, "temporary");
 }
 
 QSqlQuery Database::getTotalCCCBeds(int facilityID)
 {
     QString aQuery = "SELECT totalCCCBeds FROM hospital WHERE hospitalid = " + facilityID;
-    //float totalCCCBeds = getOneRecord(aQuery).toFloat(); //POTENTIAL PROBLEM FOR CONVERSION: WHAT ABOUT IF IT'S A NULL STRING?
-    //return totalCCCBeds;
     return queryDatabase(aQuery, "temporary");
-
 }
 
 QSqlQuery Database::getNumCCCBedsOccupied(int facilityID)
 {
     QString aQuery = "SELECT numCCCBedsOccupied FROM hospital WHERE hospitalid = " + facilityID;
-    //float numCCCBedsOccupied = getOneRecord(aQuery).toFloat(); //POTENTIAL PROBLEM FOR CONVERSION: WHAT ABOUT IF IT'S A NULL STRING?
-    //return numCCCBedsOccupied;
     return queryDatabase(aQuery, "temporary");
 }
 
 QSqlQuery Database::getTotalNumBeds(int facilityID)
 {
     QString aQuery = "SELECT totalBeds FROM facility WHERE facilityid = " + facilityID;
-    //float totalNumBeds = getOneRecord(aQuery).toFloat(); //POTENTIAL PROBLEM FOR CONVERSION: WHAT ABOUT IF IT'S A NULL STRING?
-    //return totalNumBeds;
     return queryDatabase(aQuery, "temporary");
 }
 
 QSqlQuery Database::getTotalNumBedsOccupied(int facilityID)
 {
     QString aQuery = "SELECT numBedsOccupied FROM facility WHERE facilityid = " + facilityID;
-    //float totalNumBedsOccupied = getOneRecord(aQuery).toFloat(); //POTENTIAL PROBLEM FOR CONVERSION: WHAT ABOUT IF IT'S A NULL STRING?
-    //return totalNumBedsOccupied;
     return queryDatabase(aQuery, "temporary");
 }
 
 QSqlQuery Database::getPatientsAtFacility(int facilityID) //ALL INPATIENTS!!
-{
-    QString aQuery = "SELECT * FROM inpatient WHERE currentfacilityid =" + facilityID;
-    return queryDatabase(aQuery, "temporary");
+{    //******************************************************************TEST query
+    /*
+    QString aQuery = "SELECT firstname, lastname, requiredcaretype, ....(current care), dateadmittedtofacility, currentfacilityid FROM "
+                     "(SELECT * FROM inpatient JOIN ON patient WHERE (healthcarenumber = inpatienthealthcarenumber)) WHERE currentfacilityid = " + facilityID;
+    return queryDatabase(aQuery, "temporary");*/
 }
 
 QSqlQuery Database::getPatientFirstName(QString patientHCN)
 {
     QString aQuery = "SELECT firstname FROM patient WHERE healthcarenumber = " + patientHCN;
-    //QString lastname = getOneRecord(aQuery);
-    //return lastname;
     return queryDatabase(aQuery, "temporary");
 }
 
 QSqlQuery Database::getPatientLastName(QString patientHCN)
 {
     QString aQuery = "SELECT lastname FROM patient WHERE healthcarenumber = " + patientHCN;
-    //QString lastname = getOneRecord(aQuery);
-    //return lastname;
     return queryDatabase(aQuery, "temporary");
 }
 
@@ -612,11 +560,8 @@ QSqlQuery Database::getPatientLastName(QString patientHCN)
 QSqlQuery Database::getFacilityType(int facilityID)
 {
     QString aQuery = "SELECT facilitytype FROM"
-                     "(SELECT facilitytype FROM facility JOIN ON facilitytypes WHERE facility.facilitytypeid = facilitytypes.facilitytypeid)"
+                     "(SELECT * FROM facility JOIN ON facilitytypes WHERE facility.facilitytypeid = facilitytypes.facilitytypeid)"
                      "WHERE facilityid = " + facilityID;
-
-    //QString facilityType = getOneRecord(aQuery);
-    //return facilityType;
     return queryDatabase(aQuery, "temporary");
 }
 
@@ -662,19 +607,26 @@ QSqlQuery Database::getWaitingListSize(int areaID) //MAP
 
 }
 
-QSqlQuery Database::getOccupancyRateEntries(QString startDate, QString endDate, int careType, int facilityID) //REPORT
+QSqlQuery Database::getOccupancyRateEntries(QString startDate, QString endDate, QString careType, int facilityID)
 {
-
+    QString aQuery = "SELECT dateofchange, caretype, occupancyrate FROM "
+                     "(SELECT * FROM occupancyratelog JOIN ON caretypes WHERE occupancyratelog.caretypeid = caretypes.caretypeid)"
+                     "WHERE (datetime(dateofchange) >= " + startDate + " AND datetime(dateofchange) <= " + endDate + " AND caretype = " + careType + " AND facilityid =" + facilityID + ")";
+    return queryDatabase(aQuery, "permanent");
 }
 
-QSqlQuery Database::getWaitTimesEntries(QString startDate, QString endDate, int areaID) //REPORT
+QSqlQuery Database::getWaitTimesEntries(QString startDate, QString endDate, int areaID)
 {
-
+    QString aQuery = "SELECT dateremoved, waittimesindays FROM "
+                     "WHERE (datetime(dateremoved) >= " + startDate + " AND datetime(dateremoved) <= " + endDate + " AND waitinglistareaid = " + areaID + ")";
+    return queryDatabase(aQuery, "permanent");
 }
 
-QSqlQuery Database::getWaitingListSizeEntries(QString startDate, QString endDate, int areaID) //REPORT
+QSqlQuery Database::getWaitingListSizeEntries(QString startDate, QString endDate, int areaID)
 {
-
+    QString aQuery = "SELECT datechangednumpatients, numpatients FROM "
+                     "WHERE (datetime(datechangednumpatients) >= " + startDate + " AND datetime(datechangednumpatients) <= " + endDate + " AND waitinglistareaid = " + areaID + ")";
+    return queryDatabase(aQuery, "permanent");
 }
 
 QSqlQuery Database::isLoginValid(QString username, QString password) //USE A DIFFERENT NAME IN THIS CLASS

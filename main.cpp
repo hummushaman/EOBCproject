@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
     w->show();
 
 
+
     QSettings settings("JNFconfig"); // opens the configuration file. File should be located in: home/<userfolder>/<yourusername>/.config
     //read configuration file
 
@@ -41,8 +42,8 @@ int main(int argc, char *argv[])
 
     settings.beginReadArray("myFacility");
 
-    DataStorage::myFacilityID = settings.value("id").toInt();
-    DataStorage::myFacilityIPaddress = settings.value("IPaddress").toString();
+    DataStorage::myFacilityID= settings.value("id").toInt();
+    DataStorage::myFacilityIPaddress= settings.value("IPaddress").toString();
 
     settings.endArray();
 

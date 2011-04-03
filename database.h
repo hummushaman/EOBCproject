@@ -30,7 +30,7 @@ public:
     void addBeds(int facilityID, int numBeds, QString bedType);
 
     void removePatientFromWaitingList(int areaID, QString HCN, QString dateRemoved);
-    void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded, int currentFacility, QString currentCareType); //inpatient
+    void addPatientToWaitingList(QString HCN, int areaID, QString dateAdded); //inpatient
     void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded); //outpatient
 
     QSqlQuery getAllAreas();
@@ -60,7 +60,7 @@ public:
 
     QSqlQuery getFacilityType(int facilityID); //"Hospital" or "Nursing Home"
 
-    QSqlQuery getOccupancyRateEntries(QString startDate, QString endDate, int careType, int facilityID);
+    QSqlQuery getOccupancyRateEntries(QString startDate, QString endDate, QString careType, int facilityID);
     QSqlQuery getFacilityID(QString name);
 
     QSqlQuery getWaitingListInpatients(int areaID);

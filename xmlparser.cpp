@@ -63,7 +63,7 @@
 
             if (facilityOrWL.attribute("ID","error")!="error"){
                 targetID=facilityOrWL.attribute("ID""error").toInt();
-                if (targetID==DataStorage::getMyFacilityID())
+                if (targetID==DataStorage::myFacilityID)
                     here=true;
             }
 
@@ -106,10 +106,10 @@
         MessageControl::assignIPtoFacility(ip, facilityNumber);
 
         //case 1: remote and other
-        if (remote&&facilityNumber!=DataStorage::getMyFacilityID())return 1;   //nothing happens if its remote and has got the wrong facility
+        if (remote&&facilityNumber!=DataStorage::myFacilityID)return 1;   //nothing happens if its remote and has got the wrong facility
 
         //case 2: remote and here
-        if (remote&&facilityNumber==DataStorage::getMyFacilityID()){
+        if (remote&&facilityNumber==DataStorage::myFacilityID){
 
             facilityOperation(facility, operation, area);
 
@@ -234,9 +234,8 @@
         QDateTime current = QDateTime::currentDateTime();
         QString currentDate = current.toString("yyyy-MM-ddThh:mm:ss");
 
-        int areaid = DataStorage::getAreaForFacility(facilNum);
 
-        DataStorage::removePatientFromBed(facilNum,patientID,areaid,currentDate);
+        DataStorage::removePatientFromBed(facilNum,patientID,currentDate);
         return 0;
     }
 

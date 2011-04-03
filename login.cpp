@@ -43,7 +43,7 @@ void Login::checkLogin()
     if(isValid)
     {
         //get the user type
-        DataStorage::usertype = DataStorage::getUserType(username);
+        DataStorage::currentUserType= DataStorage::getUserType(username);
 
         Welcome* welcome_window = new Welcome();
         close();

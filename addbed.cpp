@@ -23,7 +23,7 @@ AddBed::AddBed(QWidget *parent) :
 
 
 
-    if(DataStorage::usertype == "FACILITY")
+    if(DataStorage::currentUserType == "FACILITY")
     {
         QString facilName = DataStorage::getFacilityName(DataStorage::myFacilityID);
         ui->comboBox_facilities->addItem(facilName);

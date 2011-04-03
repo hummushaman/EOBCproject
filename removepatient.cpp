@@ -19,7 +19,7 @@ RemovePatient::RemovePatient(QWidget *parent) :
 
 
 
-    if(DataStorage::usertype == "FACILITY")
+    if(DataStorage::currentUserType== "FACILITY")
     {
         QString facilName = DataStorage::getFacilityName(DataStorage::myFacilityID);
         ui->comboBox_facilities->addItem(facilName);
@@ -49,7 +49,7 @@ void RemovePatient::displayPatients()
     QString facilname = ui->comboBox_facilities->currentText();
 
     int facilID = DataStorage::getFacilityID(facilname);
-    QVector<InPatient*> patients = DataStorage::getPatientsAtFacility(facilID);
+    QVector<Inpatient*> patients = DataStorage::getPatientsAtFacility(facilID);
 
     for(int i;i<patients.size();i++)
     {
@@ -80,11 +80,15 @@ void RemovePatient::clickedOK()
     int ret = msgBox.exec();
 
     int facilid = DataStorage::getFacilityID(facilname);
+    int areaid = DataStorage::getAreaForFacility(facilid);
+
+    QDateTime date = QDateTime::currentDateTime();
+    QString dateremoved = date.toString("yyyy-MM-ddThh:mm:ss");
 
     if(ret == QMessageBox::Ok)
     {   //call removePatientFromBed from datastorage class
 
-        DataStorage::removePatientFromBed(facilid, patientHCN);
+        DataStorage::removePatientFromBed(facilid, patientHCN, dateremoved);
 
         close(); //if user clicks Cancel, we do *not* close the form
 

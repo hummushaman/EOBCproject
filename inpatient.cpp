@@ -1,26 +1,25 @@
 #include "inpatient.h"
 
-InPatient::InPatient(QString aHCN,QString aFirstName,QString aLastName,QString rCare,QString oCare,QString dAdmitted,QString cf)
+Inpatient::Inpatient(QString aHCN,QString aFirstName,QString aLastName,QString aRequiredCare,QString aCurrentCare,QString aDateAdmitted,int cf)
+    :Patient(aHCN, aFirstName, aLastName, aDateAdmitted, aRequiredCare)
 {
-    HCN = aHCN;
-    firstname = aFirstName;
-    lastname = aLastName;
-    occCare=oCare;
-    reqCare=rCare;
-    dateAdmitted=dAdmitted;
+    currentCare= aCurrentCare;
+    dateAdmitted=aDateAdmitted;
     currentFacility=cf;
 }
 
-QString InPatient::getDateAdmitted(){
-
+QString Inpatient::getDateAdmitted()
+{
+    return dateAdmitted;
 }
 
-QString InPatient::getRequiredCare(){
-
+QString Inpatient::getCurrentCare()
+{
+    return currentCare;
 }
 
-QString InPatient::getOccupiedCare(){
-
+int Inpatient::getCurrentFacility()
+{
+    return currentFacility;
 }
-
 

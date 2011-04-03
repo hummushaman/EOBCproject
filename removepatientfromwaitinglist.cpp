@@ -103,10 +103,13 @@ void RemovePatientFromWaitingList::clickedOK()
 
     int areaid = DataStorage::getAreaID(areaname);
 
+    QDateTime date = QDateTime::currentDateTime();
+    QString dateRemoved = date.toString("yyyy-MM-ddThh:mm:ss");
+
     if(ret == QMessageBox::Ok)
     {   //call removePatientFromWaitingList from datastorage class
 
-        DataStorage::removePatientFromWaitingList(areaid, patientHCN);
+        DataStorage::removePatientFromWaitingList(areaid, patientHCN, dateRemoved);
 
         close(); //if user clicks Cancel, we do *not* close the form
 

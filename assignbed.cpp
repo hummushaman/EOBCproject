@@ -23,7 +23,7 @@ AssignBed::AssignBed(QWidget *parent) :
 
     //populate facilities combo box //Shoudl we only show long term care facilities????????
 
-    if(DataStorage::usertype == "FACILITY")
+    if(DataStorage::currentUserType== "FACILITY")
     {
         QString facilName = DataStorage::getFacilityName(DataStorage::myFacilityID);
         ui->comboBox_facilities->addItem(facilName);
@@ -67,14 +67,39 @@ void AssignBed::clickedOK()
     int ret = msgBox.exec();
 
     int facilid = DataStorage::getFacilityID(facilname);
+    int areaNum = DataStorage::getAreaForFacility(facilid);
 
     if(ret == QMessageBox::Ok)
-    {   //call removePatientFromBed from datastorage class
+    {
+        //make sure that there are enough beds of the type that the patient requires.
+        int freeLTCbeds = DataStorage::getTotalNumBeds(facilid) - DataStorage::getTotalNumBedsOccupied(facilid);
 
-        DataStorage::removePatientFromBed(facilid, patientHCN);
+        if(freeLTCbeds > 0)
+        {
 
-        close(); //if user clicks Cancel, we do *not* close the form
+            bool remote = true;
+            if(facilid == DataStorage::myFacilityID)
+                remote = false;
 
+            QDateTime date = QDateTime::currentDateTime();
+            QString dateAdmitted = date.toString("yyyy-MM-ddThh:mm:ss");
+
+            QString dateAdded = DataStorage::getPatientDateAdmitted(patientHCN);
+
+            //call assignPatientToBed from datastorage class
+            DataStorage::assignPatientToBed(facilid, patientHCN,areaNum,dateAdded);
+
+            //call XMLGenerator
+            xmlgenerator::patientOperationXML("Add",patientHCN,facilid, areaNum, remote, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
+
+            close(); //if user clicks Cancel, we do *not* close the form
+        }
+        else
+        {
+            QMessageBox msgBox2;
+            msgBox2.setText("There are no empty beds at this facility. Please select another facility.");
+            msgBox2.exec();
+        }
     }
 }
 void AssignBed::displayClicked()

@@ -27,6 +27,13 @@ AddFacility::~AddFacility()
 void AddFacility::clickedOK()
 {
     //gets the information from the GUI and sends a request to the datastorage
+    QString name = ui->lineEdit_name->text();
+
+    float x = ui->lineEdit_x->text().toFloat();
+    float y = ui->lineEdit_x->text().toFloat();
+
+
+
 
     close();
 

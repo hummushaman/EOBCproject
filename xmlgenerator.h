@@ -14,7 +14,7 @@ public:
     static QString rebuild();
     static QString rebuildResponse();
     static QString addBeds(int facilNum, int areaNum, int ac, int ccc, int ltc, bool remote);
-    static QString addFacility(int facilNum, int areaNum,double xcoor, double ycoor, int ac, int ccc, int ltc, QString name, bool remote);
+    static QString addFacility(int facilNum, int areaNum,double xcoor, double ycoor, int ac, int ccc, int ltc, QString name, bool remote,QString type);
 };
 
 #endif // XMLGENERATOR_H

@@ -210,12 +210,12 @@
 
     int XMLParser::parsePlacePatient(QDomElement patient, int facilNum){
         QString patientID = patient.attribute("healthCardNumber","error");
-        //QDateTime dateAdmitted = QDateTime::fromString(patient.attribute("dateAdded","error"),dateFormat);
-        //QDateTime dateAdmitted = DataStorage::currentDate();
+        QString dateAdmitted = patient.attribute("dateAdmitted","error");
 
-
-        QDateTime current = QDateTime::currentDateTime();
-        QString dateAdmitted = current.toString("yyyy-MM-ddThh:mm:ss");
+        if (dateAdmitted=="error"){
+            QDateTime current = QDateTime::currentDateTime();
+            dateAdmitted = current.toString("yyyy-MM-ddThh:mm:ss");
+        }
 
         int areaid = DataStorage::getAreaForFacility(facilNum);
 
@@ -280,20 +280,27 @@
         QString firstName = patient.attribute("firstName","error");
         QString lastName = patient.attribute("lastName","error");
 
-        //QDateTime dateAdded = QDateTime::fromString(patient.attribute("dateAdded","error"),dateFormat);
+        QString dateAdded=patient.attribute("dateAdded","error");
+        if (dateAdded=="error"){
+            QDateTime current = QDateTime::currentDateTime();
+            dateAdded = current.toString("yyyy-MM-ddThh:mm:ss");
+        }
+
+        //QDateTime dateAdded = QDateTime::fromString(patient.attribute("dateAdded","error"),"yyyy-MM-ddThh:mm:ss");
         //QDateTime dateAdded=DataStorage::currentDate();
 
-        QDateTime current = QDateTime::currentDateTime();
-        QString dateAdded = current.toString("yyyy-MM-ddThh:mm:ss");
 
-        QString dateAdmitted=patient.attribute("dateAdmitted","error");
+
+        //QString dateAdmitted=patient.attribute("dateAdmitted","error");
 
         //QDateTime dateAdmitted;
         //if (dateAdmittedString != "error")dateAdmitted = QDateTime::fromString(patient.attribute("dateAdmitted","error"),dateFormat);
 
-        int ctCare = patient.attribute("occCare","error").toInt();
 
-        QString currentCare = DataStorage::getCareType(ctCare);
+        QString currentCare=patient.attribute("occCare","error");
+        //int ctCare = patient.attribute("occCare","error").toInt();
+
+        //QString currentCare = DataStorage::getCareType(ctCare);
 
 
         //add outpatient
@@ -326,7 +333,7 @@
         QString name = facility.attribute("name","error");
 
         QString facilityType;
-        if(ltcBeds.toInt() > 0)
+        if(ltcBeds!="error")
         {
             facilityType = "Nursing Home";
         }

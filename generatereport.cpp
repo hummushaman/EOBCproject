@@ -50,25 +50,84 @@ void GenerateReport::generateNoTimeWaitTimesReport(){
         QString name=contents[i]->text();
         double total=0;
 
+        QDateTime current = QDateTime::currentDateTime();
+        QString today = current.toString("yyyy-MM-ddThh:mm:ss");
 
+        QVector<Patient*>patients=DataStorage::getWaitingListPatients(DataStorage::getAreaID(name));
+        for (int j=0;j<patients.size();j++){
+            QString stringDateAdded=patients[i]->getDateAdded();
+            QDateTime dateAdded=QDateTime::fromString(stringDateAdded,"yyyy-MM-ddThh:mm:ss");
 
-        //go through each patient on the waiting list
-        //add today - dateAdded to total
+            if (dateAdded.isValid())total+=dateAdded.daysTo(current);
 
-
-
+        }
 
         theGraph.append(total);
         labels.append(name);
     }
+
+    QDateTime date = QDateTime::currentDateTime();
+    QString dateTime = date.toString("yyyy-MM-ddThh:mm:ss");
+
+    if (theGraph.size()>0){
+        ReportDisplay* win=new ReportDisplay();
+        win->showBarReport(theGraph,dateTime,"Wait Times Report",labels);
+        win->show();
+    }
 }
 
 void GenerateReport::generateNoTimeWaitingListSizeReport(){
+    QVector<double>theGraph;
+    QVector<QString>labels;
+    QList<QListWidgetItem*>contents=ui->listWidget_3->selectedItems();
+    for (int i=0;i<contents.size();i++){
+        QString name=contents[i]->text();
+        double total=0;
+        QVector<Patient*>patients=DataStorage::getWaitingListPatients(DataStorage::getAreaID(name));
+        theGraph.append(patients.size());
+        labels.append(name);
+    }
 
+    QDateTime date = QDateTime::currentDateTime();
+    QString dateTime = date.toString("yyyy-MM-ddThh:mm:ss");
+
+    if (theGraph.size()>0){
+        ReportDisplay* win=new ReportDisplay();
+        win->showBarReport(theGraph,dateTime,"Wait List Sizes Report",labels);
+        win->show();
+    }
 }
 
 void GenerateReport::generateNoTimeCareMismatchReport(){
+    QVector<double>theGraph;
+    QVector<QString>labels;
+    QList<QListWidgetItem*>contents=ui->listWidget_4->selectedItems();
+    for (int i=0;i<contents.size();i++){
+        QString name=contents[i]->text();
+        double total=0;
+        //so, the list here should be full of facilities, not areas
+        QVector<Inpatient*>patients=DataStorage::getPatientsAtFacility(DataStorage::getFacilityID(contents[i]->text()));
+        for (int j=0;j<patients.size();j++){
+            if (ui->misltcac->isChecked()){
+                if ((patients[i]->getRequiredCare()=="LTC")&&(patients[i]->getCurrentCare()=="AC"))total+=1;
+            }
+            if (ui->misltcccc->isChecked()){
+                if ((patients[i]->getRequiredCare()=="LTC")&&(patients[i]->getCurrentCare()=="CCC"))total+=1;
+            }
+        }
 
+        theGraph.append(total);
+        labels.append(name);
+    }
+
+    QDateTime date = QDateTime::currentDateTime();
+    QString dateTime = date.toString("yyyy-MM-ddThh:mm:ss");
+
+    if (theGraph.size()>0){
+        ReportDisplay* win=new ReportDisplay();
+        win->showBarReport(theGraph,dateTime,"Mismatches Report",labels);
+        win->show();
+    }
 }
 
 void GenerateReport::generateNoTimeOccRateReport(){
@@ -140,7 +199,7 @@ void GenerateReport::generateNoTimeOccRateReport(){
 
     if (theGraph.size()>0){
         ReportDisplay* win=new ReportDisplay();
-        win->showBarReport(theGraph,dateTime,"Occupation Rates",labels);
+        win->showBarReport(theGraph,dateTime,"Occupation Rates Report",labels);
         win->show();
     }
 }
@@ -202,12 +261,6 @@ void GenerateReport::generateOccRateReport(){
 
 
     //NEED CODE HERE FOR THE CORRECT CONVERSION OF QDATE TO QSTRING!!! !!!
-
-
-
-
-
-
 
 
     int duration = startDate.daysTo(endDate);

@@ -218,7 +218,7 @@ QString xmlgenerator::addBeds(int facilNum, int areaNum, int ac, int ccc, int lt
      return message.toString();
 }
 
-QString xmlgenerator::addFacility(int facilNum, int areaNum,double xcoor, double ycoor, int ac, int ccc, int ltc, QString name, bool remote){
+QString xmlgenerator::addFacility(int facilNum, int areaNum,double xcoor, double ycoor, int ac, int ccc, int ltc, QString name, bool remote,QString type){
     QDomDocument message;
 
     QDomElement operationChild = message.createElement("Add");
@@ -236,9 +236,14 @@ QString xmlgenerator::addFacility(int facilNum, int areaNum,double xcoor, double
      facilityChild.setAttribute("coordinateY",ycoor);
      facilityChild.setAttribute("ID",facilNum);
      facilityChild.setAttribute("name",name);
-     facilityChild.setAttribute("AC",ac);
-     facilityChild.setAttribute("CCC",ccc);
-     facilityChild.setAttribute("LTC",ltc);
+     if (type=="Hospital"){
+         facilityChild.setAttribute("AC",ac);
+         facilityChild.setAttribute("CCC",ccc);
+     }
+     else{
+         facilityChild.setAttribute("LTC",ltc);
+     }
+
      areaChild.appendChild(facilityChild);
 
      return message.toString();

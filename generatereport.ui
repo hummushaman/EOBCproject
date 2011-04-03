@@ -171,7 +171,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab_1">
       <attribute name="title">
@@ -665,7 +665,7 @@
           <string>Display number of mismatches of the following type(s):</string>
          </property>
         </widget>
-        <widget class="QCheckBox" name="checkBox_13">
+        <widget class="QCheckBox" name="misltcac">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -678,7 +678,7 @@
           <string>Patient requires LTC, occupies AC bed</string>
          </property>
         </widget>
-        <widget class="QCheckBox" name="checkBox_14">
+        <widget class="QCheckBox" name="misltcccc">
          <property name="geometry">
           <rect>
            <x>320</x>
@@ -710,36 +710,6 @@
         <property name="sortingEnabled">
          <bool>true</bool>
         </property>
-        <item>
-         <property name="text">
-          <string>Eastern counties</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>North Lanark/North Grenville</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Ottawa Centre</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Ottawa East</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Ottawa West</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Renfrew County</string>
-         </property>
-        </item>
        </widget>
        <widget class="QLabel" name="label_10">
         <property name="geometry">

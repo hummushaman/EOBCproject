@@ -27,25 +27,12 @@
      <string>TextLabel</string>
     </property>
    </widget>
-   <widget class="QLabel" name="what">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>20</y>
-      <width>62</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>REPORT</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="to">
     <property name="geometry">
      <rect>
-      <x>690</x>
+      <x>330</x>
       <y>20</y>
-      <width>131</width>
+      <width>481</width>
       <height>21</height>
      </rect>
     </property>

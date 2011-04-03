@@ -17,6 +17,16 @@ AddFacility::AddFacility(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->OKButton,SIGNAL(clicked()),this,SLOT(clickedOK()));
+
+    //populate area combo box
+    QVector<int> areas = DataStorage::getAllAreas();
+
+    for(int i=0; i< areas.size();i++)
+    {
+        qDebug() << "Area is: " << areas[i];
+        QString areaname = DataStorage::getAreaName(areas[i]);
+        ui->comboBox_areas->addItem(areaname);
+    }
 }
 
 AddFacility::~AddFacility()

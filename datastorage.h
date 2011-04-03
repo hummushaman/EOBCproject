@@ -108,11 +108,8 @@ public:
 
     static int requestMismatch(QString currentCareType, QString requiredCareType, int areaID);
 
-    static void addUser(QString username, QString password, QString userType); //for system administrators and LHIN staff
-    static void addUser(QString username, QString password, QString userType, int facilityID); //facility staff
+    static void addUser(QString username, QString password, QString userType);
     static void addFacility(QString name, float x, float y, int area, int facilityID, QString facilityType);
-
-
 
     static int getCareType(QString care);
     static QString getCareType(int care);

@@ -44,6 +44,7 @@ QVector<int> DataStorage::getAllAreas()
 
 QString DataStorage::getAreaName(int areaID)
 {
+    qDebug() << "Getting area name for " << areaID;
     QSqlQuery areaNameQuery = Database::Initialize()->getAreaName(areaID);
     QString areaName = convertToOneString(areaNameQuery);
     return areaName;
@@ -179,7 +180,7 @@ QString DataStorage::getFacilityType(int facilityID) //"Hospital" or "Nursing Ho
 
 QVector<OccupancyRateEntry >DataStorage::getOccupancyRateEntries(QString startDate, QString endDate, QString careType, int facilityID)
 {
-        //SELECT dateofchange, caretype, occupancyrate FROM
+    //SELECT dateofchange, caretype, occupancyrate FROM
     //QSqlQuery
 
 
@@ -213,7 +214,7 @@ QVector<NumPatientsEntry> DataStorage::getWaitingListSizeEntries(QString startDa
 
 bool DataStorage::isLoginValid(QString username, QString password)
 {
-
+    return true;
 }
 
 QString DataStorage::getUserType(QString username)
@@ -233,14 +234,10 @@ void DataStorage::addUser(QString username, QString password, QString userType) 
 
 }
 
-void DataStorage::addUser(QString username, QString password, QString userType, int facilityID) //facility staff
-{
-
-}
-
 void DataStorage::addFacility(QString name, float x, float y, int area, int facilityID, QString facilityType)
 {
 
+    Database::Initialize()->addFacility(name, x, y, area, facilityID, facilityType);
 }
 
 int DataStorage::myArea()
@@ -295,38 +292,28 @@ QString DataStorage::getPatientDateAdded(QString hcn)
 
 QVector<int> DataStorage::convertToOneFieldIntVector(QSqlQuery aQuery)
 {
-    printQueryResults(aQuery);
     QVector<int> intVector;
-    while (aQuery.next())
-    {
-        intVector.append(aQuery.value(0).toInt());
-    }
-    return intVector;
-}
 
-void DataStorage::printQueryResults(QSqlQuery aQuery)
-{
-    qDebug() << "Query results: ";
-    QString row;
-    int numberOfColumns = aQuery.record().count();
     while (aQuery.next())
     {
-        row = "";
-        for (int columnIndex = 0; columnIndex < numberOfColumns; columnIndex++)
-        {
-            row += aQuery.value(columnIndex).toString() + " ";
-        }
-        qDebug() << row;
+        int integer = aQuery.value(0).toInt();
+        qDebug() << "Integer (vector): " << integer;
+        intVector.append(integer);
     }
+
+    qDebug() << "Size of integer vector: " << intVector.size();
+    return intVector;
 }
 
 QString DataStorage::convertToOneString(QSqlQuery queryTemporary)
 {
     QString string;
-    printQueryResults(queryTemporary);
+    qDebug() << "Converting one field to a string: ";
     while(queryTemporary.next())
     {
+
         string = queryTemporary.value(0).toString();
+        qDebug() << "One string: " << string;
     }
     return string;
 }
@@ -335,10 +322,11 @@ QString DataStorage::convertToOneString(QSqlQuery queryTemporary)
 int DataStorage::convertToOneInt(QSqlQuery queryTemporary)
 {
     int integer;
-    printQueryResults(queryTemporary);
     while(queryTemporary.next())
     {
+
         integer = queryTemporary.value(0).toInt();
+        qDebug() << "One int: " << integer;
     }
     return integer;
 }
@@ -346,10 +334,10 @@ int DataStorage::convertToOneInt(QSqlQuery queryTemporary)
 float DataStorage::convertToOneFloat(QSqlQuery queryTemporary)
 {
     float aFloat;
-    printQueryResults(queryTemporary);
     while(queryTemporary.next())
     {
         aFloat = queryTemporary.value(0).toFloat();
+        qDebug() << "One float: " << aFloat;
     }
     return aFloat;
 }

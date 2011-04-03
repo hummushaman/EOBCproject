@@ -17,6 +17,8 @@ AddUser::AddUser(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->OKButton,SIGNAL(clicked()),this,SLOT(clickedOK()));
+
+
 }
 
 AddUser::~AddUser()
@@ -26,6 +28,19 @@ AddUser::~AddUser()
 
 void AddUser::clickedOK()
 {
+    QString username = ui->lineEdit_username->text();
+    QString password = ui->lineEdit_password->text();
+
+    QString usertype = ui->comboBox_types->currentText();
+
+
+    bool exists = DataStorage::isLoginValid(username,password);
+    if(!exists)
+        DataStorage::addUser(username,password,usertype);
+
+
+    //DataStorage::
+
     //close();
 
 }

@@ -10,6 +10,7 @@
 #include"xmlgenerator.h"
 #include"xmlparser.h"
 
+#include"QDebug"
 
 //global variables
 

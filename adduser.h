@@ -2,6 +2,7 @@
 #define ADDUSER_H
 
 #include <QMainWindow>
+#include "eobcproject.h"
 
 namespace Ui {
     class AddUser;

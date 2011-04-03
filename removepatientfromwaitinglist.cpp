@@ -27,8 +27,10 @@ RemovePatientFromWaitingList::RemovePatientFromWaitingList(QWidget *parent) :
     //populate area combo box
     QVector<int> areas = DataStorage::getAllAreas();
 
+    qDebug() << "Vector size is: " << areas.size();
     for(int i=0; i< areas.size();i++)
     {
+        qDebug() << "Area is: " << areas[i];
         QString areaname = DataStorage::getAreaName(areas[i]);
         ui->comboBox_areas->addItem(areaname);
 

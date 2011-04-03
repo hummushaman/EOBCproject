@@ -234,7 +234,8 @@ bool DataStorage::isLoginValid(QString username, QString password)
         return true;
     }
     else
-        return false;
+        //return false;
+        return true; //just for testing :)
 }
 
 QString DataStorage::getUserType(QString username)

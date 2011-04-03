@@ -49,7 +49,7 @@ void ViewFacility::displayInformation()
 
     /***********change data storage class so that the following functions actually return something!!*********/
 
-    float totalNumBeds = DataStorage::getTotalNumBeds(facilID);
+    int totalNumBeds = DataStorage::getTotalNumBeds(facilID);
     float totalBedsOccupied = DataStorage::getTotalNumBedsOccupied(facilID);
 
     float occRate = totalBedsOccupied/ totalNumBeds * 100;
@@ -57,13 +57,24 @@ void ViewFacility::displayInformation()
     int totalACBeds = DataStorage::getTotalACBeds(facilID);
     int totalCCCBeds = DataStorage::getTotalCCCBeds(facilID);
 
-    int numCCCoccupied = DataStorage::getNumCCCBedsOccupied(facilID);
-    int numACoccupied = DataStorage::getNumACBedsOccupied(facilID);
+    float numCCCoccupied = DataStorage::getNumCCCBedsOccupied(facilID);
+    float numACoccupied = DataStorage::getNumACBedsOccupied(facilID);
+
+    float occRateAC = numACoccupied/totalACBeds;
+    float occRateCCC = numCCCoccupied/totalCCCBeds;
+
 
     //print to the labels
     //use formatting to limit the occrate to 2 decimal spaces
 
     ui->label_numACbeds->setText( QString::number(totalACBeds));
+    ui->label_numCCCbeds->setText(QString::number(totalCCCBeds));
+    ui->label_totalNumBeds->setText(QString::number(totalNumBeds));
+
+   ui->label_occRateAC->setText(QString::number(occRateAC));
+   ui->label_occRateCCC->setText(QString::number(occRateCCC));
+   ui->label_overallOccRate->setText(QString::number(occRate));
+
 
 
 

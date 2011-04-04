@@ -28,12 +28,13 @@ AddPatientToWaitingList::AddPatientToWaitingList(QWidget *parent) :
 
     }
 
+    /*
     QVector<int> facilities = DataStorage::getAllFacilities();
     for(int i=0; i< facilities.size();i++)
      {
             QString facilName = DataStorage::getFacilityName(facilities.at(i));
             ui->comboBox_facilities->addItem(facilName);
-     }
+     }*/
 
 }
 
@@ -45,32 +46,75 @@ AddPatientToWaitingList::~AddPatientToWaitingList()
 void AddPatientToWaitingList::clickedOK()
 {
     //get data from the GUI
-
-    QString firstname = ui->lineEdit_firstname->text();
-    QString lastname = ui->lineEdit_lastname->text();
-    QString HCN = ui->lineEdit_HCN->text();
-
-    QString patientType = ui->comboBox_patientType->currentText();
-
-
-    QDateTime dateAdded = QDateTime::currentDateTime();
-    QString datetime = dateAdded.toString("yyyy-MM-ddThh:mm:ss");
-
-            //ui->dateEdit_dateAdded->date();
-
-    //QDate dateAdmitted = ui->dateEdit_dateAdmitted->date();
-
+    QMessageBox errormsg;
+    bool needMoreInfo = false;
 
     QString areaName = ui->comboBox_areas->currentText();
+    QString patientType = ui->comboBox_patientType->currentText();
+    QString HCN = ui->lineEdit_hcn->text();
 
-    QString careType = ui->comboBox_careType->currentText();
-    QString facilName = ui->comboBox_facilities->currentText();
+    if((areaName == "")||(patientType == "")||(HCN == ""))
+    {
+        errormsg.setText("Please fill out all fields.");
+        errormsg.exec();
+        needMoreInfo = true;
+    }
 
-    QString s;
+    QString firstname;
+    QString lastname;
+    int currFacility;
+    QString dateAdmitted;
+
+    if(patientType == "Outpatient")
+    {
+
+        firstname = ui->lineEdit_firstname->text();
+        lastname = ui->lineEdit_lastname->text();
+        if((firstname == "") || (lastname == ""))
+        {
+            errormsg.setText("Please enter both a first name and a last name");
+            errormsg.exec();
+            needMoreInfo = true;
+
+        }
+
+    }
+    else //get info from datastorage
+    {
+        firstname = DataStorage::getPatientFirstName(HCN);
+        lastname = DataStorage::getPatientLastName(HCN);
+
+        currFacility = DataStorage::getCurrentFacilityForPatient(HCN);
+        dateAdmitted = DataStorage::getPatientDateAdmitted(HCN);
+    }
+
+
+    //get todays date
+    QDateTime datetime = QDateTime::currentDateTime();
+    QString dateAdded = datetime.toString("yyyy-MM-ddThh:mm:ss");
+
+
+    int areaid = DataStorage::getAreaID(areaName);
+
+    //check that patient is not already on the waiting list
+    QVector<Patient*> patients = DataStorage::getWaitingListPatients(areaid);
+    bool patientExists = false;
+    for(int i=0;i<patients.size(); i++)
+    {
+        if(patients[i]->getHCN()== HCN)
+        {
+            QMessageBox msgbox;
+            msgbox.setText("This patient is already on the waiting list for this area. Please select a different area.");
+            msgbox.exec();
+            patientExists = true;
+
+        }
+
+
+    }
 
     QMessageBox msgBox;
-
-    msgBox.setInformativeText("You have requested to add this patient to the waiting list of area. \n" + areaName + "Do you want to save and propogate this change?");
+    msgBox.setInformativeText("You have requested to add this patient to the waiting list of area " + areaName + ".\nDo you want to save and propogate this change?");
     msgBox.setStandardButtons( QMessageBox::Cancel | QMessageBox::Ok);
     msgBox.setDefaultButton(QMessageBox::Cancel);
     int ret = msgBox.exec();
@@ -78,44 +122,65 @@ void AddPatientToWaitingList::clickedOK()
     if(ret == QMessageBox::Ok)
     {
 
-        int areaid = DataStorage::getAreaID(areaName);
-        int facilID = DataStorage::getFacilityID(facilName);
-
-        //check that patient is not already on the waiting list
-        QVector<Patient*> patients = DataStorage::getWaitingListPatients(areaid);
-
-        bool remote = true;
-        if(facilID == DataStorage::myFacilityID)
-            remote = false;
-
-        QDateTime date = QDateTime::currentDateTime();
-        QString dateAdded = date.toString("yyyy-MM-ddThh:mm:ss");
+        if (!patientExists && !needMoreInfo)
+        {
+            if(patientType == "Inpatient")
+            {
+                //add an inpatient to the waiting list
+                DataStorage::addPatientToWaitingList(HCN,areaid,dateAdded);
 
 
-        QString dateAdmitted = DataStorage::getPatientDateAdmitted(HCN);
 
+                //send the message to other facilities
+
+                bool remote = true;
+                if(currFacility == DataStorage::myFacilityID)
+                    remote = false;
+
+                 QString operation = "Add";
+                 xmlgenerator::patientOperationXML(operation, HCN, currFacility, areaid, remote, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
+
+            }
+            else
+            {
+
+
+                DataStorage::addPatientToWaitingList(HCN,firstname,lastname,areaid,dateAdded);
+
+               // xmlgenerator::patientOperationXML("Add",HCN,  areaid, remote, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
+
+
+            }
+        }
+
+
+
+
+
+        //QString dateAdmitted = DataStorage::getPatientDateAdmitted(HCN);
+/*
 
         if(patientType == "Inpatient")
         {
             DataStorage::addPatientToWaitingList(HCN,areaid,datetime);
             //call XMLGenerator
-            xmlgenerator::patientOperationXML("Add",HCN,facilID, areaid, remote, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
+            xmlgenerator::patientOperationXML("Add",HCN,  areaid, remote, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
         }
         else
         {
             //DataStorage::addPatientToWaitingList(HCN,firstname, lastname,areaid,datetime, facilID,careType);
             DataStorage::addPatientToWaitingList(HCN, firstname,lastname, areaid, dateAdded); //outpatient
 
-        }
+        }*/
 
         close();
 
     }
-    QMessageBox msgbox2;
-    msgbox2.setText("todays date and time: "+ datetime);
-    msgbox2.exec();
+    //QMessageBox msgbox2;
+    //msgbox2.setText("todays date and time: "+ datetime);
+    //msgbox2.exec();
 
 
-    close();
+
 
 }

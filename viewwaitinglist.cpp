@@ -28,7 +28,7 @@ void ViewWaitingList::displayInformation()
     QString areaName = ui->comboBox_areas->currentText();
     int areaID = DataStorage::getAreaID(areaName);
 
-    QVector<Inpatient*> patients = DataStorage::getPatientsAtFacility(areaID);
+    QVector<Patient*> patients = DataStorage::getWaitingListPatients(areaID);
 
     for(int i= 0; i<patients.size();i++)
     {
@@ -38,7 +38,6 @@ void ViewWaitingList::displayInformation()
         ui->listWidget_patients->addItem(firstname + " " + lastname + " ("+ patients[i]->getHCN() + ")");
 
     }
-
 
 
 }

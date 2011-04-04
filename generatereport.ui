@@ -789,7 +789,7 @@
   <connection>
    <sender>CancelButton</sender>
    <signal>clicked()</signal>
-   <receiver>statusbar</receiver>
+   <receiver>GenerateReport</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -797,8 +797,8 @@
      <y>540</y>
     </hint>
     <hint type="destinationlabel">
-     <x>827</x>
-     <y>573</y>
+     <x>427</x>
+     <y>294</y>
     </hint>
    </hints>
   </connection>

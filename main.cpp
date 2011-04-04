@@ -61,7 +61,6 @@ int main(int argc, char *argv[])
     qDebug() << DataStorage::isMain;
     qDebug() << DataStorage::isMainFacility();
 
-    settings.endArray();
 
     //initialize the Message control which listens for incoming messages
     MessageControl* messageControl = new MessageControl();

@@ -33,14 +33,26 @@ void AddUser::clickedOK()
 
     QString usertype = ui->comboBox_types->currentText();
 
+    if((username == "") || (password == "") || (usertype == ""))
+    {
+        QMessageBox msgbox;
+        msgbox.setText("Please fill out all fields");
+        msgbox.exec();
+    }
+    else
+    {
+        bool exists = DataStorage::isLoginValid(username,password);
+        if(!exists)
+            DataStorage::addUser(username,password,usertype);
 
-    bool exists = DataStorage::isLoginValid(username,password);
-    if(!exists)
-        DataStorage::addUser(username,password,usertype);
+
+        close();
+
+    }
 
 
-    //DataStorage::
 
-    //close();
+
+
 
 }

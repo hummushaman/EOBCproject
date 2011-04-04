@@ -156,12 +156,14 @@ int DataStorage::getTotalNumBedsOccupied(int facilityID)
 
 int DataStorage::getTotalLTCBeds(int facilityID)
 {
-
+    QSqlQuery totalLTCBedsQuery = Database::Initialize()->getTotalLTCBeds(facilityID);
+    return convertToOneInt(totalLTCBedsQuery);
 }
 
 int DataStorage::getNumLTCBedsOccupied(int facilityID)
 {
-
+    QSqlQuery numberOfLTCBedsQuery = Database::Initialize()->getNumLTCBedsOccupied(facilityID);
+    return convertToOneInt(numberOfLTCBedsQuery);
 }
 
 
@@ -307,8 +309,34 @@ QVector<NumPatientsEntry> DataStorage::getWaitingListSizeEntries(QString startDa
 
 bool DataStorage::isLoginValid(QString username, QString password)
 {
+    QSettings settings("JNFconfig"); // opens the configuration file. File should be located in: home/<userfolder>/<yourusername>/.config
 
-    return true;
+    settings.beginGroup("default_user");
+    QString default_username =  settings.value("username").toString();
+    QString default_password =  settings.value("password").toString();
+    settings.endGroup();
+
+    qDebug() << default_username;
+    qDebug() << default_password;
+
+    if((password == default_password) && (username == default_username))
+    {
+        return true;
+    }
+    else
+    {
+        QSqlQuery loginQuery = Database::Initialize()->isLoginValid(username, password);
+              QString login = convertToOneString(loginQuery);
+              if (login.isEmpty())
+              {
+                  return false;
+              }
+              else
+              {
+                  return true;
+              }
+    }
+
 }
 
 QString DataStorage::getUserType(QString username)
@@ -316,11 +344,6 @@ QString DataStorage::getUserType(QString username)
     qDebug() << "Getting the user's type";
     QSqlQuery userTypeQuery = Database::Initialize()->getUserType(username);
     return convertToOneString(userTypeQuery);
-}
-
-int DataStorage::requestMismatch(QString currentCareType, QString requiredCareType, int areaID)
-{
-
 }
 
 void DataStorage::addUser(QString username, QString password, QString userType)
@@ -337,7 +360,6 @@ void DataStorage::addFacility(QString name, float x, float y, int area, int faci
 
 int DataStorage::myArea()
 {
-
     return getAreaForFacility(DataStorage::myFacilityID);
 }
 
@@ -365,7 +387,7 @@ QString DataStorage::getCareType(int care)
 
 void DataStorage::clearPatientsOnAreaWL(int area)
 {
-
+    Database::Initialize()->clearPatientsOnAreaWaitingList(area);
 }
 
 bool DataStorage::isInpatient(QString hcn)
@@ -439,7 +461,6 @@ int DataStorage::convertToOneInt(QSqlQuery queryTemporary)
         {
             integer = -1;
         }
-
     }
     qDebug() << "One int: " << integer;
     return integer;
@@ -462,9 +483,9 @@ float DataStorage::convertToOneFloat(QSqlQuery queryTemporary)
     return aFloat;
 }
 
-void DataStorage::clearPatientsAtFacility(int facilNum)
+void DataStorage::clearPatientsAtFacility(int facilityID)
 {
-
+    Database::Initialize()->clearPatientsAtFacility(facilityID);
 }
 
 bool DataStorage::facilityExists(int facilityID)

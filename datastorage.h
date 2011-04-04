@@ -106,8 +106,6 @@ public:
     static bool isLoginValid(QString username, QString password);
     static QString getUserType(QString username);
 
-    static int requestMismatch(QString currentCareType, QString requiredCareType, int areaID);
-
     static void addUser(QString username, QString password, QString userType);
     static void addFacility(QString name, float x, float y, int area, int facilityID, QString facilityType);
 

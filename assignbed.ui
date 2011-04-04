@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>581</width>
-    <height>405</height>
+    <width>606</width>
+    <height>432</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Assign a Patient a Bed</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -108,7 +108,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>581</width>
+     <width>606</width>
      <height>23</height>
     </rect>
    </property>
@@ -116,5 +116,22 @@
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>CancelButton</sender>
+   <signal>clicked()</signal>
+   <receiver>AssignBed</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>542</x>
+     <y>357</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>577</x>
+     <y>363</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>563</width>
-    <height>427</height>
+    <width>562</width>
+    <height>436</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -91,7 +91,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>563</width>
+     <width>562</width>
      <height>23</height>
     </rect>
    </property>
@@ -99,5 +99,22 @@
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>RemovePatientFromWaitingList</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>509</x>
+     <y>390</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>280</x>
+     <y>217</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

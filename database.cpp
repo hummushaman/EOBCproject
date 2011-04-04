@@ -67,7 +67,6 @@ Database::Database()
     qDebug() << "Temporary Tables: " <<  QSqlDatabase::database("temporary").tables();
     qDebug() << "Permanent Tables: " <<  QSqlDatabase::database("permanent").tables();
 
-
     //add all of the permanent databases data to the temporary table: REALLY INEFFICIENT AT THE MOMENT
     for (int tableIndex = 0; tableIndex < tableCount; tableIndex++)
     {
@@ -230,7 +229,9 @@ void Database::updateNumberOfACBedsOccupied(QString databaseConnection, int faci
 {
     QString aQuery = "SELECT numACBedsOccupied FROM hospital WHERE (hospitalid = " + QString::number(facilityID) + ")";
     qDebug() << aQuery;
-    int numberOfACBedsOccupied = getID(aQuery) + amount; //odd function name-> maybe rename to get int
+    QSqlQuery numberOfACBedsOccupiedQuery = queryDatabase(aQuery, databaseConnection);
+    int numberOfACBedsOccupied = getID(numberOfACBedsOccupiedQuery) + amount; //odd function name-> maybe rename to get int
+
     qDebug() << "New number of AC beds occupied: " << numberOfACBedsOccupied;
 
     aQuery = "UPDATE hospital SET numACBedsOccupied = " + QString::number(numberOfACBedsOccupied) + " WHERE (hospitalid = " + QString::number(facilityID) + ")";
@@ -255,7 +256,8 @@ void Database::updateNumberOfCCCBedsOccupied(QString databaseConnection,int faci
 {
     QString aQuery = "SELECT numCCCBedsOccupied FROM hospital WHERE (hospitalid = " + QString::number(facilityID) + ")";
     qDebug() << aQuery;
-    int numberOfCCCBedsOccupied = getID(aQuery) + amount; //odd function name-> maybe rename to get int
+    QSqlQuery numberOfCCCBedsOccupiedQuery = queryDatabase(aQuery, databaseConnection);
+    int numberOfCCCBedsOccupied = getID(numberOfCCCBedsOccupiedQuery) + amount; //odd function name-> maybe rename to get int
     qDebug() << "New number of CCC beds occupied " << numberOfCCCBedsOccupied;
     aQuery = "UPDATE hospital SET numCCCBedsOccupied = " + QString::number(numberOfCCCBedsOccupied) + " WHERE (hospitalid = " + QString::number(facilityID) + ")";
     qDebug() << aQuery;
@@ -272,8 +274,9 @@ void Database::updateTotalNumberOfBedsOccupied(QString databaseConnection, int f
 
     QString aQuery = "SELECT numBedsOccupied FROM facility WHERE (facilityid = " + QString::number(facilityID) + ")";
     qDebug() << aQuery;
-    int totalNumberOfBedsOccupied = getID(aQuery) + amount; //odd function name-> maybe rename to get int
-    qDebug() << totalNumberOfBedsOccupied;
+    QSqlQuery totalNumberOfBedsOccupiedQuery = queryDatabase(aQuery, databaseConnection);
+    int totalNumberOfBedsOccupied = getID(totalNumberOfBedsOccupiedQuery) + amount; //odd function name-> maybe rename to get int
+    qDebug() << "New number of beds occupied: " << totalNumberOfBedsOccupied;
     aQuery = "UPDATE facility SET numBedsOccupied = " + QString::number(totalNumberOfBedsOccupied) + " WHERE (facilityid = " + QString::number(facilityID) + ")";
     qDebug() << aQuery;
     updateDatabase(aQuery, databaseConnection);
@@ -348,6 +351,7 @@ void Database::addBeds(QString databaseConnection, int facilityID, int numBeds, 
 {
     QSqlQuery facilityTypeQueryResult = getFacilityType(facilityID);
     QString facilityType = getType(facilityTypeQueryResult);
+    qDebug() << "Adding beds to: " << facilityType;
 
     if (facilityType == "Hospital")
     {
@@ -371,11 +375,13 @@ void Database::addBeds(QString databaseConnection, int facilityID, int numBeds, 
 
 void Database::updateNumberOfACBeds(QString databaseConnection, int facilityID, int amount)
 {
+
     QString aQuery = "SELECT totalACBeds FROM hospital WHERE (hospitalid = " + QString::number(facilityID) + ")";
     qDebug() << aQuery;
-    int numberOfACBeds = getID(aQuery) + amount; //odd function name-> maybe rename to getInt
+    QSqlQuery numberOfACBedsQuery = queryDatabase(aQuery, databaseConnection);
+    int numberOfACBeds = getID(numberOfACBedsQuery) + amount; //odd function name-> maybe rename to getInt
     qDebug() << "New number of AC beds: " << numberOfACBeds;
-    aQuery = "UPDATE hospital SET totalACBeds = " + QString::number(numberOfACBeds) + " WHERE (hospitalid = " + QString::number(facilityID);
+    aQuery = "UPDATE hospital SET totalACBeds = " + QString::number(numberOfACBeds) + " WHERE (hospitalid = " + QString::number(facilityID) + ")";
     qDebug() << aQuery;
     updateDatabase(aQuery, databaseConnection);
 
@@ -389,7 +395,8 @@ void Database::updateNumberOfCCCBeds(QString databaseConnection, int facilityID,
 {
     QString aQuery = "SELECT totalCCCBeds FROM hospital WHERE (hospitalid = " + QString::number(facilityID) + ")";
     qDebug() << aQuery;
-    int numberOfCCCBeds = getID(aQuery) + amount; //odd function name-> maybe rename to get int
+    QSqlQuery numberOfCCCBedsQuery = queryDatabase(aQuery, databaseConnection);
+    int numberOfCCCBeds = getID(numberOfCCCBedsQuery) + amount; //odd function name-> maybe rename to get int
     qDebug() << "New number of CCC " << numberOfCCCBeds;
     aQuery = "UPDATE hospital SET totalCCCBeds = " + QString::number(numberOfCCCBeds) + " WHERE (hospitalid = " + QString::number(facilityID) + ")";
     qDebug() << aQuery;
@@ -404,9 +411,9 @@ void Database::updateTotalNumberOfBeds(QString databaseConnection, int facilityI
 {
     QString aQuery = "SELECT totalBeds FROM facility WHERE facilityid = " + QString::number(facilityID);
     qDebug() << aQuery;
-    int totalNumberOfBeds = getID(aQuery) + amount; //odd function name-> maybe rename to get int
-    qDebug() << totalNumberOfBeds;
-    aQuery = "UPDATE facility SET totalBeds = " + QString::number(totalNumberOfBeds) + " WHERE facilityid = " + QString::number(facilityID);
+    QSqlQuery totalNumberOfBedsQuery = queryDatabase(aQuery, databaseConnection);
+    int totalNumberOfBeds = getID(totalNumberOfBedsQuery) + amount; //odd function name-> maybe rename to get int
+    aQuery = "UPDATE facility SET totalBeds = " + QString::number(totalNumberOfBeds) + " WHERE (facilityid = " + QString::number(facilityID) + ")";
     qDebug() << aQuery;
     updateDatabase(aQuery, databaseConnection);
     if (isMyFacility(facilityID) && isPermanentDatabaseConnection(databaseConnection) && updateLog)
@@ -485,7 +492,6 @@ void Database::addPatientToWaitingList(QString databaseConnection, QString HCN, 
         }
         qDebug() << print;
     }
-
 }
 
 QSqlQuery Database::getAllAreas()
@@ -608,9 +614,10 @@ QSqlQuery Database::getPatientLastName(QString patientHCN)
 //"Hospital" or "Nursing Home"
 QSqlQuery Database::getFacilityType(int facilityID)
 {
-    QString aQuery = "SELECT facilitytype FROM"
-                     "(SELECT * FROM facility JOIN facilitytypes ON (facility.facilitytypeid = facilitytypes.facilitytypeid)"
-                     "WHERE facilityid = " + QString::number(facilityID);
+    QString aQuery = "SELECT facilitytype FROM "
+                     "(SELECT * FROM facility JOIN facilitytypes ON (facility.facilitytypeid = facilitytypes.facilitytypeid) "
+                     "WHERE facilityid = " + QString::number(facilityID) + ")";
+    qDebug () << aQuery;
     return queryDatabase(aQuery, "temporary");
 }
 
@@ -714,12 +721,6 @@ QSqlQuery Database::getUserType(QString username)
     return queryDatabase(aQuery, "permanent");
 }
 
-
-QSqlQuery Database::requestMismatch(int currentCareType, int requiredCareType, int areaID) //REPORT
-{
-    //*************************************************
-}
-
 //for all user types
 void Database::addUser(QString username, QString password, QString userType)
 {
@@ -783,6 +784,7 @@ QString Database::getType(QSqlQuery queryTemporary)
     while(queryTemporary.next())
     {
         type = queryTemporary.value(0).toString(); //*********************ADD CHECKS HERE AND TO THE FUNCTIONS THAT USE THEM
+        qDebug () << "Get Type " <<type;
     }
     return type;
 }
@@ -802,12 +804,8 @@ QSqlQuery Database::getCareTypeID(QString careType) //returns an int
 //----------------------------------------------------------------------------------------------------------------------(below)
 void Database::clearPatientsOnAreaWaitingList(int area)
 {
-    //*****************************************
-}
-
-void Database::clearPatientsOnAreaWaitingList(QString databaseConnection, int area)
-{
-    //*****************************************
+    QString aQuery = "DELETE FROM waitinglistentries WHERE areaid = " + area;
+    updateDatabase(aQuery, "temporary");
 }
 
 QSqlQuery Database::isInpatient(QString hcn)
@@ -844,18 +842,18 @@ QSqlQuery Database::facilityExists(int facilityID)
 
 QSqlQuery Database::getTotalLTCBeds(int facilityID)
 {
-
+    QString aQuery = "SELECT totalBeds FROM (SELECT * FROM facility WHERE facilityid NOT IN (SELECT hospitalid FROM hospital)) WHERE facilityid = " + QString::number(facilityID);
+    return queryDatabase(aQuery, "temporary");
 }
 
 QSqlQuery Database::getNumLTCBedsOccupied(int facilityID)
 {
-
+    QString aQuery = "SELECT numBedsOccupied FROM (SELECT * FROM facility WHERE facilityid NOT IN (SELECT hospitalid FROM hospital)) WHERE facilityid = " + QString::number(facilityID);
+    return queryDatabase(aQuery, "temporary");
 }
 
-/* TO ADD
-
-//HAVE TO THINK ABOUT
-void DataStorage::clearPatientsAtFacility(int facilNum)
+void Database::clearPatientsAtFacility(int facilityID)
 {
-
-}*/
+    QString aQuery = "DELETE FROM inpatient WHERE currentFacilityid = " + facilityID;
+    updateDatabase(aQuery, "temporary");
+}

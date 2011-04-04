@@ -42,17 +42,17 @@
        <widget class="QComboBox" name="comboBox_types">
         <item>
          <property name="text">
-          <string>Facility Staff</string>
+          <string>FACILITY</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>LHIN Staff</string>
+          <string>LHIN</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>System Adminstrator</string>
+          <string>ADMIN</string>
          </property>
         </item>
        </widget>
@@ -111,5 +111,22 @@
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>AddUser</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>388</x>
+     <y>195</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>392</x>
+     <y>228</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

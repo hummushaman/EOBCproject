@@ -71,7 +71,7 @@ void AddBed::clickedOK()
 
     //error checking
     int facilID = DataStorage::getFacilityID(facilName);
-    if(facilID == 0)
+    if(facilID == -1)
     {
         msgBox.setText("Selected facility is not valid");
         msgBox.exec();

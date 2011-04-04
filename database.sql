@@ -11,8 +11,8 @@ CREATE TABLE facility (
     areaid INTEGER NOT NULL,
     facilitytypeid INTEGER NOT NULL,
     name TEXT NOT NULL UNIQUE,
-    totalBeds INTEGER,
-    numBedsOccupied INTEGER,
+    totalBeds INTEGER DEFAULT 0,
+    numBedsOccupied INTEGER DEFAULT 0,
     x FLOAT,
     y FLOAT,
     FOREIGN KEY (areaid) REFERENCES area (areaid),
@@ -20,10 +20,10 @@ CREATE TABLE facility (
 );
 CREATE TABLE hospital (
     hospitalid INTEGER PRIMARY KEY NOT NULL,
-    totalACBeds INTEGER,
-    numACBedsOccupied INTEGER,
-    totalCCCBeds INTEGER,
-    numCCCBedsOccupied INTEGER,
+    totalACBeds INTEGER DEFAULT 0,
+    numACBedsOccupied INTEGER DEFAULT 0,
+    totalCCCBeds INTEGER DEFAULT 0,
+    numCCCBedsOccupied INTEGER DEFAULT 0,
     FOREIGN KEY (hospitalid) REFERENCES facility(facilityid)
 );
 CREATE TABLE careTypes (

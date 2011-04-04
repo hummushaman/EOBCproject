@@ -35,7 +35,7 @@ public:
     static int myFacilityID;
     static QString myFacilityIPaddress;
     static QString currentUserType;
-
+    static bool isMain;
     //static void setMyFacilityID(int id);
     //static void setMyFacilityIPAddress(QString ipadress);
     //static void setCurrentUserType(QString aUserType);
@@ -105,8 +105,6 @@ public:
 
     static bool isLoginValid(QString username, QString password);
     static QString getUserType(QString username);
-
-    static int requestMismatch(QString currentCareType, QString requiredCareType, int areaID);
 
     static void addUser(QString username, QString password, QString userType);
     static void addFacility(QString name, float x, float y, int area, int facilityID, QString facilityType);

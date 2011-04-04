@@ -74,14 +74,13 @@ public:
     QSqlQuery getUserType(QString username);
     QSqlQuery getUserFacility(QString username);
 
-    QSqlQuery requestMismatch(int currentCareType, int requiredCareType, int areaID);
-
     void addUser(QString username, QString password, QString userType);
     void addFacility(QString name, float x, float y, int areaID, int facilityID, QString facilityType);
     QSqlQuery getCareType(int careType);
     QSqlQuery getCareTypeID(QString careType);
 
     void clearPatientsOnAreaWaitingList(int area);
+    void clearPatientsAtFacility(int facilityID);
 
     QSqlQuery isInpatient(QString hcn);
     QSqlQuery getCurrentFacilityForPatient(QString hcn);
@@ -128,7 +127,6 @@ private:
     void addPatientToWaitingList(QString databaseConnection, QString HCN, int areaID, QString dateAdded);
     void addBeds(QString databaseConnection, int facilityID, int numBeds, QString bedType);
 
-    void clearPatientsOnAreaWaitingList(QString databaseConnection, int area);
     //------------------------------------------------------------------------------------------------------------------
     int myFacilityID;
 };

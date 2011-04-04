@@ -3,6 +3,7 @@
 int DataStorage::myFacilityID = 0;
 QString DataStorage::myFacilityIPaddress = "0.0.0.0";
 QString DataStorage::currentUserType = "ADMIN";
+bool DataStorage::isMain = true;
 
 void DataStorage::removePatientFromBed(int facilityID, QString HCN, QString dateRemoved) //i don't need area...
 {
@@ -154,12 +155,14 @@ int DataStorage::getTotalNumBedsOccupied(int facilityID)
 
 int DataStorage::getTotalLTCBeds(int facilityID)
 {
-
+    QSqlQuery totalLTCBedsQuery = Database::Initialize()->getTotalLTCBeds(facilityID);
+    return convertToOneInt(totalLTCBedsQuery);
 }
 
 int DataStorage::getNumLTCBedsOccupied(int facilityID)
 {
-
+    QSqlQuery numberOfLTCBedsQuery = Database::Initialize()->getNumLTCBedsOccupied(facilityID);
+    return convertToOneInt(numberOfLTCBedsQuery);
 }
 
 
@@ -316,11 +319,6 @@ QString DataStorage::getUserType(QString username)
     return convertToOneString(userTypeQuery);
 }
 
-int DataStorage::requestMismatch(QString currentCareType, QString requiredCareType, int areaID)
-{
-
-}
-
 void DataStorage::addUser(QString username, QString password, QString userType)
 {
     qDebug() << "Trying to add a user";
@@ -335,7 +333,6 @@ void DataStorage::addFacility(QString name, float x, float y, int area, int faci
 
 int DataStorage::myArea()
 {
-
     return getAreaForFacility(DataStorage::myFacilityID);
 }
 
@@ -346,7 +343,7 @@ int DataStorage::getMyFacilityID()
 
 bool DataStorage::isMainFacility() //need to add this to the configure file
 {
-
+    return DataStorage::isMain;
 }
 
 int DataStorage::getCareType(QString care)
@@ -363,7 +360,7 @@ QString DataStorage::getCareType(int care)
 
 void DataStorage::clearPatientsOnAreaWL(int area)
 {
-
+    Database::Initialize()->clearPatientsOnAreaWaitingList(area);
 }
 
 bool DataStorage::isInpatient(QString hcn)
@@ -437,7 +434,6 @@ int DataStorage::convertToOneInt(QSqlQuery queryTemporary)
         {
             integer = -1;
         }
-
     }
     qDebug() << "One int: " << integer;
     return integer;
@@ -460,9 +456,9 @@ float DataStorage::convertToOneFloat(QSqlQuery queryTemporary)
     return aFloat;
 }
 
-void DataStorage::clearPatientsAtFacility(int facilNum)
+void DataStorage::clearPatientsAtFacility(int facilityID)
 {
-
+    Database::Initialize()->clearPatientsAtFacility(facilityID);
 }
 
 bool DataStorage::facilityExists(int facilityID)

@@ -371,3 +371,7 @@ bool DataStorage::facilityExists(int facilityID)
 {
 
 }
+
+QString DataStorage::getPatientDateAdded(QString hcn,int area){
+
+}

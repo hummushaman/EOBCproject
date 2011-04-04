@@ -119,6 +119,8 @@ public:
 
     static bool facilityExists(int facilityID);
 
+    static QString getPatientDateAdded(QString hcn,int area);
+
 };
 
 #endif // DATASTORAGE_H

@@ -27,7 +27,6 @@ private:
     static int convertToOneInt(QSqlQuery queryTemporary);
     static float convertToOneFloat(QSqlQuery queryTemporary);
 
-
 public:
     DataStorage();
 
@@ -35,6 +34,7 @@ public:
     static int myFacilityID;
     static QString myFacilityIPaddress;
     static QString currentUserType;
+    static bool isMain;
 
     //static void setMyFacilityID(int id);
     //static void setMyFacilityIPAddress(QString ipadress);

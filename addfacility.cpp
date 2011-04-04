@@ -43,6 +43,8 @@ void AddFacility::clickedOK()
 
     int facilID = ui->spinBox_ID->text().toInt();
 
+    bool facilityExists = DataStorage::facilityExists(facilID);
+
     bool x_ok, y_ok;
 
     float x  = ui->lineEdit_x->text().toFloat(&x_ok);
@@ -54,14 +56,23 @@ void AddFacility::clickedOK()
 
     int areaid = DataStorage::getAreaID(areaname);
 
-    if(y_ok && x_ok)
+    if(!facilityExists)
     {
-        DataStorage::addFacility(name,x,y,areaid,facilID,facilType);
-        close();
+        if(y_ok && x_ok)
+        {
+            DataStorage::addFacility(name,x,y,areaid,facilID,facilType);
+            close();
+        }
+
+        else
+        {
+            msgbox.setText("Please enter valid coordinates");
+            msgbox.exec();
+        }
     }
     else
     {
-        msgbox.setText("Please enter valid coordinates");
+        msgbox.setText("Facility ID is already in use. Please choose another id.");
         msgbox.exec();
     }
 }

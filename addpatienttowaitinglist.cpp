@@ -113,54 +113,49 @@ void AddPatientToWaitingList::clickedOK()
 
     }
 
-    QMessageBox msgBox;
-    msgBox.setInformativeText("You have requested to add this patient to the waiting list of area " + areaName + ".\nDo you want to save and propogate this change?");
-    msgBox.setStandardButtons( QMessageBox::Cancel | QMessageBox::Ok);
-    msgBox.setDefaultButton(QMessageBox::Cancel);
-    int ret = msgBox.exec();
-
-    if(ret == QMessageBox::Ok)
+    if (!patientExists && !needMoreInfo)
     {
+        QMessageBox msgBox;
+        msgBox.setInformativeText("You have requested to add this patient to the waiting list of area " + areaName + ".\nDo you want to save and propogate this change?");
+        msgBox.setStandardButtons( QMessageBox::Cancel | QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Cancel);
+        int ret = msgBox.exec();
 
-        if (!patientExists && !needMoreInfo)
+        if(ret == QMessageBox::Ok)
         {
-            if(patientType == "Inpatient")
-            {
-                //add an inpatient to the waiting list
-                DataStorage::addPatientToWaitingList(HCN,areaid,dateAdded);
+
+
+                if(patientType == "Inpatient")
+                {
+                    //add an inpatient to the waiting list
+                    DataStorage::addPatientToWaitingList(HCN,areaid,dateAdded);
 
 
 
-                //send the message to other facilities
+                    //send the message to other facilities
 
-                bool remote = true;
-                if(currFacility == DataStorage::myFacilityID)
-                    remote = false;
+                    bool remote = true;
+                    if(currFacility == DataStorage::myFacilityID)
+                        remote = false;
 
-                 QString operation = "Add";
-                 xmlgenerator::patientOperationXML(operation, HCN, currFacility, areaid, remote, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
+                     QString operation = "Add";
+                     xmlgenerator::patientOperationXML(operation, HCN, currFacility, areaid, remote, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
 
-            }
-            else
-            {
-
-
-                DataStorage::addPatientToWaitingList(HCN,firstname,lastname,areaid,dateAdded);
-
-               // xmlgenerator::patientOperationXML("Add",HCN,  areaid, remote, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
+                }
+                else
+                {
 
 
-            }
+                    DataStorage::addPatientToWaitingList(HCN,firstname,lastname,areaid,dateAdded);
+
+                   // xmlgenerator::patientOperationXML("Add",HCN,  areaid, remote, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
+
+
+                }
+
+            close();
+
         }
-
-
-
-
-
-        //QString dateAdmitted = DataStorage::getPatientDateAdmitted(HCN);
-
-        close();
-
     }
     //QMessageBox msgbox2;
     //msgbox2.setText("todays date and time: "+ datetime);

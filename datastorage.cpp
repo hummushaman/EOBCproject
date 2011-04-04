@@ -3,6 +3,7 @@
 int DataStorage::myFacilityID = 0;
 QString DataStorage::myFacilityIPaddress = "0.0.0.0";
 QString DataStorage::currentUserType = "ADMIN";
+bool DataStorage::isMain = true;
 
 void DataStorage::removePatientFromBed(int facilityID, QString HCN, QString dateRemoved) //i don't need area...
 {
@@ -12,11 +13,12 @@ void DataStorage::removePatientFromBed(int facilityID, QString HCN, QString date
 
 void DataStorage::assignPatientToBed(int facilityID, QString HCN,int areaid, QString dateAdded)
 {
-    //Database::Initialize()->assignPatientToBed(); MORE COMPLEX THAN I ORIGINALLY THOUGHT
+     //Database::Initialize()->assignPatientToBed(); MORE COMPLEX THAN I ORIGINALLY THOUGHT
 }
 
 void DataStorage::addBeds(int facilityID, int numBeds, QString bedType)
 {
+
     qDebug() << "Adding beds";
     Database::Initialize()->addBeds(facilityID, numBeds, bedType);
 }
@@ -346,7 +348,7 @@ int DataStorage::getMyFacilityID()
 
 bool DataStorage::isMainFacility() //need to add this to the configure file
 {
-
+    return DataStorage::isMain;
 }
 
 int DataStorage::getCareType(QString care)

@@ -36,7 +36,11 @@ Database::Database()
     QSqlQuery queryTemporary(QSqlDatabase::database("temporary"));
     QSqlQuery queryPermanent(QSqlDatabase::database("permanent"));
 
-    QFile file("/home/4user3/jpowers3/eobc/database.sql");
+    QSettings settings("JNFconfig");
+    settings.beginGroup("database");
+    QString filename = settings.value("temp_db").toString();
+
+    QFile file(filename);
     file.open(QIODevice::ReadOnly|QIODevice::Text);
     QTextStream input(&file);
     QString sqlQuery = "";
@@ -164,8 +168,7 @@ Database::Database()
 
         }
     }
-    QSettings settings("JNFconfig"); // opens the configuration file. File should be located in: home/<userfolder>/<yourusername>/.config
-    //get myFacilityID
+
     settings.beginReadArray("myFacility");
     myFacilityID = settings.value("id").toInt();
     settings.endArray();

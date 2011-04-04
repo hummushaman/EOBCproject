@@ -30,28 +30,41 @@ int main(int argc, char *argv[])
     w->show();
 
 
-
     QSettings settings("JNFconfig"); // opens the configuration file. File should be located in: home/<userfolder>/<yourusername>/.config
-    //read configuration file
+
+
 
     //get the database path
+    settings.beginGroup("database");
     QString dbPath =  settings.value("db_filepath").toString();
+    qDebug() << dbPath;
 
+    settings.endGroup();
 
-    //get myFacilityID and IP address
+    //get myFacilityID and IP address and whether facility is a main facility
 
-    settings.beginReadArray("myFacility");
+    settings.beginGroup("myfacility");
 
     DataStorage::myFacilityID= settings.value("id").toInt();
     DataStorage::myFacilityIPaddress= settings.value("IPaddress").toString();
+    QString is_main= settings.value("isMain").toString();
+
+    settings.endGroup();
+
+    qDebug() << is_main;
+    if(is_main == "true")
+        DataStorage::isMain = true;
+    else
+        DataStorage::isMain = false;
+
+
+    qDebug() << DataStorage::isMain;
+    qDebug() << DataStorage::isMainFacility();
 
     settings.endArray();
 
-
-    //initializa the Message control which listens for incoming messages
+    //initialize the Message control which listens for incoming messages
     MessageControl* messageControl = new MessageControl();
-
-
 
    //pass "connection handle" to the Database class
    //handle errors if database connection fails
@@ -60,7 +73,7 @@ int main(int argc, char *argv[])
     {
         QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", "permanent");
         QMessageBox error;
-        db.setDatabaseName("/home/4user3/jpowers3/eobc/database.db");
+        db.setDatabaseName(dbPath);
         //connect to the database
         bool isOpen = db.open();
         if (!isOpen){

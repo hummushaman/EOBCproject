@@ -5,14 +5,18 @@
 
 class OccupancyRateEntry
 {
-
 public:
-    explicit OccupancyRateEntry();
+    OccupancyRateEntry();
+    OccupancyRateEntry(QString aDateChanged, QString aCareType, float anOccupancyRate);
 
-signals:
+private:
+    QString getDateOfChange();
+    QString getCareType(); //AC,CCC,LTC
+    float getOccupancyRate();
 
-public slots:
-
+    QString dateChanged;
+    QString careType;
+    float occupancyRate;
 };
 
 #endif // OCCUPANCYRATEENTRY_H

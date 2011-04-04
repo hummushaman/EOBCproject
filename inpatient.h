@@ -4,6 +4,7 @@
 class Inpatient : public Patient
 {
 public:
+    Inpatient();
     Inpatient(QString aHCN,QString aFirstName,QString aLastName,QString aRequiredCare,QString aCurrentCare,QString aDateAdmitted,int cf);
     QString getDateAdmitted();
     QString getCurrentCare();

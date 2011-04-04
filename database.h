@@ -80,6 +80,19 @@ public:
     void addFacility(QString name, float x, float y, int areaID, int facilityID, QString facilityType);
     QSqlQuery getCareType(int careType);
     QSqlQuery getCareTypeID(QString careType);
+
+    void clearPatientsOnAreaWaitingList(int area);
+
+    QSqlQuery isInpatient(QString hcn);
+    QSqlQuery getCurrentFacilityForPatient(QString hcn);
+    QSqlQuery getPatientDateAdmitted(QString hcn);
+    QSqlQuery getPatientDateAdded(QString hcn, int areaID);
+    QSqlQuery facilityExists(int facilityID);
+
+    QSqlQuery getTotalLTCBeds(int facilityID);
+    QSqlQuery getNumLTCBedsOccupied(int facilityID);
+
+
     ~Database();
 private:
     Database();
@@ -114,6 +127,8 @@ private:
 
     void addPatientToWaitingList(QString databaseConnection, QString HCN, int areaID, QString dateAdded);
     void addBeds(QString databaseConnection, int facilityID, int numBeds, QString bedType);
+
+    void clearPatientsOnAreaWaitingList(QString databaseConnection, int area);
     //------------------------------------------------------------------------------------------------------------------
     int myFacilityID;
 };

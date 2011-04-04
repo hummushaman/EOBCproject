@@ -53,9 +53,9 @@ void GenerateReport::generateNoTimeWaitTimesReport(){
         QDateTime current = QDateTime::currentDateTime();
         QString today = current.toString("yyyy-MM-ddThh:mm:ss");
 
-        QVector<Patient*>patients=DataStorage::getWaitingListPatients(DataStorage::getAreaID(name));
+        QVector<Patient>patients=DataStorage::getWaitingListPatients(DataStorage::getAreaID(name));
         for (int j=0;j<patients.size();j++){
-            QString stringDateAdded=patients[i]->getDateAdded();
+            QString stringDateAdded=patients[i].getDateAdded();
             QDateTime dateAdded=QDateTime::fromString(stringDateAdded,"yyyy-MM-ddThh:mm:ss");
 
             if (dateAdded.isValid())total+=dateAdded.daysTo(current);

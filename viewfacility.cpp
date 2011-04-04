@@ -31,16 +31,18 @@ ViewFacility::~ViewFacility()
 void ViewFacility::displayInformation()
 {
     QString facilName = ui->comboBox_facilities->currentText();
+
     int facilID = DataStorage::getFacilityID(facilName);
 
-    QVector<Inpatient*> patients = DataStorage::getPatientsAtFacility(facilID);
+    QVector<Inpatient> patients = DataStorage::getPatientsAtFacility(facilID);
+
 
     for(int i= 0; i<patients.size();i++)
     {
 
-        QString firstname = patients[i]->getFirstname();
-        QString lastname = patients[i]->getLastname();
-        ui->listWidget_patients->addItem(firstname + " " + lastname + " ("+ patients[i]->getHCN() + ")");
+        QString firstname = patients[i].getFirstname();
+        QString lastname = patients[i].getLastname();
+        ui->listWidget_patients->addItem(firstname + " " + lastname + " ("+ patients[i].getHCN() + ")");
 
     }
 
@@ -49,7 +51,7 @@ void ViewFacility::displayInformation()
 
     /***********change data storage class so that the following functions actually return something!!*********/
 
-    int totalNumBeds = DataStorage::getTotalNumBeds(facilID);
+    float totalNumBeds = DataStorage::getTotalNumBeds(facilID);
     float totalBedsOccupied = DataStorage::getTotalNumBedsOccupied(facilID);
 
     float occRate = totalBedsOccupied/ totalNumBeds * 100;

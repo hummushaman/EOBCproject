@@ -85,16 +85,16 @@ QString xmlgenerator::rebuild(){
      facilityChild.appendChild(patientListChild);
 
 
-     QVector<Inpatient*>patientList=DataStorage::getPatientsAtFacility(facilNum);
+     QVector<Inpatient>patientList=DataStorage::getPatientsAtFacility(facilNum);
      for (int i=0;i<patientList.size();i++){
-         Inpatient *curPat=patientList[i];
+         Inpatient curPat=patientList[i];
         // QString dateAdded=curPat->getDateAdded();
-         QString dateAdmitted=curPat->getDateAdmitted();
-         QString first=curPat->getFirstname();
-         QString last=curPat->getLastname();
-         int reqCare=DataStorage::getCareType(curPat->getRequiredCare());
-         int occCare=DataStorage::getCareType(curPat->getCurrentCare());
-         QString healthCard=curPat->getHCN();
+         QString dateAdmitted=curPat.getDateAdmitted();
+         QString first=curPat.getFirstname();
+         QString last=curPat.getLastname();
+         int reqCare=DataStorage::getCareType(curPat.getRequiredCare());
+         int occCare=DataStorage::getCareType(curPat.getCurrentCare());
+         QString healthCard=curPat.getHCN();
 
          QDomElement patientChild=message.createElement("Patient");
         // if (dateAdded!="")patientChild.setAttribute("dateAdded",dateAdded);
@@ -140,6 +140,7 @@ QString xmlgenerator::rebuildResponse(){
      facilityChild.appendChild(patientListChild);
 
 
+<<<<<<< HEAD
      QVector<Inpatient*>patientList=DataStorage::getPatientsAtFacility(facilNum);
      for (int i=0;i<patientList.size();i++){
          Inpatient* curPat=patientList[i];
@@ -150,6 +151,18 @@ QString xmlgenerator::rebuildResponse(){
          int reqCare=DataStorage::getCareType(curPat->getRequiredCare());
          int occCare=DataStorage::getCareType(curPat->getCurrentCare());
          QString healthCard=curPat->getHCN();
+=======
+     QVector<Inpatient>patientList=DataStorage::getPatientsAtFacility(facilNum);
+     for (int i=0;i<patientList.size();i++){
+         Inpatient curPat=patientList[i];
+         //QString dateAdded=curPat->getDateAdded();
+         QString dateAdmitted=curPat.getDateAdmitted();
+         QString first=curPat.getFirstname();
+         QString last=curPat.getLastname();
+         int reqCare=DataStorage::getCareType(curPat.getRequiredCare());
+         int occCare=DataStorage::getCareType(curPat.getCurrentCare());
+         QString healthCard=curPat.getHCN();
+>>>>>>> 67e3fb678d2aa50a453f2b852e15340f1c961e26
 
          QDomElement patientChild=message.createElement("Patient");
          //if (dateAdded!="")patientChild.setAttribute("dateAdded",dateAdded);
@@ -165,19 +178,19 @@ QString xmlgenerator::rebuildResponse(){
 
      QDomElement waitingListChild=message.createElement("WaitingList");
      if (DataStorage::isMainFacility()){
-         QVector<Patient*>waitingList=DataStorage::getWaitingListPatients(DataStorage::myArea());
+         QVector<Patient>waitingList=DataStorage::getWaitingListPatients(DataStorage::myArea());
          for (int i=0;i<waitingList.size();i++){
-             Patient* curPat=waitingList[i];
-             QString dateAdded=curPat->getDateAdded();
+             Patient curPat=waitingList[i];
+             //QString dateAdded=curPat->get->getDateAdded();
              //QString dateAdmitted=curPat->getDateAdmitted();
-             QString first=curPat->getFirstname();
-             QString last=curPat->getLastname();
+             QString first=curPat.getFirstname();
+             QString last=curPat.getLastname();
              //int reqCare=curPat->getRequiredCare();
              //int occCare=curPat->getOccupiedCare();
-             QString healthCard=curPat->getHCN();
+             QString healthCard=curPat.getHCN();
 
              QDomElement patientChild=message.createElement("Patient");
-             if (dateAdded!="")patientChild.setAttribute("dateAdded",dateAdded);
+             //if (dateAdded!="")patientChild.setAttribute("dateAdded",dateAdded);
              //if (dateAdmitted!="")patientChild.setAttribute("dateAdmitted",dateAdmitted);
              if (first!="")patientChild.setAttribute("firstName",first);
              if (last!="")patientChild.setAttribute("lastName",last);

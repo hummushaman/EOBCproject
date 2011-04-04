@@ -114,11 +114,11 @@ void AssignBed::displayClicked()
     int areaid = DataStorage::getAreaForFacility(facilID);
     QString areaname = DataStorage::getAreaName(areaid);
 
-    QVector<Patient*> patients = DataStorage::getWaitingListPatients(areaid);
+    QVector<Patient> patients = DataStorage::getWaitingListPatients(areaid);
 
     for(int i=0; i< patients.size();i++)
     {
-        QString patientname = patients[i]->getHCN();
+        QString patientname = patients[i].getHCN();
         ui->listWidget_patients->addItem(patientname);
 
     }

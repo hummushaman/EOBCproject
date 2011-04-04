@@ -25,19 +25,21 @@ ViewWaitingList::~ViewWaitingList()
 
 void ViewWaitingList::displayInformation()
 {
+    ui->listWidget_patients->clear();
     QString areaName = ui->comboBox_areas->currentText();
     int areaID = DataStorage::getAreaID(areaName);
 
-    QVector<Patient*> patients = DataStorage::getWaitingListPatients(areaID);
+    QVector<Patient> patients = DataStorage::getWaitingListPatients(areaID);
 
     for(int i= 0; i<patients.size();i++)
     {
 
-        QString firstname = patients[i]->getFirstname();
-        QString lastname = patients[i]->getLastname();
-        ui->listWidget_patients->addItem(firstname + " " + lastname + " ("+ patients[i]->getHCN() + ")");
+        QString firstname = patients[i].getFirstname();
+        QString lastname = patients[i].getLastname();
+        ui->listWidget_patients->addItem(firstname + " " + lastname + " ("+ patients[i].getHCN() + ")");
 
     }
+
 
 
 }

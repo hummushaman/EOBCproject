@@ -1,5 +1,5 @@
 #include "xmlparser.h"
-/*
+
 //don't forget to have QT += xml in your project class
 
     XMLParser::XMLParser()
@@ -61,14 +61,9 @@
         while (!facilityOrWL.isNull()){
             XMLParser::parseFacilityOrWaitingList(facilityOrWL,remoteBool,areaVal,operation);
 
-<<<<<<< HEAD
-            if (facilityOrWL.attribute("ID","error")!="error")
-                if (facilityOrWL.attribute("ID","error").toInt()==DataStorage::getMyFacilityID())
-=======
             if (facilityOrWL.attribute("ID","error")!="error"){
                 targetID=facilityOrWL.attribute("ID""error").toInt();
-                if (targetID==DataStorage::getMyFacilityID())
->>>>>>> fd102dc9f6dda9daa1062a2b5efa5ade1da851c9
+                if (targetID==DataStorage::myFacilityID)
                     here=true;
             }
 
@@ -111,12 +106,15 @@
         MessageControl::assignIPtoFacility(ip, facilityNumber);
 
         //case 1: remote and other
-        if (remote&&facilityNumber!=DataStorage::getMyFacilityID())return 1;   //nothing happens if its remote and has got the wrong facility
+        if (remote&&facilityNumber!=DataStorage::myFacilityID)return 1;   //nothing happens if its remote and has got the wrong facility
 
         //case 2: remote and here
-        if (remote&&facilityNumber==DataStorage::getMyFacilityID()){
+        if (remote&&facilityNumber==DataStorage::myFacilityID){
 
             facilityOperation(facility, operation, area);
+
+            //re-send slightly updated message if it was a change OR
+            //send a reply if it was a request
 
         }
 
@@ -141,6 +139,8 @@
 
             parseWaitingListOperation(waitingList, area, operation);
 
+
+            //re-send message with remote flag set to off
         }
         //case 3: not remote
         else{
@@ -210,16 +210,25 @@
 
     int XMLParser::parsePlacePatient(QDomElement patient, int facilNum){
         QString patientID = patient.attribute("healthCardNumber","error");
+<<<<<<< HEAD
+        QString dateAdmitted = patient.attribute("dateAdmitted","error");
+
+        if (dateAdmitted=="error"){
+            QDateTime current = QDateTime::currentDateTime();
+            dateAdmitted = current.toString("yyyy-MM-ddThh:mm:ss");
+        }
+=======
         //QDateTime dateAdmitted = QDateTime::fromString(patient.attribute("dateAdded","error"),dateFormat);
         //QDateTime dateAdmitted = DataStorage::currentDate();
 
 
-        //QDateTime current = QDateTime::currentDateTime();
-        //QString dateAdmitted = current.toString("yyyy-MM-ddThh:mm:ss");
+        QDateTime current = QDateTime::currentDateTime();
+        QString dateAdmitted = current.toString("yyyy-MM-ddThh:mm:ss");
+>>>>>>> 67e3fb678d2aa50a453f2b852e15340f1c961e26
 
+        int areaid = DataStorage::getAreaForFacility(facilNum);
 
-
-        DataStorage::assignPatientToBed(facilNum,patientID);
+        DataStorage::assignPatientToBed(facilNum,patientID, areaid,dateAdmitted);
         return 0;
     }
 
@@ -231,8 +240,11 @@
         //QDateTime current = QDateTime::currentDateTime();
         //QString dateRemoved = current.toString("yyyy-MM-ddThh:mm:ss");
 
+        QDateTime current = QDateTime::currentDateTime();
+        QString currentDate = current.toString("yyyy-MM-ddThh:mm:ss");
 
-        DataStorage::removePatientFromBed(facilNum,patientID);
+
+        DataStorage::removePatientFromBed(facilNum,patientID,currentDate);
         return 0;
     }
 
@@ -277,6 +289,20 @@
         QString firstName = patient.attribute("firstName","error");
         QString lastName = patient.attribute("lastName","error");
 
+<<<<<<< HEAD
+        QString dateAdded=patient.attribute("dateAdded","error");
+        if (dateAdded=="error"){
+            QDateTime current = QDateTime::currentDateTime();
+            dateAdded = current.toString("yyyy-MM-ddThh:mm:ss");
+        }
+
+        //QDateTime dateAdded = QDateTime::fromString(patient.attribute("dateAdded","error"),"yyyy-MM-ddThh:mm:ss");
+        //QDateTime dateAdded=DataStorage::currentDate();
+
+
+
+        //QString dateAdmitted=patient.attribute("dateAdmitted","error");
+=======
         //QDateTime dateAdded = QDateTime::fromString(patient.attribute("dateAdded","error"),dateFormat);
         //QDateTime dateAdded=DataStorage::currentDate();
 
@@ -284,13 +310,22 @@
         QString dateAdded = current.toString("yyyy-MM-ddThh:mm:ss");
 
         QString dateAdmitted=patient.attribute("dateAdmitted","error");
+>>>>>>> 67e3fb678d2aa50a453f2b852e15340f1c961e26
 
         //QDateTime dateAdmitted;
         //if (dateAdmittedString != "error")dateAdmitted = QDateTime::fromString(patient.attribute("dateAdmitted","error"),dateFormat);
 
+<<<<<<< HEAD
+
+        QString currentCare=patient.attribute("occCare","error");
+        //int ctCare = patient.attribute("occCare","error").toInt();
+
+        //QString currentCare = DataStorage::getCareType(ctCare);
+=======
         int ctCare = patient.attribute("occCare","error").toInt();
 
         QString currentCare = DataStorage::getCareType(ctCare);
+>>>>>>> 67e3fb678d2aa50a453f2b852e15340f1c961e26
 
 
         //add outpatient
@@ -299,23 +334,22 @@
         }
         //add inpatient
         else{
-            //dateAdmitted=DataStorage::getDateAdmitted(healthCard);
-            QDateTime current = QDateTime::currentDateTime();
-            QString dateAdmitted = current.toString("yyyy-MM-ddThh:mm:ss");
-
-
             int currentFacility = DataStorage::getCurrentFacilityForPatient(healthCard);
-            DataStorage::addPatientToWaitingList(healthCard,firstName,lastName,area,dateAdded,currentFacility,currentCare);
+            DataStorage::addPatientToWaitingList(healthCard,area,dateAdded );
         }
 
     }
 
     int XMLParser::parseRemovePatientFromWL(QDomElement patient, int area){
-        DataStorage::removePatientFromWaitingList(area,patient.attribute("ID","error"));
+
+        QDateTime current = QDateTime::currentDateTime();
+        QString currentDate = current.toString("yyyy-MM-ddThh:mm:ss");
+
+        DataStorage::removePatientFromWaitingList(area,patient.attribute("ID","error"),currentDate);
     }
 
     int XMLParser::parseAddNewFacility(QDomElement facility, int facilNum, int area){
-        QString  acBeds = facility.attribute("AC","error");
+        QString acBeds = facility.attribute("AC","error");
         QString cccBeds = facility.attribute("CCC","error");
         QString ltcBeds = facility.attribute("LTC","error");
         QString id = facility.attribute("ID","error");
@@ -323,8 +357,22 @@
         QString y = facility.attribute("coordinateY","error");
         QString name = facility.attribute("name","error");
 
+        QString facilityType;
+<<<<<<< HEAD
+        if(ltcBeds!="error")
+=======
+        if(ltcBeds.toInt() > 0)
+>>>>>>> 67e3fb678d2aa50a453f2b852e15340f1c961e26
+        {
+            facilityType = "Nursing Home";
+        }
+        else
+            facilityType = "Hospital";
+
+
+
         if ((x!="error")&&(y!="error")&&(id!="error")&&(name!="error")){
-            DataStorage::addFacility(name,x.toFloat(),y.toFloat(),area,id.toInt());
+            DataStorage::addFacility(name,x.toFloat(),y.toFloat(),area,id.toInt(),facilityType);
         }
 
     }
@@ -345,4 +393,4 @@
         }
 
 
-    }*/
+    }

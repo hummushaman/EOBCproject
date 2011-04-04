@@ -51,11 +51,11 @@ void RemovePatientFromWaitingList::displayPatients()
 
     int areaID = DataStorage::getAreaID(areaname);
 
-    QVector<Patient*> patients = DataStorage::getWaitingListPatients(areaID);
+    QVector<Patient> patients = DataStorage::getWaitingListPatients(areaID);
 
     for(int i;i<patients.size();i++)
     {
-        ui->listWidget_patients->addItem(patients[i]->getHCN());
+        ui->listWidget_patients->addItem(patients[i].getHCN());
 
 
 

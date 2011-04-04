@@ -49,6 +49,7 @@ void AddFacility::clickedOK()
     float y =  ui->lineEdit_x->text().toFloat(&y_ok);
 
     QString areaname = ui->comboBox_areas->currentText();
+
     QString facilType = ui->comboBox_facilTypes->currentText();
 
     int areaid = DataStorage::getAreaID(areaname);

@@ -97,11 +97,11 @@ void AddPatientToWaitingList::clickedOK()
     int areaid = DataStorage::getAreaID(areaName);
 
     //check that patient is not already on the waiting list
-    QVector<Patient*> patients = DataStorage::getWaitingListPatients(areaid);
+    QVector<Patient> patients = DataStorage::getWaitingListPatients(areaid);
     bool patientExists = false;
     for(int i=0;i<patients.size(); i++)
     {
-        if(patients[i]->getHCN()== HCN)
+        if(patients[i].getHCN()== HCN)
         {
             QMessageBox msgbox;
             msgbox.setText("This patient is already on the waiting list for this area. Please select a different area.");
@@ -158,20 +158,6 @@ void AddPatientToWaitingList::clickedOK()
 
 
         //QString dateAdmitted = DataStorage::getPatientDateAdmitted(HCN);
-/*
-
-        if(patientType == "Inpatient")
-        {
-            DataStorage::addPatientToWaitingList(HCN,areaid,datetime);
-            //call XMLGenerator
-            xmlgenerator::patientOperationXML("Add",HCN,  areaid, remote, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
-        }
-        else
-        {
-            //DataStorage::addPatientToWaitingList(HCN,firstname, lastname,areaid,datetime, facilID,careType);
-            DataStorage::addPatientToWaitingList(HCN, firstname,lastname, areaid, dateAdded); //outpatient
-
-        }*/
 
         close();
 

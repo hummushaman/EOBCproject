@@ -83,14 +83,14 @@ public:
     static int getTotalLTCBeds(int facilityID);
     static int getNumLTCBedsOccupied(int facilityID);
 
-    static QVector<Inpatient*> getPatientsAtFacility(int facilityID);
+    static QVector<Inpatient> getPatientsAtFacility(int facilityID);
 
     static QString getPatientFirstName(QString patientHCN);
     static QString getPatientLastName(QString patientHCN);
     static bool isInpatient(QString hcn);
     static int getCurrentFacilityForPatient(QString hcn);
     static QString getPatientDateAdmitted(QString hcn);
-    static QString getPatientDateAdded(QString hcn);
+    static QString getPatientDateAdded(QString hcn, int areaID);
 
 
     static QString getFacilityType(int facilityID); //"Hospital" or "Nursing Home"
@@ -98,7 +98,7 @@ public:
     static QVector<OccupancyRateEntry>getOccupancyRateEntries(QString startDate, QString endDate, QString careType, int facilityID);
     static int getFacilityID(QString name);
 
-    static QVector<Patient*> getWaitingListPatients(int areaID);
+    static QVector<Patient> getWaitingListPatients(int areaID);
     static int getWaitingListSize(int areaID);
     static QVector<WaitTimesEntry> getWaitTimesEntries(QString startDate, QString endDate, int areaID);
     static QVector<NumPatientsEntry> getWaitingListSizeEntries(QString startDate, QString endDate, int areaID);

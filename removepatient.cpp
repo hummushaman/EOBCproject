@@ -49,11 +49,11 @@ void RemovePatient::displayPatients()
     QString facilname = ui->comboBox_facilities->currentText();
 
     int facilID = DataStorage::getFacilityID(facilname);
-    QVector<Inpatient*> patients = DataStorage::getPatientsAtFacility(facilID);
+    QVector<Inpatient> patients = DataStorage::getPatientsAtFacility(facilID);
 
     for(int i;i<patients.size();i++)
     {
-        ui->listWidget_patients->addItem(patients[i]->getHCN());
+        ui->listWidget_patients->addItem(patients[i].getHCN());
     }
 
 }

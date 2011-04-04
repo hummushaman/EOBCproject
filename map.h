@@ -19,12 +19,13 @@ class Map : public QMainWindow
     Q_OBJECT
 
 public:
+
     explicit Map(QWidget *parent = 0);
     ~Map();
 
 private slots:
     void clickedOK();
-
+    void updateMap();
 private:
     Ui::Map *ui;
 };

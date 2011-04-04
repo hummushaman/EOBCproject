@@ -17,6 +17,8 @@
 
 #include "eobcproject.h"
 #include "messagecontrol.h"
+#include "QDebug"
+#include "xmlgenerator.h"
 using namespace std;
 
 
@@ -85,6 +87,17 @@ int main(int argc, char *argv[])
             Database::Initialize();
         }
     }
+
+
+    //qDebug()<<xmlgenerator::patientOperationXML("Add","2343",3,4,true,"March 4, 2010","March 5, 2010","Paula","Moo",1,2);
+
+    //qDebug()<<"bop";
+
+    //qDebug()<<xmlgenerator::rebuild();
+    //qDebug()<<xmlgenerator::rebuildResponse();
+    qDebug()<<xmlgenerator::addFacility(3,1,34,45,5,6,8,"Homeland",true,"Hospital");
+    qDebug()<<xmlgenerator::addBeds(4,3,1,0,0,true);
+
 
 
     return a.exec();

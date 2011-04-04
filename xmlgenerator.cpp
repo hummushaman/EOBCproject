@@ -65,8 +65,15 @@ QString xmlgenerator::rebuild(){
 
 
     QDomElement areaChild=message.createElement("Area");
+
+
+qDebug()<<"prev";
+
+
     areaChild.setAttribute("ID",DataStorage::myArea());
     operationChild.appendChild(areaChild);
+
+
 
     QDomElement facilityChild=message.createElement("Facility");
     QDomElement patientListChild=message.createElement("PatientList");
@@ -106,6 +113,37 @@ QString xmlgenerator::rebuild(){
 
          patientChild.setAttribute("healthCardNumber",healthCard);
          patientListChild.appendChild(patientChild);
+     }
+
+     if (DataStorage::isMainFacility()){
+         QDomElement waitingListChild=message.createElement("WaitingList");
+         QVector<Patient>waitingList=DataStorage::getWaitingListPatients(DataStorage::myArea());
+         for (int i=0;i<waitingList.size();i++){
+             Patient curPat=waitingList[i];
+             //QString dateAdded=curPat->getDateAdded();
+
+
+             QString dateAdded=DataStorage::getPatientDateAdded(curPat.getHCN(),DataStorage::myArea());
+
+             //QString dateAdmitted=curPat->getDateAdmitted();
+             QString first=curPat.getFirstname();
+             QString last=curPat.getLastname();
+             //int reqCare=curPat->getRequiredCare();
+             //int occCare=curPat->getOccupiedCare();
+             QString healthCard=curPat.getHCN();
+
+             QDomElement patientChild=message.createElement("Patient");
+             if (dateAdded!="")patientChild.setAttribute("dateAdded",dateAdded);
+             //if (dateAdmitted!="")patientChild.setAttribute("dateAdmitted",dateAdmitted);
+             if (first!="")patientChild.setAttribute("firstName",first);
+             if (last!="")patientChild.setAttribute("lastName",last);
+             //if (reqCare!=-1)patientChild.setAttribute("reqCare",reqCare);
+             //if (occCare!=-1)patientChild.setAttribute("occCare",occCare);
+
+             patientChild.setAttribute("healthCardNumber",healthCard);
+             waitingListChild.appendChild(patientChild);
+         }
+         areaChild.appendChild(waitingListChild);
      }
 
      return message.toString();
@@ -170,7 +208,9 @@ QString xmlgenerator::rebuildResponse(){
          QVector<Patient>waitingList=DataStorage::getWaitingListPatients(DataStorage::myArea());
          for (int i=0;i<waitingList.size();i++){
              Patient curPat=waitingList[i];
-             //QString dateAdded=curPat->get->getDateAdded();
+
+             //QString dateAdded=curPat->getDateAdded();
+             QString dateAdded=DataStorage::getPatientDateAdded(curPat.getHCN(),DataStorage::myArea());
              //QString dateAdmitted=curPat->getDateAdmitted();
              QString first=curPat.getFirstname();
              QString last=curPat.getLastname();
@@ -210,7 +250,7 @@ QString xmlgenerator::addBeds(int facilNum, int areaNum, int ac, int ccc, int lt
     QDomElement facilityChild=message.createElement("Facility");
 
      facilityChild.setAttribute("ID",facilNum);
-     facilityChild.setAttribute("name",DataStorage::getFacilityName(facilNum));
+     //facilityChild.setAttribute("name",DataStorage::getFacilityName(facilNum));
      facilityChild.setAttribute("AC",ac);
      facilityChild.setAttribute("CCC",ccc);
      facilityChild.setAttribute("LTC",ltc);

@@ -140,18 +140,7 @@ QString xmlgenerator::rebuildResponse(){
      facilityChild.appendChild(patientListChild);
 
 
-<<<<<<< HEAD
-     QVector<Inpatient*>patientList=DataStorage::getPatientsAtFacility(facilNum);
-     for (int i=0;i<patientList.size();i++){
-         Inpatient* curPat=patientList[i];
-         //QString dateAdded=curPat->getDateAdded();
-         QString dateAdmitted=curPat->getDateAdmitted();
-         QString first=curPat->getFirstname();
-         QString last=curPat->getLastname();
-         int reqCare=DataStorage::getCareType(curPat->getRequiredCare());
-         int occCare=DataStorage::getCareType(curPat->getCurrentCare());
-         QString healthCard=curPat->getHCN();
-=======
+
      QVector<Inpatient>patientList=DataStorage::getPatientsAtFacility(facilNum);
      for (int i=0;i<patientList.size();i++){
          Inpatient curPat=patientList[i];
@@ -162,7 +151,7 @@ QString xmlgenerator::rebuildResponse(){
          int reqCare=DataStorage::getCareType(curPat.getRequiredCare());
          int occCare=DataStorage::getCareType(curPat.getCurrentCare());
          QString healthCard=curPat.getHCN();
->>>>>>> 67e3fb678d2aa50a453f2b852e15340f1c961e26
+
 
          QDomElement patientChild=message.createElement("Patient");
          //if (dateAdded!="")patientChild.setAttribute("dateAdded",dateAdded);

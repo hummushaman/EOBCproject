@@ -68,12 +68,9 @@ HEADERS  += login.h \
     xmlgenerator.h \
     xmlparser.h \
     database.h\
-<<<<<<< HEAD
     inpatient.h \
     reportdisplay.h
-=======
-    inpatient.h
->>>>>>> 67e3fb678d2aa50a453f2b852e15340f1c961e26
+
 
 
 FORMS    += login.ui \
@@ -88,9 +85,6 @@ FORMS    += login.ui \
     adduser.ui \
     addfacility.ui \
     map.ui \
-<<<<<<< HEAD
     generatereport.ui \
     reportdisplay.ui
-=======
-    generatereport.ui
->>>>>>> 67e3fb678d2aa50a453f2b852e15340f1c961e26
+

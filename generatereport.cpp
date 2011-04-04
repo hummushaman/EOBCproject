@@ -55,7 +55,8 @@ void GenerateReport::generateNoTimeWaitTimesReport(){
 
         QVector<Patient>patients=DataStorage::getWaitingListPatients(DataStorage::getAreaID(name));
         for (int j=0;j<patients.size();j++){
-            QString stringDateAdded=patients[i].getDateAdded();
+
+            QString stringDateAdded=DataStorage::getPatientDateAdded(patients[i].getHCN(),DataStorage::getAreaID(name));
             QDateTime dateAdded=QDateTime::fromString(stringDateAdded,"yyyy-MM-ddThh:mm:ss");
 
             if (dateAdded.isValid())total+=dateAdded.daysTo(current);
@@ -83,7 +84,7 @@ void GenerateReport::generateNoTimeWaitingListSizeReport(){
     for (int i=0;i<contents.size();i++){
         QString name=contents[i]->text();
         double total=0;
-        QVector<Patient*>patients=DataStorage::getWaitingListPatients(DataStorage::getAreaID(name));
+        QVector<Patient>patients=DataStorage::getWaitingListPatients(DataStorage::getAreaID(name));
         theGraph.append(patients.size());
         labels.append(name);
     }
@@ -106,13 +107,13 @@ void GenerateReport::generateNoTimeCareMismatchReport(){
         QString name=contents[i]->text();
         double total=0;
         //so, the list here should be full of facilities, not areas
-        QVector<Inpatient*>patients=DataStorage::getPatientsAtFacility(DataStorage::getFacilityID(contents[i]->text()));
+        QVector<Inpatient>patients=DataStorage::getPatientsAtFacility(DataStorage::getFacilityID(contents[i]->text()));
         for (int j=0;j<patients.size();j++){
             if (ui->misltcac->isChecked()){
-                if ((patients[i]->getRequiredCare()=="LTC")&&(patients[i]->getCurrentCare()=="AC"))total+=1;
+                if ((patients[i].getRequiredCare()=="LTC")&&(patients[i].getCurrentCare()=="AC"))total+=1;
             }
             if (ui->misltcccc->isChecked()){
-                if ((patients[i]->getRequiredCare()=="LTC")&&(patients[i]->getCurrentCare()=="CCC"))total+=1;
+                if ((patients[i].getRequiredCare()=="LTC")&&(patients[i].getCurrentCare()=="CCC"))total+=1;
             }
         }
 

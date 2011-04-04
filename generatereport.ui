@@ -118,11 +118,7 @@
         </widget>
        </item>
        <item>
-<<<<<<< HEAD
         <widget class="QDateEdit" name="enddate">
-=======
-        <widget class="QDateEdit" name="dateEdit_2">
->>>>>>> 67e3fb678d2aa50a453f2b852e15340f1c961e26
          <property name="displayFormat">
           <string>dd-MM-yyyy</string>
          </property>
@@ -181,11 +177,7 @@
       <attribute name="title">
        <string>Bed Occupancy Rate</string>
       </attribute>
-<<<<<<< HEAD
       <widget class="QCheckBox" name="occratebox">
-=======
-      <widget class="QCheckBox" name="checkBox_occupancyRate">
->>>>>>> 67e3fb678d2aa50a453f2b852e15340f1c961e26
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -319,22 +311,14 @@
            </widget>
           </item>
           <item>
-<<<<<<< HEAD
            <widget class="QCheckBox" name="hospbox">
-=======
-           <widget class="QCheckBox" name="checkBox">
->>>>>>> 67e3fb678d2aa50a453f2b852e15340f1c961e26
             <property name="text">
              <string>Hospital</string>
             </property>
            </widget>
           </item>
           <item>
-<<<<<<< HEAD
            <widget class="QCheckBox" name="nursbox">
-=======
-           <widget class="QCheckBox" name="checkBox_2">
->>>>>>> 67e3fb678d2aa50a453f2b852e15340f1c961e26
             <property name="text">
              <string>Nusring Home</string>
             </property>
@@ -343,17 +327,10 @@
          </layout>
         </widget>
        </widget>
-<<<<<<< HEAD
        <widget class="QCheckBox" name="faciltypebox">
         <property name="geometry">
          <rect>
           <x>230</x>
-=======
-       <widget class="QCheckBox" name="checkBox_7">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
->>>>>>> 67e3fb678d2aa50a453f2b852e15340f1c961e26
           <y>10</y>
           <width>170</width>
           <height>22</height>
@@ -409,11 +386,7 @@
          </property>
         </item>
        </widget>
-<<<<<<< HEAD
        <widget class="QCheckBox" name="selectfacilbox">
-=======
-       <widget class="QCheckBox" name="checkBox_11">
->>>>>>> 67e3fb678d2aa50a453f2b852e15340f1c961e26
         <property name="geometry">
          <rect>
           <x>430</x>
@@ -692,11 +665,7 @@
           <string>Display number of mismatches of the following type(s):</string>
          </property>
         </widget>
-<<<<<<< HEAD
         <widget class="QCheckBox" name="misltcac">
-=======
-        <widget class="QCheckBox" name="checkBox_13">
->>>>>>> 67e3fb678d2aa50a453f2b852e15340f1c961e26
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -709,11 +678,7 @@
           <string>Patient requires LTC, occupies AC bed</string>
          </property>
         </widget>
-<<<<<<< HEAD
         <widget class="QCheckBox" name="misltcccc">
-=======
-        <widget class="QCheckBox" name="checkBox_14">
->>>>>>> 67e3fb678d2aa50a453f2b852e15340f1c961e26
          <property name="geometry">
           <rect>
            <x>320</x>

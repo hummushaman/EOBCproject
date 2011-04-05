@@ -117,6 +117,7 @@ public:
 
     static bool facilityExists(int facilityID);
 
+    static void populateTemporaryDatabase();
 
 };
 

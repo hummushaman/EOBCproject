@@ -26,12 +26,20 @@ Database* Database::Initialize()
 
 Database::Database()
 {
+    //check if our facility exists in the permanant database
+    //if not, run sql file to insert data
+
+
+
+
     //permanentDatabase = aDatabaseConnection;
     {
         // temporaryDatabase =
         QSqlDatabase temporaryDatabase = QSqlDatabase::addDatabase("QSQLITE", "temporary");
         temporaryDatabase.setDatabaseName(":memory:");
     }
+
+
     //create temporary tables
     QSqlQuery queryTemporary(QSqlDatabase::database("temporary"));
     QSqlQuery queryPermanent(QSqlDatabase::database("permanent"));
@@ -41,37 +49,38 @@ Database::Database()
     QString filename = settings.value("temp_db").toString();
 
     QFile file(filename);
-    file.open(QIODevice::ReadOnly|QIODevice::Text);
-    QTextStream input(&file);
-    QString sqlQuery = "";
-    int tableCount = 0;
-    while (!input.atEnd())
+    if(file.open(QIODevice::ReadOnly|QIODevice::Text))
     {
-        QString line = input.readLine();
-        QStringList list = line.split(";");
-        if (list.size() == 1 && (!line.isEmpty()))
+        QTextStream input(&file);
+        QString sqlQuery = "";
+        int tableCount = 0;
+        while (!input.atEnd())
         {
-            sqlQuery += list.takeFirst();
+            QString line = input.readLine();
+            QStringList list = line.split(";");
+            if (list.size() == 1 && (!line.isEmpty()))
+            {
+                sqlQuery += list.takeFirst();
+            }
+            else if (list.size() > 1)
+            {
+                sqlQuery += list.takeFirst();
+                queryTemporary.exec(sqlQuery);
+                sqlQuery = "";
+                ++tableCount;
+            }
         }
-        else if (list.size() > 1)
+
+        file.close();
+
+        qDebug() << "Temporary Tables: " <<  QSqlDatabase::database("temporary").tables();
+        qDebug() << "Permanent Tables: " <<  QSqlDatabase::database("permanent").tables();
+
+        //add all of the permanent databases data to the temporary table: REALLY INEFFICIENT AT THE MOMENT
+        for (int tableIndex = 0; tableIndex < tableCount; tableIndex++)
         {
-            sqlQuery += list.takeFirst();
-            queryTemporary.exec(sqlQuery);
-            sqlQuery = "";
-            ++tableCount;
-        }
-    }
 
-    file.close();
-
-    qDebug() << "Temporary Tables: " <<  QSqlDatabase::database("temporary").tables();
-    qDebug() << "Permanent Tables: " <<  QSqlDatabase::database("permanent").tables();
-
-    //add all of the permanent databases data to the temporary table: REALLY INEFFICIENT AT THE MOMENT
-    for (int tableIndex = 0; tableIndex < tableCount; tableIndex++)
-    {
-
-        /*
+            /*
         TESTING:
 
         qDebug() << "FOR LOOP: " << table;
@@ -84,93 +93,101 @@ Database::Database()
              qDebug() << "2nd FOR LOOP: " << test;
 
         }*/
-        //EXAMPLES OF COPYING DATABASE TABLES
-        //INSERT INTO X.TABLE(Id, Value) SELECT * FROM Y.TABLE;
-        // $pdo->exec('CREATE TABLE bar AS SELECT * FROM filedb.foo');
+            //EXAMPLES OF COPYING DATABASE TABLES
+            //INSERT INTO X.TABLE(Id, Value) SELECT * FROM Y.TABLE;
+            // $pdo->exec('CREATE TABLE bar AS SELECT * FROM filedb.foo');
 
-        // QSqlQuery q("select * from employees");
-        //QSqlRecord rec = q.record();
+            // QSqlQuery q("select * from employees");
+            //QSqlRecord rec = q.record();
 
-        //qDebug() << "Number of columns: " << rec.count();
+            //qDebug() << "Number of columns: " << rec.count();
 
-        //int nameCol = rec.indexOf("name"); // index of the field "name"
-        //while (q.next())
-        //  qDebug() << q.value(nameCol).toString(); // output all names
+            //int nameCol = rec.indexOf("name"); // index of the field "name"
+            //while (q.next())
+            //  qDebug() << q.value(nameCol).toString(); // output all names
 
 
-        QString queryPermanentTable = "SELECT * FROM " + QSqlDatabase::database("permanent").tables().at(tableIndex);
-        queryPermanent.exec(queryPermanentTable);
-        QSqlRecord columns = queryPermanent.record();
+            QString queryPermanentTable = "SELECT * FROM " + QSqlDatabase::database("permanent").tables().at(tableIndex);
+            queryPermanent.exec(queryPermanentTable);
+            QSqlRecord columns = queryPermanent.record();
 
-        QString fieldTitles = " (";
-        for (int columnIndex = 0; columnIndex < columns.count(); columnIndex++)
-        {
-            if (!((columnIndex + 1) == columns.count()))
-            {
-                fieldTitles += columns.fieldName(columnIndex) + ",";
-            }else
-            {
-                fieldTitles += columns.fieldName(columnIndex) + ") ";
-            }
-
-        }
-        while(queryPermanent.next())
-        {
-
-            QString fieldValues = " (";
+            QString fieldTitles = " (";
             for (int columnIndex = 0; columnIndex < columns.count(); columnIndex++)
             {
-                QSqlField columnField = columns.field(columnIndex);
-
-                //check whether the column is a string (requires quotations to be a proper sql statement)
-                if (columnField.type() == QVariant::String)
-                {
-                    fieldValues += "'" + queryPermanent.value(columnIndex).toString() + "'";
-                }
-                else
-                {
-                    fieldValues += queryPermanent.value(columnIndex).toString();
-                }
-
-                //formatting
                 if (!((columnIndex + 1) == columns.count()))
                 {
-                    fieldValues += ",";
-                }
-                else
+                    fieldTitles += columns.fieldName(columnIndex) + ",";
+                }else
                 {
-                    fieldValues += ")";
+                    fieldTitles += columns.fieldName(columnIndex) + ") ";
                 }
-            }
-            QString insertIntoTemporaryTable = "INSERT INTO " + QSqlDatabase::database("temporary").tables().at(tableIndex) + fieldTitles + "VALUES" + fieldValues;
-            //qDebug() << insertIntoTemporaryTable;
-            queryTemporary.exec(insertIntoTemporaryTable);
-        }
 
-    }
-    qDebug() << "NOW TESTING WHETHER THE INSERT WORKED: ";
-    //print out temporary tables to double check that the data was copied
-    for (int tableIndex = 0; tableIndex < tableCount; tableIndex++)
-    {
-        QString printTable = "SELECT * FROM " + QSqlDatabase::database("temporary").tables().at(tableIndex);
-        qDebug() << printTable;
-        queryTemporary.exec(printTable);
-        QSqlRecord aRecord = queryTemporary.record();
-        while(queryTemporary.next())
-        {
-            printTable = "";
-            for (int i = 0; i < aRecord.count(); i++)
+            }
+            while(queryPermanent.next())
             {
-                printTable += queryTemporary.value(i).toString();
+
+                QString fieldValues = " (";
+                for (int columnIndex = 0; columnIndex < columns.count(); columnIndex++)
+                {
+                    QSqlField columnField = columns.field(columnIndex);
+
+                    //check whether the column is a string (requires quotations to be a proper sql statement)
+                    if (columnField.type() == QVariant::String)
+                    {
+                        fieldValues += "'" + queryPermanent.value(columnIndex).toString() + "'";
+                    }
+                    else
+                    {
+                        fieldValues += queryPermanent.value(columnIndex).toString();
+                    }
+
+                    //formatting
+                    if (!((columnIndex + 1) == columns.count()))
+                    {
+                        fieldValues += ",";
+                    }
+                    else
+                    {
+                        fieldValues += ")";
+                    }
+                }
+                QString insertIntoTemporaryTable = "INSERT INTO " + QSqlDatabase::database("temporary").tables().at(tableIndex) + fieldTitles + "VALUES" + fieldValues;
+                //qDebug() << insertIntoTemporaryTable;
+                queryTemporary.exec(insertIntoTemporaryTable);
             }
-            qDebug() << printTable;
 
         }
+        qDebug() << "NOW TESTING WHETHER THE INSERT WORKED: ";
+        //print out temporary tables to double check that the data was copied
+        for (int tableIndex = 0; tableIndex < tableCount; tableIndex++)
+        {
+            QString printTable = "SELECT * FROM " + QSqlDatabase::database("temporary").tables().at(tableIndex);
+            qDebug() << printTable;
+            queryTemporary.exec(printTable);
+            QSqlRecord aRecord = queryTemporary.record();
+            while(queryTemporary.next())
+            {
+                printTable = "";
+                for (int i = 0; i < aRecord.count(); i++)
+                {
+                    printTable += queryTemporary.value(i).toString();
+                }
+                qDebug() << printTable;
+
+            }
+        }
+
+        settings.beginReadArray("myFacility");
+        myFacilityID = settings.value("id").toInt();
+        settings.endArray();
+    }
+    else
+    {
+        QMessageBox msgbox;
+        msgbox.setText("Cannot create temporary database. Please exit EOBC.");
+        msgbox.exec();
     }
 
-    settings.beginReadArray("myFacility");
-    myFacilityID = settings.value("id").toInt();
-    settings.endArray();
 }
 
 bool Database::isMyFacility(int facilityID)

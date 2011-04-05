@@ -15,3 +15,5 @@ INSERT INTO area(areaid, name) VALUES (2, 'Ottawa West');
 INSERT INTO area(areaid, name) VALUES (3, 'Ottawa Center');
 INSERT INTO area(areaid, name) VALUES (4, 'Ottawa East');
 INSERT INTO area(areaid, name) VALUES (5, 'Eastern Counties');
+
+

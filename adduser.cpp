@@ -1,10 +1,9 @@
 /********
-  CLASS NAME: AddFacility
+  CLASS NAME: AddUser
   PURPOSE: To display a form for the system administrator to add a user to a facility. Then it will collect the data from the gui and pass it to the data storage classes
   TRACEABILITY: This class traces back to the AddUserControl class from Deliverable 2
 
   CREATED BY: Nisrin Abou-Seido
-  LAST MODIFIED: March 20, 2011
 
 ***********/
 

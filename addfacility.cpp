@@ -4,7 +4,6 @@
   TRACEABILITY: This class traces back to the AddFacilityControl from Deliverable 2
 
   CREATED BY: Nisrin Abou-Seido
-  LAST MODIFIED: March 20, 2011
 
 ***********/
 
@@ -49,6 +48,9 @@ void AddFacility::clickedOK()
 
     float x  = ui->lineEdit_x->text().toFloat(&x_ok);
     float y =  ui->lineEdit_x->text().toFloat(&y_ok);
+
+    qDebug()<<"x"<< QString::number(x);
+    qDebug()<<"y"<< QString::number(y);
 
     QString areaname = ui->comboBox_areas->currentText();
 

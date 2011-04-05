@@ -499,4 +499,35 @@ bool DataStorage::facilityExists(int facilityID)
     return true;
 }
 
+void DataStorage::populateTemporaryDatabase()
+{
+    //insert temporary data into the database for testing
 
+    DataStorage::addFacility("The JNF hospital",400,400,3,3,"Hospital");
+    DataStorage::addFacility("CHEO", 56, 45, 3, 23, "Hospital");
+    DataStorage::addFacility("General Hospital", 70, 80, 2, 20, "Hospital");
+    DataStorage::addFacility("Nursing Home 1",200,200,5,15, "Nursing Home");
+
+    DataStorage::addBeds(3,10,"AC");
+    DataStorage::addBeds(3,14,"CCC");
+
+    DataStorage::addBeds(23,24,"AC");
+    DataStorage::addBeds(23,5,"CCC");
+
+    DataStorage::addBeds(15,14,"LTC");
+
+    DataStorage::addPatientToWaitingList("12","Joe", "Black",1,"120112T11:33:54");
+    DataStorage::addPatientToWaitingList("13","Jane", "Black",1,"120112T11:33:54");
+    DataStorage::addPatientToWaitingList("14","Bob", "Smith",1,"120112T11:33:54");
+
+    DataStorage::addPatientToWaitingList("12","Joe", "Black",2,"120112T11:33:54");
+    DataStorage::addPatientToWaitingList("13","Jane", "Black",2,"120112T11:33:54");
+    DataStorage::addPatientToWaitingList("14","Bob", "Smith",2,"120112T11:33:54");
+
+    DataStorage::assignPatientToBed(3,"12",1,"120112T11:33:54");
+    DataStorage::assignPatientToBed(3,"13",1,"120112T11:33:54");
+    DataStorage::assignPatientToBed(3,"14",1,"120112T11:33:54");
+
+
+
+}

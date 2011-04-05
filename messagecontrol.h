@@ -26,7 +26,7 @@ private slots:
     void readPendingDatagrams();
 
 private:
-    QUdpSocket *serverSocket;
+    QUdpSocket *udpSocket;
     quint16 port;
 
 

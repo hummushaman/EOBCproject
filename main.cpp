@@ -1,11 +1,10 @@
 /********
   CLASS NAME: Main
-  PURPOSE: Starts up the system. Displays the login form to the user.
+  PURPOSE: Starts up the system. Displays the login form to the user.Gets information from the config file
 
-  TRACEABILITY: This class traces back to..
+  TRACEABILITY: Control class
 
   CREATED BY: Nisrin Abou-Seido
-  LAST MODIFIED: March 20, 2011
 
 ***********/
 
@@ -82,18 +81,24 @@ int main(int argc, char *argv[])
             error.setText("Connection failed");
             error.exec();
         }else {
-            //pass the connection to the Database class through the DataStorage class
-            //also need to check that tables exist
+
+            //call Database constructor
             Database::Initialize();
         }
     }
+
+    //insert temporary data into the database for testing
+    DataStorage::addFacility("CHEO", 56, 45,3 , 3, "Hospital");
+    DataStorage::addFacility("General Hospital", 70, 80, 2, 2, "Hospital");
 
 
     //qDebug()<<xmlgenerator::patientOperationXML("Add","2343",3,4,true,"March 4, 2010","March 5, 2010","Paula","Moo",1,2);
 
     //qDebug()<<"bop";
 
-    //qDebug()<<xmlgenerator::rebuild();
+    DataStorage::populateTemporaryDatabase();
+
+    qDebug()<<xmlgenerator::rebuild();
     //qDebug()<<xmlgenerator::rebuildResponse();
     qDebug()<<xmlgenerator::addFacility(3,1,34,45,5,6,8,"Homeland",true,"Hospital");
     qDebug()<<xmlgenerator::addBeds(4,3,1,0,0,true);

@@ -6,7 +6,6 @@
   TRACEABILITY: This class traces back to the LoginControl from Deliverable 2
 
   CREATED BY: Nisrin Abou-Seido
-  LAST MODIFIED: March 20, 2011
 
 ***********/
 

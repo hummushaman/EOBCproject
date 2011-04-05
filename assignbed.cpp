@@ -2,8 +2,7 @@
   Purpose: To display a form for the user to assign a patient to a bed. Then it will collect the data from the gui and pass it to the data storage classes
   Traceability: This class traces back to the AssignBedControl from Deliverable 2*/
 
-/*Created by: Nisrin Abou-Seido
-  Last modified: March 20, 2011*/
+/*Created by: Nisrin Abou-Seido*/
 
 
 #include "assignbed.h"

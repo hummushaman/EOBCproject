@@ -1,3 +1,9 @@
+/*Name:MessageControl
+  Purpose: Send and receive UDP datagrams through a socket
+
+      Traces to subsystem: NotifyAllFacilities
+*/
+
 #include "messagecontrol.h"
 
 
@@ -5,13 +11,13 @@ MessageControl::MessageControl(QObject *parent) :
     QObject(parent)
 {
     QSettings settings("JNFconfig");
-    serverSocket = new QUdpSocket();
+    udpSocket = new QUdpSocket();
     port = settings.value("port").toInt();
 
     QMessageBox msgbox;
 
     //bind to the port in order to receive messages from others on this port
-    if(!serverSocket->bind(QHostAddress(DataStorage::myFacilityIPaddress), port, QUdpSocket::ShareAddress))
+    if(!udpSocket->bind(QHostAddress(DataStorage::myFacilityIPaddress), port, QUdpSocket::ShareAddress))
     {
         msgbox.setText("bind failed");
         msgbox.exec();
@@ -19,7 +25,7 @@ MessageControl::MessageControl(QObject *parent) :
     else
     {
         //ui->label->setText(tr("made it to binding"));
-        if(connect(serverSocket, SIGNAL(readyRead()), this, SLOT(readPendingDatagrams())))
+        if(connect(udpSocket, SIGNAL(readyRead()), this, SLOT(readPendingDatagrams())))
         {
             msgbox.setText("connected");
             msgbox.exec();
@@ -40,12 +46,13 @@ void MessageControl::readPendingDatagrams()
     QHostAddress* anAddress;
     QString theMessage;
 
-    while (serverSocket->hasPendingDatagrams()) {
+    while (udpSocket->hasPendingDatagrams()) {
         QByteArray datagram;
-        datagram.resize(serverSocket->pendingDatagramSize());
+        datagram.resize(udpSocket->pendingDatagramSize());
 
 
-        int errorcode = serverSocket->readDatagram(datagram.data(), datagram.size(), anAddress); //OKAY?
+        int errorcode = udpSocket->readDatagram(datagram.data(), datagram.size(), anAddress);
+        if(errorcode)
 
         theMessage = datagram.data();
 
@@ -97,7 +104,7 @@ void MessageControl::assignIPtoFacility(QString ipaddress, int facilID)
 void MessageControl::sendMessage(QString message, int facilityID) //this is a static method
 {
     QSettings settings("JNFconfig");
-    QUdpSocket* serverSocket = new QUdpSocket();
+    QUdpSocket* udpSocket = new QUdpSocket();
     QString recipientIP;
     QMessageBox msgbox;
 
@@ -114,7 +121,7 @@ void MessageControl::sendMessage(QString message, int facilityID) //this is a st
     }
 
     //need to get the ipaddress of facility
-    int errorCode = serverSocket->writeDatagram(message.toLatin1(), QHostAddress(recipientIP), port);
+    int errorCode = udpSocket->writeDatagram(message.toLatin1(), QHostAddress(recipientIP), port);
 
 }
 
@@ -125,7 +132,7 @@ void MessageControl::sendMessageToAll(QString message)
 
     QSettings settings("JNFconfig");
 
-    QUdpSocket* serverSocket = new QUdpSocket();
+    QUdpSocket* udpSocket = new QUdpSocket();
     int port = settings.value("port").toInt();
 
     //the following code reads the IP address given the facilityID.
@@ -157,7 +164,7 @@ void MessageControl::sendMessageToAll(QString message)
     //send the message to all the facilities that are in the "facilities" map.
     for(int i= 0; i> servers.size();i++)
     {
-        int errorCode = serverSocket->writeDatagram(message.toLatin1(),QHostAddress(servers.value(i)),port);
+        int errorCode = udpSocket->writeDatagram(message.toLatin1(),QHostAddress(servers.value(i)),port);
     }
 
 }

@@ -94,7 +94,7 @@ void ViewFacility::displayInformation()
 
     float occRate;
     if(totalNumBeds != 0)
-        occRate= totalBedsOccupied/ totalNumBeds * 100;
+        occRate= (totalBedsOccupied/totalNumBeds) * 100;
     else
         occRate = 0;
 
@@ -104,8 +104,6 @@ void ViewFacility::displayInformation()
 
     ui->label_totalNumBeds->setText(QString::number(totalNumBeds));
     ui->label_overallOccRate->setText(QString::number(occRate) + "%");
-
-
 
 
 }

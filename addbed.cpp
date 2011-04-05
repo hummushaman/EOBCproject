@@ -116,6 +116,17 @@ void AddBed::clickedOK()
 
                 DataStorage::addBeds(facilID,numBeds,careType);
 
+                int numAC = 0;
+                int numCCC = 0;
+                int numLTC = 0;
+                if(careType == "AC")
+                    numAC = numBeds;
+                else if (careType == "CCC")
+                    numCCC = numBeds;
+                else
+                    numLTC = numBeds;
+
+                // QString message = xmlgenerator::addBeds(facilID,)
 
                 MessageControl::sendMessageToAll("added some beds to some facility");  /*******testing to see if it is possible to send messages!!!!*****************/
 

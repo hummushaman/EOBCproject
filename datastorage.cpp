@@ -468,6 +468,7 @@ int DataStorage::convertToOneInt(QSqlQuery queryTemporary)
 }
 
 
+
 void DataStorage::clearPatientsAtFacility(int facilityID)
 {
     Database::Initialize()->clearPatientsAtFacility(facilityID);

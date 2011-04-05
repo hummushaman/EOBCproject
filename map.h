@@ -26,6 +26,7 @@ public:
 private slots:
     void clickedOK();
     void updateMap();
+    void updateLists();
 private:
     Ui::Map *ui;
 };

@@ -1,11 +1,4 @@
 /********
-  CLASS NAME: RemovePatientToWaitingList
-  PURPOSE: To display a form for the user to patient a patient to waiting list. Then it will collect the data from the gui and pass it to the data storage classes
-  TRACEABILITY: This class traces back to the RemovePatientToWaitingListControl class from Deliverable 2
-
-  CREATED BY: Nisrin Abou-Seido
-  LAST MODIFIED: March 20, 2011
-
 ***********/
 
 #include "removepatientfromwaitinglist.h"
@@ -15,8 +8,8 @@
 
 
 RemovePatientFromWaitingList::RemovePatientFromWaitingList(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::RemovePatientFromWaitingList)
+        QMainWindow(parent),
+        ui(new Ui::RemovePatientFromWaitingList)
 {
     ui->setupUi(this);
     connect(ui->OKButton,SIGNAL(clicked()),this,SLOT(clickedOK()));
@@ -59,7 +52,7 @@ void RemovePatientFromWaitingList::displayPatients()
 
 
 
-    //attempt to add patients to the list as objects *is not working*
+        //attempt to add patients to the list as objects *is not working*
 
 
         /*if( patients[i])
@@ -75,7 +68,7 @@ void RemovePatientFromWaitingList::displayPatients()
             ui->listWidget_patients->insertItem( ui->listWidget_patients->count(), newItem);
         }*/
     }
-   // QObject * obj = qvariant_cast<QObject *>(item->data(Qt::UserRole));
+    // QObject * obj = qvariant_cast<QObject *>(item->data(Qt::UserRole));
     // from QObject* to myClass*
     //myClass * lmyClass = qobject_cast<myClass *>(obj);
 
@@ -85,36 +78,43 @@ void RemovePatientFromWaitingList::displayPatients()
 void RemovePatientFromWaitingList::clickedOK()
 {
     //get data from the GUI
-    QString patientHCN = ui->listWidget_patients->currentItem()->text();
-
-    //check that the user is sure this is what they want to do.
-
+    QString patientHCN;
     QMessageBox msgBox;
 
-    QString firstname = DataStorage::getPatientFirstName(patientHCN);
-    QString lastname = DataStorage::getPatientLastName(patientHCN);
 
-    QString areaname = ui->comboBox_areas->currentText();
+    if(ui->listWidget_patients->currentItem() == 0)
+    {
+        msgBox.setText("Must select a patient. If list is empty, please select another area.");
+        msgBox.exec();
+    }
+    else
+    {
+        patientHCN = ui->listWidget_patients->currentItem()->text();
 
-    msgBox.setText("You have requested to *remove* the following patient from the waiting list for " +areaname+ ":\n\nHealth Card Number: " + patientHCN +"\nFirst Name: "+ firstname + "\nLast Name: " + lastname);
+        QString firstname = DataStorage::getPatientFirstName(patientHCN);
+        QString lastname = DataStorage::getPatientLastName(patientHCN);
 
-    msgBox.setInformativeText("Do you want to save and propogate this change?");
-    msgBox.setStandardButtons( QMessageBox::Cancel | QMessageBox::Ok);
-    msgBox.setDefaultButton(QMessageBox::Cancel);
-    int ret = msgBox.exec();
+        QString areaname = ui->comboBox_areas->currentText();
 
-    int areaid = DataStorage::getAreaID(areaname);
+        msgBox.setText("You have requested to *remove* the following patient from the waiting list for " +areaname+ ":\n\nHealth Card Number: " + patientHCN +"\nFirst Name: "+ firstname + "\nLast Name: " + lastname);
 
-    QDateTime date = QDateTime::currentDateTime();
-    QString dateRemoved = date.toString("yyyy-MM-ddThh:mm:ss");
+        msgBox.setInformativeText("Do you want to save and propogate this change?");
+        msgBox.setStandardButtons( QMessageBox::Cancel | QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Cancel);
+        int ret = msgBox.exec();
 
-    if(ret == QMessageBox::Ok)
-    {   //call removePatientFromWaitingList from datastorage class
+        int areaid = DataStorage::getAreaID(areaname);
 
-        DataStorage::removePatientFromWaitingList(areaid, patientHCN, dateRemoved);
+        QDateTime date = QDateTime::currentDateTime();
+        QString dateRemoved = date.toString("yyyy-MM-ddThh:mm:ss");
 
-        close(); //if user clicks Cancel, we do *not* close the form
+        if(ret == QMessageBox::Ok)
+        {   //call removePatientFromWaitingList from datastorage class
 
+            DataStorage::removePatientFromWaitingList(areaid, patientHCN, dateRemoved);
+            close(); //if user clicks Cancel, we do *not* close the form
+
+        }
     }
 
 }

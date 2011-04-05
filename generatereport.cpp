@@ -28,8 +28,26 @@ GenerateReport::GenerateReport(QWidget *parent) :
 
     //connect okbutton to slot
     connect(ui->OKButton, SIGNAL(clicked()), this, SLOT(GenerateReportButtonClicked()));
+    populateLists();
 }
 
+void GenerateReport::populateLists(){
+    QVector<int>facilities=DataStorage::getAllFacilities();
+    QVector<int>areas=DataStorage::getAllAreas();
+
+    ui->facillist->clear();
+    ui->listWidget_2->clear();
+    ui->listWidget_3->clear();
+    ui->listWidget_4->clear();
+
+    for(int i=0; i< facilities.size();i++)ui->facillist->addItem(DataStorage::getFacilityName(facilities[i]));
+
+    for (int i=0;i<areas.size();i++){
+        ui->listWidget_2->addItem(DataStorage::getAreaName(areas[i]));
+        ui->listWidget_3->addItem(DataStorage::getAreaName(areas[i]));
+        ui->listWidget_4->addItem(DataStorage::getAreaName(areas[i]));
+    }
+}
 
 void GenerateReport::GenerateReportButtonClicked(){
     generateNoTimeReport();

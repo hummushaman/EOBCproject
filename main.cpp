@@ -92,5 +92,6 @@ int main(int argc, char *argv[])
     //qDebug()<<xmlgenerator::addFacility(3,1,34,45,5,6,8,"Homeland",true,"Hospital");
     //qDebug()<<xmlgenerator::addBeds(4,3,1,0,0,true);
 
+
     return a.exec();
 }

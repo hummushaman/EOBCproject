@@ -61,17 +61,18 @@ void RemovePatient::displayPatients()
 void RemovePatient::clickedOK()
 {
     //get data from the GUI
-    QString patientHCN = ui->listWidget_patients->currentItem()->text();
-
+    QString patientHCN;
     QMessageBox msgBox;
 
-    if(patientHCN == "")
+    if(ui->listWidget_patients->currentItem() == 0)
     {
-        msgBox.setText("Must select a patient. If waiting list is empty, please select another area.");
+        msgBox.setText("Must select a patient. If list is empty, please select another facility.");
         msgBox.exec();
     }
     else
     {
+        patientHCN = ui->listWidget_patients->currentItem()->text();
+
         //check that the user is sure this is what they want to do.
         QString firstname = DataStorage::getPatientFirstName(patientHCN);
         QString lastname = DataStorage::getPatientLastName(patientHCN);

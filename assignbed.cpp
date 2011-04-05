@@ -20,12 +20,25 @@ AssignBed::AssignBed(QWidget *parent) :
 
 
 
-    //populate facilities combo box //Shoudl we only show long term care facilities????????
+    //populate facilities combo box
+    //only display nursing homes. Patients are being assigned from a waiting list. Therefore, they only require LTC.
 
     if(DataStorage::currentUserType== "FACILITY")
     {
         QString facilName = DataStorage::getFacilityName(DataStorage::myFacilityID);
-        ui->comboBox_facilities->addItem(facilName);
+
+        QString facilType = DataStorage::getFacilityType(DataStorage::myFacilityID);
+
+        if(facilType == "Nursing Home")
+             ui->comboBox_facilities->addItem(facilName);
+        else
+        {
+            QMessageBox msgbox;
+            msgbox.setText("As a facility staff at a hospital, you do not have permission to assign patients to a bed.");
+            msgbox.exec();
+        }
+
+
 
     }
     else
@@ -34,7 +47,12 @@ AssignBed::AssignBed(QWidget *parent) :
         for(int i=0; i< facilities.size();i++)
         {
             QString facilName = DataStorage::getFacilityName(facilities.at(i));
-           ui->comboBox_facilities->addItem(facilName);
+            QString facilType = DataStorage::getFacilityType(facilities.at(i));
+
+            if(facilType == "Nursing Home")
+                 ui->comboBox_facilities->addItem(facilName);
+
+
         }
     }
 }
@@ -83,10 +101,10 @@ void AssignBed::clickedOK()
             QDateTime date = QDateTime::currentDateTime();
             QString dateAdmitted = date.toString("yyyy-MM-ddThh:mm:ss");
 
-            QString dateAdded = DataStorage::getPatientDateAdmitted(patientHCN);
+            QString dateAdded = DataStorage::getPatientDateAdded(patientHCN,areaNum);
 
             //call assignPatientToBed from datastorage class
-            DataStorage::assignPatientToBed(facilid, patientHCN,areaNum,dateAdded);
+            DataStorage::assignPatientToBed(facilid, patientHCN,areaNum,dateAdmitted);
 
             //call XMLGenerator
             xmlgenerator::patientOperationXML("Add",patientHCN,facilid, areaNum, remote, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));

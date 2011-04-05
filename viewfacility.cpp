@@ -47,35 +47,63 @@ void ViewFacility::displayInformation()
 
     /***********change data storage class so that the following functions actually return something!!*********/
 
+
+
+    if(DataStorage::getFacilityType(facilID) == "Hospital")
+    {
+            int totalACBeds = DataStorage::getTotalACBeds(facilID);
+            int totalCCCBeds = DataStorage::getTotalCCCBeds(facilID);
+
+            float numCCCoccupied = DataStorage::getNumCCCBedsOccupied(facilID);
+            float numACoccupied = DataStorage::getNumACBedsOccupied(facilID);
+
+            float occRateAC;
+            float occRateCCC;
+
+
+            if (totalACBeds != 0)
+                occRateAC = numACoccupied/totalACBeds * 100;
+            else
+                occRateAC = 0;
+
+
+            if(totalCCCBeds != 0)
+                occRateCCC = numCCCoccupied/totalCCCBeds * 100;
+            else
+                occRateCCC = 0;
+
+
+            ui->label_numACbeds->setText( QString::number(totalACBeds));
+            ui->label_numCCCbeds->setText(QString::number(totalCCCBeds));
+
+            ui->label_occRateAC->setText(QString::number(occRateAC) + "%");
+            ui->label_occRateCCC->setText(QString::number(occRateCCC) + "%");
+
+    }
+    else
+    {
+        ui->label_numACbeds->setText( "N/A");
+        ui->label_numCCCbeds->setText("N/A");
+        ui->label_occRateAC->setText("N/A");
+        ui->label_occRateCCC->setText("N/A");
+
+    }
+
     float totalNumBeds = DataStorage::getTotalNumBeds(facilID);
     float totalBedsOccupied = DataStorage::getTotalNumBedsOccupied(facilID);
 
-    float occRate = totalBedsOccupied/ totalNumBeds * 100;
-
-    int totalACBeds = DataStorage::getTotalACBeds(facilID);
-    int totalCCCBeds = DataStorage::getTotalCCCBeds(facilID);
-
-    float numCCCoccupied = DataStorage::getNumCCCBedsOccupied(facilID);
-    float numACoccupied = DataStorage::getNumACBedsOccupied(facilID);
-
-    float occRateAC = numACoccupied/totalACBeds;
-    float occRateCCC = numCCCoccupied/totalCCCBeds;
+    float occRate;
+    if(totalNumBeds != 0)
+        occRate= totalBedsOccupied/ totalNumBeds * 100;
+    else
+        occRate = 0;
 
 
     //print to the labels
     //use formatting to limit the occrate to 2 decimal spaces
 
-    ui->label_numACbeds->setText( QString::number(totalACBeds));
-    ui->label_numCCCbeds->setText(QString::number(totalCCCBeds));
     ui->label_totalNumBeds->setText(QString::number(totalNumBeds));
-
-
-    ui->label_occRateAC->setText(QString::number(occRateAC));
-    ui->label_occRateCCC->setText(QString::number(occRateCCC));
-    ui->label_overallOccRate->setText(QString::number(occRate));
-
-
-
+    ui->label_overallOccRate->setText(QString::number(occRate) + "%");
 
 
 

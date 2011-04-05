@@ -20,9 +20,7 @@
 #include "xmlgenerator.h"
 using namespace std;
 
-
 /*******make sure the file JNFconfig.conf is in home/<userfolder>/<yourusername>/.config directory*************/
-
 
 int main(int argc, char *argv[])
 {
@@ -30,10 +28,7 @@ int main(int argc, char *argv[])
     Login *w = new Login();
     w->show();
 
-
     QSettings settings("JNFconfig"); // opens the configuration file. File should be located in: home/<userfolder>/<yourusername>/.config
-
-
 
     //get the database path
     settings.beginGroup("database");
@@ -87,23 +82,14 @@ int main(int argc, char *argv[])
         }
     }
 
-    //insert temporary data into the database for testing
-    DataStorage::addFacility("CHEO", 56, 45,3 , 3, "Hospital");
-    DataStorage::addFacility("General Hospital", 70, 80, 2, 2, "Hospital");
-
-
-    //qDebug()<<xmlgenerator::patientOperationXML("Add","2343",3,4,true,"March 4, 2010","March 5, 2010","Paula","Moo",1,2);
-
-    //qDebug()<<"bop";
 
     DataStorage::populateTemporaryDatabase();
 
     qDebug()<<xmlgenerator::rebuild();
+
     //qDebug()<<xmlgenerator::rebuildResponse();
-    qDebug()<<xmlgenerator::addFacility(3,1,34,45,5,6,8,"Homeland",true,"Hospital");
-    qDebug()<<xmlgenerator::addBeds(4,3,1,0,0,true);
-
-
+    //qDebug()<<xmlgenerator::addFacility(3,1,34,45,5,6,8,"Homeland",true,"Hospital");
+    //qDebug()<<xmlgenerator::addBeds(4,3,1,0,0,true);
 
     return a.exec();
 }

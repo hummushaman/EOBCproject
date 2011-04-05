@@ -502,10 +502,8 @@ bool DataStorage::facilityExists(int facilityID)
 void DataStorage::populateTemporaryDatabase()
 {
     //insert temporary data into the database for testing
-
-    DataStorage::addFacility("The JNF hospital",400,400,3,3,"Hospital");
-    DataStorage::addFacility("CHEO", 56, 45, 3, 23, "Hospital");
-    DataStorage::addFacility("General Hospital", 70, 80, 2, 20, "Hospital");
+    DataStorage::addFacility("Hospital 1", 56, 45, 3, 23, "Hospital");
+    DataStorage::addFacility("Hospital 2", 70, 80, 2, 20, "Hospital");
     DataStorage::addFacility("Nursing Home 1",200,200,5,15, "Nursing Home");
 
     DataStorage::addBeds(3,10,"AC");
@@ -527,7 +525,6 @@ void DataStorage::populateTemporaryDatabase()
     DataStorage::assignPatientToBed(3,"12",1,"120112T11:33:54");
     DataStorage::assignPatientToBed(3,"13",1,"120112T11:33:54");
     DataStorage::assignPatientToBed(3,"14",1,"120112T11:33:54");
-
 
 
 }

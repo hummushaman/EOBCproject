@@ -47,7 +47,7 @@ void AddFacility::clickedOK()
     bool x_ok, y_ok;
 
     float x  = ui->lineEdit_x->text().toFloat(&x_ok);
-    float y =  ui->lineEdit_x->text().toFloat(&y_ok);
+    float y =  ui->lineEdit_y->text().toFloat(&y_ok);
 
     qDebug()<<"x"<< QString::number(x);
     qDebug()<<"y"<< QString::number(y);

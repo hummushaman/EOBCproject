@@ -117,7 +117,7 @@ void AddBed::clickedOK()
                 DataStorage::addBeds(facilID,numBeds,careType);
 
 
-                MessageControl::sendMessage("added some beds to some facility", 1);  /*******testing to see if it is possible to send messages!!!!*****************/
+                MessageControl::sendMessageToAll("added some beds to some facility");  /*******testing to see if it is possible to send messages!!!!*****************/
 
                 close(); //if user clicks Cancel, we do not close the addBeds form
 

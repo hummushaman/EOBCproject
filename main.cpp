@@ -119,7 +119,20 @@ int main(int argc, char *argv[])
 
     DataStorage::addPatientToWaitingList("12","Joe", "Black",2,"120112T11:33:54");
     DataStorage::addPatientToWaitingList("13","Jane", "Black",2,"120112T11:33:54");
-    DataStorage::addPatientToWaitingList("14","Bob", "Smith",2,"120112T11:33:54");
+    DataStorage::addPatientToWaitingList("14","Blob", "Smith",2,"120112T11:33:54");
+    DataStorage::addPatientToWaitingList("15","Bojb", "Smith",2,"120112T11:33:54");
+    DataStorage::addPatientToWaitingList("16","Boob", "Smith",2,"110112T11:33:54");
+    DataStorage::addPatientToWaitingList("17","Bobo", "Smith",2,"120112T11:33:54");
+    DataStorage::addPatientToWaitingList("18","Boib", "Smith",2,"120112T11:33:54");
+    DataStorage::addPatientToWaitingList("19","Bobi", "Smith",2,"120112T11:33:54");
+    DataStorage::addPatientToWaitingList("20","Boub", "Smith",2,"120112T11:33:54");
+    DataStorage::addPatientToWaitingList("21","Boxb", "Smith",2,"120112T11:33:54");
+    DataStorage::addPatientToWaitingList("22","Bqob", "Smith",2,"120112T11:33:54");
+    DataStorage::addPatientToWaitingList("23","Bowb", "Smith",2,"120112T11:33:54");
+    DataStorage::addPatientToWaitingList("24","Boqb", "Smith",2,"100122T11:33:54");
+    DataStorage::addPatientToWaitingList("25","Bo", "Smith",2,"120112T11:33:54");
+    DataStorage::addPatientToWaitingList("26","ob", "Smith",2,"120112T11:33:54");
+    DataStorage::addPatientToWaitingList("27","o", "Smith",2,"120112T11:33:54");
 
     DataStorage::assignPatientToBed(3,"12",1,"120112T11:33:54");
     DataStorage::assignPatientToBed(3,"13",1,"120112T11:33:54");

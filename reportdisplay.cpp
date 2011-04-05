@@ -26,12 +26,10 @@ void ReportDisplay::showReport(QVector< QVector<double> >graph, QString startDat
 
     QGraphicsScene *contents = new QGraphicsScene( ui->graphicsView );
     QPen pen;
-
     double maxy=0;
     for (int i=0;i<graph.size();i++)
         for (int j=0;j<graph[i].size();j++){
             if (graph[i][j]>maxy)maxy=graph[i][j];
-
     }
 
     double width=800;
@@ -78,6 +76,11 @@ void ReportDisplay::showReport(QVector< QVector<double> >graph, QString startDat
 }
 
 void ReportDisplay::showBarReport(QVector<double>graph, QString startDate, QString endDate,QVector<QString>names){
+
+
+for (int i=0;i<graph.size();i++)qDebug()<<graph[i];
+
+
     ui->from->setText(startDate);
     ui->to->setText(endDate);
 
@@ -85,31 +88,34 @@ void ReportDisplay::showBarReport(QVector<double>graph, QString startDate, QStri
     QPen pen;
 
     double maxy=0;
-    for (int i=0;i<graph.size();i++)if (graph[i]>maxy)maxy=graph[i];
-    double width=800;
-    double height=300;
+    bool allZero=true;
+    for (int i=0;i<graph.size();i++){
+        if (graph[i]>maxy)maxy=graph[i];
+        if (allZero&&graph[i]!=0)allZero=false;
+    }
+    double width=500;
+    double height=100;
     double days=graph.size()+1;
     double xinterval=width/days;
-    double yinterval=height/(maxy+1);
-
+    double yinterval=height/(maxy);
+    if (maxy==0)yinterval=1;
     double x=0;
 
     QColor col;
     QFont font;
     QStringList colorNames=QColor::colorNames();
-    QString nl="";
 
     for (int i=0;i<graph.size();i++){
+        x+=xinterval;
         pen.setColor(colorNames[i+20]);
         pen.setWidth(xinterval-1);
-        contents->addText(nl.append(names[i]).append(" - ").append(colorNames[i+20]),font);
-        nl.append("\n\n");
-        x+=xinterval;
+        QString legendItem=names[i].append(" - ").append(colorNames[i+20]);
+        legendItem.append(" - ").append(QString::number(graph[i]));
+        ui->legend->addItem(legendItem);
         double top=graph[i];
-        contents->addLine(x,maxy*yinterval,x,maxy*yinterval-top*yinterval,pen);
+        if ((top>0)||allZero) contents->addLine(x,maxy*yinterval,x,maxy*yinterval-top*yinterval,pen);
     }
 
     ui->graphicsView->setScene(contents);
     ui->graphicsView->show();
-
 }

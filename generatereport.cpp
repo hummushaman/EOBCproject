@@ -50,10 +50,16 @@ void GenerateReport::populateLists(){
 }
 
 void GenerateReport::GenerateReportButtonClicked(){
+
+qDebug()<<"buttom clicked";
+
     generateNoTimeReport();
 }
 
 void GenerateReport::generateNoTimeReport(){
+
+qDebug()<<"about to decide where to go";
+
     if (ui->occratebox->isChecked())generateNoTimeOccRateReport();
     if (ui->checkBox_waitTimes->isChecked())generateNoTimeWaitTimesReport();
     if (ui->checkBox_waitingListSize->isChecked())generateNoTimeWaitingListSizeReport();
@@ -69,7 +75,12 @@ void GenerateReport::generateNoTimeWaitTimesReport(){
         double total=0;
 
         QDateTime current = QDateTime::currentDateTime();
+
+ qDebug()<<"A B O U T TO G E T D A T E";
+
         QString today = current.toString("yyyy-MM-ddThh:mm:ss");
+
+ qDebug()<<"GOT I T !";
 
         QVector<Patient>patients=DataStorage::getWaitingListPatients(DataStorage::getAreaID(name));
         for (int j=0;j<patients.size();j++){
@@ -96,15 +107,24 @@ void GenerateReport::generateNoTimeWaitTimesReport(){
 }
 
 void GenerateReport::generateNoTimeWaitingListSizeReport(){
+
+qDebug()<<"in GenerateReport";
+
     QVector<double>theGraph;
     QVector<QString>labels;
     QList<QListWidgetItem*>contents=ui->listWidget_3->selectedItems();
+
+qDebug()<<"about to enter firstLoop";
+
     for (int i=0;i<contents.size();i++){
         QString name=contents[i]->text();
         double total=0;
         QVector<Patient>patients=DataStorage::getWaitingListPatients(DataStorage::getAreaID(name));
         theGraph.append(patients.size());
         labels.append(name);
+
+qDebug()<<"data entered.";
+
     }
 
     QDateTime date = QDateTime::currentDateTime();
@@ -112,6 +132,10 @@ void GenerateReport::generateNoTimeWaitingListSizeReport(){
 
     if (theGraph.size()>0){
         ReportDisplay* win=new ReportDisplay();
+
+ qDebug()<<"About to show report.  R E P O R T";
+
+
         win->showBarReport(theGraph,dateTime,"Wait List Sizes Report",labels);
         win->show();
     }

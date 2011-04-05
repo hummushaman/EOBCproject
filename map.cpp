@@ -15,6 +15,7 @@
 #include <patient.h>
 #include <datastorage.h>
 #include <QPainter>
+#include <Qt>
 
 
 Map::Map(QWidget *parent) :
@@ -56,6 +57,8 @@ void Map::updateMap(){
     QGraphicsScene *contents = new QGraphicsScene( ui->mapview );
     QPen pen;
     QBrush brush;
+
+    brush.setStyle(Qt::SolidPattern);
     QFont font;
     QPainter painter;
 
@@ -136,17 +139,28 @@ void Map::updateMap(){
             QString datum=nl.append(DataStorage::getFacilityName(allFacilities[i])+" AC:"+QString::number(ac)+" CCC:"+QString::number(ccc)+" LTC:"+QString::number(ltc)+" WL:"+QString::number(wl));
             contents->addText(datum,font);
 
+
+
             double x = DataStorage::getFacilityX(facilNum);
             double y = DataStorage::getFacilityY(facilNum);
             x=x*xinterval;
             y=y*yinterval;
+
+            /*
+            QGraphicsTextItem item("hi");
+            item.setParent(contents);
+            item.setX(x*xinterval);
+            item.setY(y*yinterval);
+*/
 
 
             if (ui->viewWLsizes->isChecked()){
                     double factor=wlSizes[areaIndex]/largestList;
                     pen.setColor("red");
                     pen.setColor(pen.color().darker(100+200*factor));
+                    brush.setColor(pen.color());
                     contents->addEllipse(x,y,wldim,wldim,pen,brush);
+
             }
 
 
@@ -154,17 +168,20 @@ void Map::updateMap(){
                 if (facilType=="Hospital"){
                     pen.setColor("green");
                     pen.setColor(pen.color().darker(100+200*ccc));
+                    brush.setColor(pen.color());
                     contents->addEllipse(x+(wldim-cccdim)/2,y+(wldim-cccdim)/2,cccdim,cccdim,pen,brush);
 
                     pen.setColor("blue");
                     pen.setColor(pen.color().darker(100+200*ac));
+                    brush.setColor(pen.color());
                     contents->addEllipse(x+(wldim-acdim)/2,y+(wldim-acdim)/2,acdim,acdim,pen,brush);
 
                 }
                 else{
                     pen.setColor("yellow");
                     pen.setColor(pen.color().darker(100+200*ltc));
-                    contents->addEllipse(x,y,ltcdim+(wldim-ltcdim)/2,ltcdim+(wldim-ltcdim)/2,pen,brush);
+                    brush.setColor(pen.color());
+                    contents->addEllipse(x+(wldim-ltcdim)/2,y+(wldim-ltcdim)/2,ltcdim,ltcdim,pen,brush);
                 }
             }
 

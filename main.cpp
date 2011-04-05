@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     Login *w = new Login();
-    w->show();
+
 
     QSettings settings("JNFconfig"); // opens the configuration file. File should be located in: home/<userfolder>/<yourusername>/.config
 
@@ -54,9 +54,9 @@ int main(int argc, char *argv[])
         DataStorage::isMain = false;
 
 
+
     qDebug() << DataStorage::isMain;
     qDebug() << DataStorage::isMainFacility();
-
 
     //initialize the Message control which listens for incoming messages
     MessageControl* messageControl = new MessageControl();
@@ -79,6 +79,7 @@ int main(int argc, char *argv[])
 
             //call Database constructor
             Database::Initialize();
+            w->show();
         }
     }
 

@@ -13,8 +13,8 @@ CREATE TABLE facility (
     name TEXT NOT NULL UNIQUE,
     totalBeds INTEGER DEFAULT 0,
     numBedsOccupied INTEGER DEFAULT 0,
-    x FLOAT,
-    y FLOAT,
+    x INTEGER NOT NULL,
+    y INTEGER NOT NULL,
     FOREIGN KEY (areaid) REFERENCES area (areaid),
     FOREIGN KEY (facilityTypeid) REFERENCES facilityTypes (facilitytypeid)
 );

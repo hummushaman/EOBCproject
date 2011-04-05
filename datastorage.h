@@ -36,6 +36,7 @@ public:
     static QString myFacilityIPaddress;
     static QString currentUserType;
     static bool isMain;
+
     //static void setMyFacilityID(int id);
     //static void setMyFacilityIPAddress(QString ipadress);
     //static void setCurrentUserType(QString aUserType);
@@ -68,8 +69,8 @@ public:
 
     static QString getFacilityName(int facilityID);
 
-    static float getFacilityX(int facilityID);
-    static float getFacilityY(int facilityID);
+    static int getFacilityX(int facilityID);
+    static int getFacilityY(int facilityID);
 
     static int getTotalACBeds(int facilityID);
     static int getNumACBedsOccupied(int facilityID);
@@ -107,7 +108,7 @@ public:
     static QString getUserType(QString username);
 
     static void addUser(QString username, QString password, QString userType);
-    static void addFacility(QString name, float x, float y, int area, int facilityID, QString facilityType);
+    static void addFacility(QString name, int x, int y, int area, int facilityID, QString facilityType);
 
     static int getCareType(QString care);
     static QString getCareType(int care);

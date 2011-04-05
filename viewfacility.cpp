@@ -31,11 +31,8 @@ ViewFacility::~ViewFacility()
 void ViewFacility::displayInformation()
 {
     QString facilName = ui->comboBox_facilities->currentText();
-
     int facilID = DataStorage::getFacilityID(facilName);
-
     QVector<Inpatient> patients = DataStorage::getPatientsAtFacility(facilID);
-
 
     for(int i= 0; i<patients.size();i++)
     {
@@ -45,7 +42,6 @@ void ViewFacility::displayInformation()
         ui->listWidget_patients->addItem(firstname + " " + lastname + " ("+ patients[i].getHCN() + ")");
 
     }
-
 
     //get occupancy rate information
 
@@ -73,9 +69,10 @@ void ViewFacility::displayInformation()
     ui->label_numCCCbeds->setText(QString::number(totalCCCBeds));
     ui->label_totalNumBeds->setText(QString::number(totalNumBeds));
 
-   ui->label_occRateAC->setText(QString::number(occRateAC));
-   ui->label_occRateCCC->setText(QString::number(occRateCCC));
-   ui->label_overallOccRate->setText(QString::number(occRate));
+
+    ui->label_occRateAC->setText(QString::number(occRateAC));
+    ui->label_occRateCCC->setText(QString::number(occRateCCC));
+    ui->label_overallOccRate->setText(QString::number(occRate));
 
 
 

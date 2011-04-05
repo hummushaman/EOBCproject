@@ -26,7 +26,7 @@ public:
     static Database* Initialize();
 
     void removePatientFromBed(int facilityID, QString HCN, QString dateRemoved);
-    void assignPatientToBed(int facilityID, QString HCN);
+    void assignPatientToBed(int facilityID, QString HCN,int areaid, QString dateAssigned);
     void addBeds(int facilityID, int numBeds, QString bedType);
 
     void removePatientFromWaitingList(int areaID, QString HCN, QString dateRemoved);
@@ -75,7 +75,7 @@ public:
     QSqlQuery getUserFacility(QString username);
 
     void addUser(QString username, QString password, QString userType);
-    void addFacility(QString name, float x, float y, int areaID, int facilityID, QString facilityType);
+    void addFacility(QString name, int x, int y, int areaID, int facilityID, QString facilityType);
     QSqlQuery getCareType(int careType);
     QSqlQuery getCareTypeID(QString careType);
 
@@ -102,7 +102,8 @@ private:
     //HELPER FUNCTIONS
     //------------------------------------------------------------------------------------------------------------------
     bool isMyFacility(int facilityID);
-    int getUserTypeID(QString username, QString password, QString userType);
+    bool isMyArea(int areaID);
+    int getUserTypeID(QString userType);
     QSqlQuery queryDatabase(QString aQuery, QString databaseConnection);
     void updateDatabase(QString aQuery, QString databaseConnection);
     int getID(QSqlQuery queryTemporary);
@@ -117,18 +118,19 @@ private:
     void updateNumberOfACBeds(QString databaseConnection, int facilityID, int amount);
     void updateNumberOfCCCBeds(QString databaseConnection, int facilityID, int amount);
     void updateTotalNumberOfBeds(QString databaseConnection, int facilityID, int amount, bool updateLog);
+
+    void removePatientFromAllWaitingLists(QString HCN, int areaID, QString dateAssigned);
     //PRIVATE VERSIONS OF "DATASTORAGE CLASSES FUNCTIONS" TO REDUCE REDUNDANT CODE (due to the fact of two databases)
     //------------------------------------------------------------------------------------------------------------------
     void removePatientFromBed(QString databaseConnection, int facilityID, QString HCN, QString dateRemoved);
     void removePatientFromWaitingList(QString databaseConnection, int areaID, QString HCN, QString dateRemoved);
     void addPatientToWaitingList(QString databaseConnection, QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded);
-    void assignPatientToBed(QString databaseConnection, int facilityID, QString HCN, int areaID, QString dateAssigned);
 
     void addPatientToWaitingList(QString databaseConnection, QString HCN, int areaID, QString dateAdded);
     void addBeds(QString databaseConnection, int facilityID, int numBeds, QString bedType);
-
-    //------------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------
     int myFacilityID;
+    bool isMainFacility;
 };
 
 #endif // DATABASE_H

@@ -63,35 +63,42 @@ void RemovePatient::clickedOK()
     //get data from the GUI
     QString patientHCN = ui->listWidget_patients->currentItem()->text();
 
-    //check that the user is sure this is what they want to do.
-
     QMessageBox msgBox;
 
-    QString firstname = DataStorage::getPatientFirstName(patientHCN);
-    QString lastname = DataStorage::getPatientLastName(patientHCN);
+    if(patientHCN == "")
+    {
+        msgBox.setText("Must select a patient. If waiting list is empty, please select another area.");
+        msgBox.exec();
+    }
+    else
+    {
+        //check that the user is sure this is what they want to do.
+        QString firstname = DataStorage::getPatientFirstName(patientHCN);
+        QString lastname = DataStorage::getPatientLastName(patientHCN);
 
-    QString facilname = ui->comboBox_facilities->currentText();
+        QString facilname = ui->comboBox_facilities->currentText();
 
-    msgBox.setText("You have requested to *remove* the following patient from the facility \" " +facilname+ "\":\n\nHealth Card Number: " + patientHCN +"\nFirst Name: "+ firstname + "\nLast Name: " + lastname);
+        msgBox.setText("You have requested to *remove* the following patient from the facility \" " +facilname+ "\":\n\nHealth Card Number: " + patientHCN +"\nFirst Name: "+ firstname + "\nLast Name: " + lastname);
 
-    msgBox.setInformativeText("Do you want to save and propogate this change?");
-    msgBox.setStandardButtons( QMessageBox::Cancel | QMessageBox::Ok);
-    msgBox.setDefaultButton(QMessageBox::Cancel);
-    int ret = msgBox.exec();
+        msgBox.setInformativeText("Do you want to save and propogate this change?");
+        msgBox.setStandardButtons( QMessageBox::Cancel | QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Cancel);
+        int ret = msgBox.exec();
 
-    int facilid = DataStorage::getFacilityID(facilname);
-    int areaid = DataStorage::getAreaForFacility(facilid);
+        int facilid = DataStorage::getFacilityID(facilname);
+        int areaid = DataStorage::getAreaForFacility(facilid);
 
-    QDateTime date = QDateTime::currentDateTime();
-    QString dateremoved = date.toString("yyyy-MM-ddThh:mm:ss");
+        QDateTime date = QDateTime::currentDateTime();
+        QString dateremoved = date.toString("yyyy-MM-ddThh:mm:ss");
 
-    if(ret == QMessageBox::Ok)
-    {   //call removePatientFromBed from datastorage class
+        if(ret == QMessageBox::Ok)
+        {   //call removePatientFromBed from datastorage class
 
-        DataStorage::removePatientFromBed(facilid, patientHCN, dateremoved);
+            DataStorage::removePatientFromBed(facilid, patientHCN, dateremoved);
 
-        close(); //if user clicks Cancel, we do *not* close the form
+            close(); //if user clicks Cancel, we do *not* close the form
 
+        }
     }
 
 }

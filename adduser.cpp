@@ -38,9 +38,6 @@ void AddUser::clickedOK()
     if(!exists)
         DataStorage::addUser(username,password,usertype);
 
-
-    //DataStorage::
-
-    //close();
+    close();
 
 }

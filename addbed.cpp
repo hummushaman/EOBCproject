@@ -70,21 +70,27 @@ void AddBed::clickedOK()
 
 
     //error checking
+    bool noErrors = true;
+
     int facilID = DataStorage::getFacilityID(facilName);
     if(facilID == -1)
     {
         msgBox.setText("Selected facility is not valid");
         msgBox.exec();
+        noErrors = false;
     }
 
     QString facilType = DataStorage::getFacilityType(facilID);
 
+    qDebug() << facilType;
+    qDebug() << careType;
 
     if((facilType == "Hospital")&&(careType == "LTC"))
     {
         QMessageBox msgBox2;
         msgBox2.setText("The selected facility is a hospital. You can only add 'acute care'' or 'complex continuing care' beds");
         msgBox2.exec();
+        noErrors = false;
 
 
     }
@@ -93,26 +99,30 @@ void AddBed::clickedOK()
         QMessageBox msgBox3;
         msgBox3.setText("The selected facility is a nursing home. You can only add 'long term care' beds");
         msgBox3.exec();
+        noErrors = false;
 
     }
     else{
-        msgBox.setText("You have requested to add " + QString::number(numBeds) +" "+ careType + " care beds to " + facilName);
+        if(noErrors)
+        {
+            msgBox.setText("You have requested to add " + QString::number(numBeds) +" "+ careType + " care beds to " + facilName);
 
-        msgBox.setInformativeText("Do you want to save and propogate this change?");
-        msgBox.setStandardButtons( QMessageBox::Cancel | QMessageBox::Ok);
-        msgBox.setDefaultButton(QMessageBox::Cancel);
-        int ret = msgBox.exec();
+            msgBox.setInformativeText("Do you want to save and propogate this change?");
+            msgBox.setStandardButtons( QMessageBox::Cancel | QMessageBox::Ok);
+            msgBox.setDefaultButton(QMessageBox::Cancel);
+            int ret = msgBox.exec();
 
-        if(ret == QMessageBox::Ok)
-        {   //call addBed in the DatabaseWrapper with numBeds, careType and the facilityID
+            if(ret == QMessageBox::Ok)
+            {   //call addBed in the DatabaseWrapper with numBeds, careType and the facilityID
 
-            DataStorage::addBeds(facilID,numBeds,careType);
+                DataStorage::addBeds(facilID,numBeds,careType);
 
 
-            MessageControl::sendMessage("added some beds to some facility", 1);  /*******testing to see if it is possible to send messages!!!!*****************/
+                MessageControl::sendMessage("added some beds to some facility", 1);  /*******testing to see if it is possible to send messages!!!!*****************/
 
-            close(); //if user clicks Cancel, we do not close the addBeds form
+                close(); //if user clicks Cancel, we do not close the addBeds form
 
+            }
         }
     }
 

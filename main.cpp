@@ -1,12 +1,4 @@
 /********
-  CLASS NAME: Main
-  PURPOSE: Starts up the system. Displays the login form to the user.
-
-  TRACEABILITY: This class traces back to..
-
-  CREATED BY: Nisrin Abou-Seido
-  LAST MODIFIED: March 20, 2011
-
 ***********/
 
 
@@ -27,40 +19,49 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     Login *w = new Login();
-    w->show();
-
 
 
     QSettings settings("JNFconfig"); // opens the configuration file. File should be located in: home/<userfolder>/<yourusername>/.config
-    //read configuration file
 
     //get the database path
+    settings.beginGroup("database");
     QString dbPath =  settings.value("db_filepath").toString();
+    qDebug() << dbPath;
 
+    settings.endGroup();
 
-    //get myFacilityID and IP address
+    //get myFacilityID and IP address and whether facility is a main facility
 
-    settings.beginReadArray("myFacility");
+    settings.beginGroup("myfacility");
 
     DataStorage::myFacilityID= settings.value("id").toInt();
     DataStorage::myFacilityIPaddress= settings.value("IPaddress").toString();
+    QString is_main= settings.value("isMain").toString();
 
-    settings.endArray();
+    settings.endGroup();
+
+    qDebug() << is_main;
+    if(is_main == "true")
+        DataStorage::isMain = true;
+    else
+        DataStorage::isMain = false;
 
 
-    //initializa the Message control which listens for incoming messages
+    qDebug() << DataStorage::isMain;
+    qDebug() << DataStorage::isMainFacility();
+
+
+    //initialize the Message control which listens for incoming messages
     MessageControl* messageControl = new MessageControl();
 
-
-
-   //pass "connection handle" to the Database class
-   //handle errors if database connection fails
-   //check that tables exist
-   //close database connection
+    //pass "connection handle" to the Database class
+    //handle errors if database connection fails
+    //check that tables exist
+    //close database connection
     {
         QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", "permanent");
         QMessageBox error;
-        db.setDatabaseName("/home/4user3/jpowers3/eobc/database.db");
+        db.setDatabaseName(dbPath);
         //connect to the database
         bool isOpen = db.open();
         if (!isOpen){
@@ -71,9 +72,9 @@ int main(int argc, char *argv[])
             //pass the connection to the Database class through the DataStorage class
             //also need to check that tables exist
             Database::Initialize();
+            w->show();
         }
     }
-
 
     return a.exec();
 }

@@ -1,11 +1,11 @@
 #include "datastorage.h"
 
-int DataStorage::myFacilityID = 0;
+int DataStorage::myFacilityID; // = 0;
 QString DataStorage::myFacilityIPaddress = "0.0.0.0";
 QString DataStorage::currentUserType = "ADMIN";
 bool DataStorage::isMain = true;
 
-void DataStorage::removePatientFromBed(int facilityID, QString HCN, QString dateRemoved) //i don't need area...
+void DataStorage::removePatientFromBed(int facilityID, QString HCN, QString dateRemoved)
 {
     qDebug() << "Removing a patient from a bed";
     Database::Initialize()->removePatientFromBed(facilityID, HCN, dateRemoved);
@@ -13,7 +13,8 @@ void DataStorage::removePatientFromBed(int facilityID, QString HCN, QString date
 
 void DataStorage::assignPatientToBed(int facilityID, QString HCN,int areaid, QString dateAdded)
 {
-    //Database::Initialize()->assignPatientToBed(); MORE COMPLEX THAN I ORIGINALLY THOUGHT
+    qDebug() << "Assign a patient to a bed";
+    Database::Initialize()->assignPatientToBed(facilityID, HCN, areaid, dateAdded);
 }
 
 void DataStorage::addBeds(int facilityID, int numBeds, QString bedType)
@@ -88,19 +89,19 @@ QString DataStorage::getFacilityName(int facilityID)
     return facilityName;
 }
 
-float DataStorage::getFacilityX(int facilityID)
+int DataStorage::getFacilityX(int facilityID)
 {
     qDebug() << "Getting a facility's X";
     QSqlQuery facilityXQuery = Database::Initialize()->getFacilityX(facilityID);
-    float facilityX = convertToOneFloat(facilityXQuery);
+    int facilityX = convertToOneInt(facilityXQuery);
     return facilityX;
 }
 
-float DataStorage::getFacilityY(int facilityID)
+int DataStorage::getFacilityY(int facilityID)
 {
     qDebug() << "Getting a facility's Y";
     QSqlQuery facilityYQuery = Database::Initialize()->getFacilityY(facilityID);
-    float facilityY = convertToOneFloat(facilityYQuery);
+    int facilityY = convertToOneInt(facilityYQuery);
     return facilityY;
 }
 
@@ -308,8 +309,28 @@ QVector<NumPatientsEntry> DataStorage::getWaitingListSizeEntries(QString startDa
 
 bool DataStorage::isLoginValid(QString username, QString password)
 {
+    QSettings settings("JNFconfig"); // opens the configuration file. File should be located in: home/<userfolder>/<yourusername>/.config
 
-    return true;
+    settings.beginGroup("default_user");
+    QString default_username =  settings.value("username").toString();
+    QString default_password =  settings.value("password").toString();
+    settings.endGroup();
+
+    if((password == default_password) && (username == default_username))
+    {
+        return true;
+    }
+    else
+    {
+        QSqlQuery loginQuery = Database::Initialize()->isLoginValid(username, password);
+        QString login = convertToOneString(loginQuery);
+        if (login.isEmpty())
+        {
+            return false;
+        }else{
+            return true;
+        }
+    }
 }
 
 QString DataStorage::getUserType(QString username)
@@ -325,10 +346,15 @@ void DataStorage::addUser(QString username, QString password, QString userType)
     Database::Initialize()->addUser(username, password, userType);
 }
 
-void DataStorage::addFacility(QString name, float x, float y, int area, int facilityID, QString facilityType)
+void DataStorage::addFacility(QString name, int x, int y, int area, int facilityID, QString facilityType)
 {
     qDebug() << "Adding a new facility" << "Name: " << name << "x: " << x << " y" << y << "area " << area << " facilityid" <<facilityID << " facility type " << facilityType;
     Database::Initialize()->addFacility(name, x, y, area, facilityID, facilityType);
+    qDebug() <<"Facility X: ";
+    getFacilityX(facilityID);
+    qDebug() <<"Facility Y: ";
+    getFacilityY(facilityID);
+
 }
 
 int DataStorage::myArea()
@@ -432,6 +458,7 @@ int DataStorage::convertToOneInt(QSqlQuery queryTemporary)
 
         if (!okay)
         {
+            qDebug () << "Integer conversion failed";
             integer = -1;
         }
     }
@@ -439,22 +466,6 @@ int DataStorage::convertToOneInt(QSqlQuery queryTemporary)
     return integer;
 }
 
-float DataStorage::convertToOneFloat(QSqlQuery queryTemporary)
-{
-    bool okay;
-    float aFloat = -1.0;
-    while(queryTemporary.next())
-    {
-        aFloat = queryTemporary.value(0).toFloat();
-        if (!okay)
-        {
-            aFloat = -1.0;
-        }
-
-    }
-    qDebug() << "One float: " << aFloat;
-    return aFloat;
-}
 
 void DataStorage::clearPatientsAtFacility(int facilityID)
 {

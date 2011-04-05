@@ -171,7 +171,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_1">
       <attribute name="title">
@@ -365,26 +365,6 @@
         <property name="selectionMode">
          <enum>QAbstractItemView::MultiSelection</enum>
         </property>
-        <item>
-         <property name="text">
-          <string>CHEO</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>General Hospital</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Queensway-Carleton Hospital</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Glengarry</string>
-         </property>
-        </item>
        </widget>
        <widget class="QCheckBox" name="selectfacilbox">
         <property name="geometry">
@@ -467,36 +447,6 @@
         <property name="sortingEnabled">
          <bool>true</bool>
         </property>
-        <item>
-         <property name="text">
-          <string>Eastern counties</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>North Lanark/North Grenville</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Ottawa Centre</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Ottawa East</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Ottawa West</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Renfrew County</string>
-         </property>
-        </item>
        </widget>
       </widget>
      </widget>
@@ -550,36 +500,6 @@
         <property name="sortingEnabled">
          <bool>true</bool>
         </property>
-        <item>
-         <property name="text">
-          <string>Eastern counties</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>North Lanark/North Grenville</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Ottawa Centre</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Ottawa East</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Ottawa West</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Renfrew County</string>
-         </property>
-        </item>
        </widget>
       </widget>
       <widget class="QCheckBox" name="checkBox_waitingListSize">

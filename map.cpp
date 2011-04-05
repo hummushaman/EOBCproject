@@ -14,6 +14,7 @@
 #include <QPixmap>
 #include <patient.h>
 #include <datastorage.h>
+#include <QPainter>
 
 
 Map::Map(QWidget *parent) :
@@ -24,7 +25,10 @@ Map::Map(QWidget *parent) :
 
     connect(ui->OKButton,SIGNAL(clicked()),this,SLOT(clickedOK()));
     connect(ui->viewOccRates,SIGNAL(toggled(bool)),this,SLOT(updateMap()));
-
+    connect(ui->viewWLsizes,SIGNAL(toggled(bool)),this,SLOT(updateMap()));
+    connect(ui->listWidget,SIGNAL(toggled(bool)),this,SLOT(updateMap()));
+    connect(ui->listWidget_2,SIGNAL(toggled(bool)),this,SLOT(updateMap()));
+    updateLists();
     updateMap();
 
 
@@ -41,12 +45,19 @@ void Map::clickedOK()
 
 }
 
+void Map::updateLists(){
+    QVector<int>facilities=DataStorage::getAllFacilities();
+    for(int i=0; i< facilities.size();i++)ui->listWidget_2->addItem(DataStorage::getFacilityName(facilities[i]));
+    QVector<int>areas=DataStorage::getAllAreas();
+    for (int i=0;i<areas.size();i++)ui->listWidget->addItem(DataStorage::getAreaName(areas[i]));
+}
+
 void Map::updateMap(){
     QGraphicsScene *contents = new QGraphicsScene( ui->mapview );
     QPen pen;
     QBrush brush;
     QFont font;
-
+    QPainter painter;
 
     QSettings settings("JNFconfig"); // opens the configuration file. File should be located in: home/<userfolder>/<yourusername>/.config
 
@@ -57,104 +68,110 @@ void Map::updateMap(){
 
     settings.endGroup();
 
-    QPixmap mapImage(mapPath);        //"/home/4user4/filitche/eobc4/map.svg"
+    QPixmap mapImage(mapPath);        //"/home/4user4/filitche/eobc5/map.svg"
 
-    double wldim=15;
+    double wldim=25;
     double acdim=0.33*wldim;
     double cccdim=0.66*wldim;
     double ltcdim=0.5*wldim;
-
-    //NOTE THAT THIS ADDRESS IS LOCAL TO FILITCHE
 
 
     contents->addPixmap(mapImage);
 
 
-    //NOTE THAT YOU MIGHT NEED TO GET A SCALE FOR THE MAP
+
+    double xinterval=contents->width()/1000;
+    double yinterval=contents->height()/1000;
 
 
-    QList<QListWidgetItem*>areas=ui->listWidget->selectedItems();
+    //here, we find the various wl sizes
+    QVector<int>allAreaIDs=DataStorage::getAllAreas();
     float largestList=0;
-    QVector<int>areaIDs;
     QVector<double>wlSizes;
-    for (int i=0;i<areas.size();i++){
-        QString name=areas[i]->text();
-        QVector<Patient>patients=DataStorage::getWaitingListPatients(DataStorage::getAreaID(name));
-        areaIDs.append(DataStorage::getAreaID(name));
+    for (int i=0;i<allAreaIDs.size();i++){
+        QVector<Patient>patients=DataStorage::getWaitingListPatients(allAreaIDs[i]);
         wlSizes.append(patients.size());
         if (patients.size()>largestList)largestList=patients.size();
         //SO, WE ARE LOOKING AT RELATIVE WAIT LIST SIZES
     }
 
+    //here, we take note of which areas are selected
+    QList<QListWidgetItem*>selectedAreas=ui->listWidget->selectedItems();
+    QVector<int>selectedAreaIDs;
+    for (int i=0;i<selectedAreas.size();i++){
+        QString name=selectedAreas[i]->text();
+        selectedAreaIDs.append(DataStorage::getAreaID(name));
+    }
+
     QString nl="";
 
+    QList<QListWidgetItem*>sFacilities=ui->listWidget_2->selectedItems();
+    QVector<int>selectedFacilities;
+    for (int i=0;i<sFacilities.size();i++){
+        selectedFacilities.append(DataStorage::getFacilityID(sFacilities[i]->text()));
+    }
 
+    QVector<int>allFacilities=DataStorage::getAllFacilities();
+    for (int i=0;i<allFacilities.size();i++){
+        if ((selectedFacilities.contains(allFacilities[i]))||(selectedAreaIDs.contains(DataStorage::getAreaForFacility(allFacilities[i])))){
 
+            int facilNum=allFacilities[i];
+            int area=DataStorage::getAreaForFacility(facilNum);
+            double ac=0;
+            double ccc=0;
+            double ltc=0;
+            int areaIndex=allAreaIDs.indexOf(area);
+            int wl=wlSizes[areaIndex];
+            QString facilType=DataStorage::getFacilityType(facilNum);
 
-    //PROBLEM: if we want a waiting list size for an area but have no facilities from that area then we won't get it displayed!
-
-
-
-
-
-    QList<QListWidgetItem*>facilities=ui->listWidget_2->selectedItems();
-    for (int i=0;i<facilities.size();i++){
-        int facilNum=DataStorage::getFacilityID(facilities[i]->text());
-        int area=DataStorage::getAreaForFacility(facilNum);
-
-        double ac=0;
-        double ccc=0;
-        double ltc=0;
-        int areaIndex=areaIDs.indexOf(area);
-        int wl=wlSizes[areaIndex];
-
-        QString facilType=DataStorage::getFacilityType(facilNum);
-
-        if (facilType=="Hospital"){
-            ac=((double)DataStorage::getNumACBedsOccupied(facilNum))/((double)DataStorage::getTotalACBeds(facilNum));
-            ccc=((double)DataStorage::getNumCCCBedsOccupied(facilNum))/((double)DataStorage::getTotalCCCBeds(facilNum));
-        }
-        else{
-            ltc=((double)DataStorage::getNumLTCBedsOccupied(facilNum))/((double)DataStorage::getTotalLTCBeds(facilNum));
-        }
-
-        QString datum=nl.append(facilities[i]->text()+" AC:"+ac+" CCC:"+" LTC:"+ltc+" WL:"+wl);
-        contents->addText(datum,font);
-
-
-        double x = DataStorage::getFacilityX(facilNum);
-        double y = DataStorage::getFacilityY(facilNum);
-        if (ui->viewWLsizes->isChecked()){
-            if (areaIDs.contains(DataStorage::getAreaForFacility(facilNum)))
-            {
-                //print WL circle
-                double factor=wlSizes[areaIndex]/largestList;
-                pen.setColor("red");
-                pen.setColor(pen.color().darker(100+200*factor));
-                contents->addEllipse(x,y,wldim,wldim,pen,brush);
-            }
-        }
-
-
-        if (ui->viewOccRates->isChecked()){
             if (facilType=="Hospital"){
-                pen.setColor("green");
-                pen.setColor(pen.color().darker(100+200*ccc));
-                contents->addEllipse(x,y,cccdim,cccdim,pen,brush);
-
-                pen.setColor("blue");
-                pen.setColor(pen.color().darker(100+200*ac));
-                contents->addEllipse(x,y,acdim,acdim,pen,brush);
-
+                if (ac!=0)ac=((double)DataStorage::getNumACBedsOccupied(facilNum))/((double)DataStorage::getTotalACBeds(facilNum));
+                if (ccc!=0)ccc=((double)DataStorage::getNumCCCBedsOccupied(facilNum))/((double)DataStorage::getTotalCCCBeds(facilNum));
             }
             else{
-                pen.setColor("yellow");
-                pen.setColor(pen.color().darker(100+200*ltc));
-                contents->addEllipse(x,y,ltcdim,ltcdim,pen,brush);
+                if (ltc!=0)ltc=((double)DataStorage::getNumLTCBedsOccupied(facilNum))/((double)DataStorage::getTotalLTCBeds(facilNum));
             }
+
+
+            QString datum=nl.append(DataStorage::getFacilityName(allFacilities[i])+" AC:"+QString::number(ac)+" CCC:"+QString::number(ccc)+" LTC:"+QString::number(ltc)+" WL:"+QString::number(wl));
+            contents->addText(datum,font);
+
+            double x = DataStorage::getFacilityX(facilNum);
+            double y = DataStorage::getFacilityY(facilNum);
+            x=x*xinterval;
+            y=y*yinterval;
+
+
+            if (ui->viewWLsizes->isChecked()){
+                    double factor=wlSizes[areaIndex]/largestList;
+                    pen.setColor("red");
+                    pen.setColor(pen.color().darker(100+200*factor));
+                    contents->addEllipse(x,y,wldim,wldim,pen,brush);
+            }
+
+
+            if (ui->viewOccRates->isChecked()){
+                if (facilType=="Hospital"){
+                    pen.setColor("green");
+                    pen.setColor(pen.color().darker(100+200*ccc));
+                    contents->addEllipse(x+(wldim-cccdim)/2,y+(wldim-cccdim)/2,cccdim,cccdim,pen,brush);
+
+                    pen.setColor("blue");
+                    pen.setColor(pen.color().darker(100+200*ac));
+                    contents->addEllipse(x+(wldim-acdim)/2,y+(wldim-acdim)/2,acdim,acdim,pen,brush);
+
+                }
+                else{
+                    pen.setColor("yellow");
+                    pen.setColor(pen.color().darker(100+200*ltc));
+                    contents->addEllipse(x,y,ltcdim+(wldim-ltcdim)/2,ltcdim+(wldim-ltcdim)/2,pen,brush);
+                }
+            }
+
+            nl.append("\n\n");
+
         }
 
-        nl.append("\n\n");
     }
 
     ui->mapview->setScene(contents);

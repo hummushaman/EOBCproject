@@ -472,7 +472,7 @@ float DataStorage::convertToOneFloat(QSqlQuery queryTemporary)
     float aFloat = -1.0;
     while(queryTemporary.next())
     {
-        aFloat = queryTemporary.value(0).toFloat();
+        aFloat = queryTemporary.value(0).toFloat(&okay);
         if (!okay)
         {
             aFloat = -1.0;

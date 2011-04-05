@@ -32,17 +32,15 @@ private slots:
     void careMismatchBoxClicked();
     void occupancyRateBoxClicked();
     void waitingListSizeBoxClicked();
-
     void GenerateReportButtonClicked();
-
     void generateOccRateReport();
     void generateFakeReports();
     void generateNoTimeReport();
     void generateNoTimeOccRateReport();
-
     void generateNoTimeWaitTimesReport();
     void generateNoTimeWaitingListSizeReport();
     void generateNoTimeCareMismatchReport();
+    void populateLists();
 
 };
 

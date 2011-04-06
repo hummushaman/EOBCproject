@@ -34,7 +34,6 @@ SOURCES += main.cpp\
     datastorage.cpp \
     patient.cpp \
     messagecontrol.cpp \
-    receivemessage.cpp \
     xmlgenerator.cpp \
     xmlparser.cpp \
     inpatient.cpp\
@@ -64,7 +63,6 @@ HEADERS  += login.h \
     patient.h \
     eobcproject.h \
     messagecontrol.h \
-    receivemessage.h \
     xmlgenerator.h \
     xmlparser.h \
     database.h\
@@ -87,4 +85,3 @@ FORMS    += login.ui \
     map.ui \
     generatereport.ui \
     reportdisplay.ui
-

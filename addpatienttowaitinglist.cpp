@@ -147,23 +147,34 @@ void AddPatientToWaitingList::clickedOK()
                 if(patientType == "Inpatient")
                 {
                     //add an inpatient to the waiting list in temp database.
-                     DataStorage::addPatientToWaitingList(HCN,areaid,dateAdded);
+                     //DataStorage::addPatientToWaitingList(HCN,areaid,dateAdded);
 
 
 
                     //send the message to other facilities
                      QString message = xmlgenerator::patientOperationXML(operation, HCN, currFacility, areaid, remote, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
 
-                     MessageControl::sendMessageToAll(message);
+                     if(remote == false)// this
+                         MessageControl::sendMessage(message,currFacility);
+                     else
+                         MessageControl::sendMessageToAll(message);
                 }
                 else
                 {
 
+                    //DataStorage::addPatientToWaitingList(HCN,firstname,lastname,areaid,dateAdded);
 
-                    DataStorage::addPatientToWaitingList(HCN,firstname,lastname,areaid,dateAdded);
+                    QString message = xmlgenerator::patientOperationXML(operation,HCN, currFacility, areaid, remote, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
 
-                    xmlgenerator::patientOperationXML(operation,HCN, currFacility, areaid, remote, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
+                    //what do we do if we are the main facility for this area?
+                    //what if we're not? who do we pass the message to?
+                    // the patients current facility or the waiting list we are adding them to?
 
+
+                    if(remote == false)
+                        MessageControl::sendMessage(message,currFacility);
+                    else
+                        MessageControl::sendMessageToAll(message);
 
                 }
 

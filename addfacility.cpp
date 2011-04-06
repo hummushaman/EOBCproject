@@ -42,8 +42,8 @@ void AddFacility::clickedOK()
 
     bool x_ok, y_ok;
 
-    float x  = ui->lineEdit_x->text().toFloat(&x_ok);
-    float y =  ui->lineEdit_y->text().toFloat(&y_ok);
+    int x  = ui->lineEdit_x->text().toInt(&x_ok);
+    int y =  ui->lineEdit_y->text().toInt(&y_ok);
     bool facilityExistsAtCoordinates = DataStorage::facilityExistsAtCoordinates(x,y);
     qDebug() << "Facility exists at coordinates: " << facilityExistsAtCoordinates;
 
@@ -60,7 +60,24 @@ void AddFacility::clickedOK()
     {
         if(y_ok && x_ok)
         {
-            DataStorage::addFacility(name,x,y,areaid,facilID,facilType);
+            //DataStorage::addFacility(name,x,y,areaid,facilID,facilType);
+
+            int areaID = DataStorage::getAreaForFacility(facilID);
+
+            int numAC =  0;
+            int numCCC = 0;
+            int numLTC = 0;
+
+            bool remote = true;
+            if(facilID == DataStorage::getMyFacilityID())
+                remote = false;
+
+            QString message = xmlgenerator::addFacility(facilID,areaID,x,y,numAC,numCCC, numLTC,name,remote,facilType);
+            if(remote == false)
+                MessageControl::sendMessage(message,facilID);
+            else
+                MessageControl::sendMessageToAll(message);
+
             close();
         }
 

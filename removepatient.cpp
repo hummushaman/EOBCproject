@@ -97,6 +97,19 @@ void RemovePatient::clickedOK()
 
             DataStorage::removePatientFromBed(facilid, patientHCN, dateremoved);
 
+            bool remote = true;
+            if(facilid == DataStorage::myFacilityID)
+                remote = false;
+
+            QString operation = "Remove";
+            //call XMLGenerator
+            QString message = xmlgenerator::patientOperationXML(operation,patientHCN,facilid, areaid, remote, "", "", "", "", -1, -1);
+
+
+            if(remote == false)
+                MessageControl::sendMessage(message,facilid); //send message to the facility to whom we are adding a patient
+            else
+                MessageControl::sendMessageToAll(message);//notify other facils that we are assigning patient to a bed at *this* facility
             close(); //if user clicks Cancel, we do *not* close the form
 
         }

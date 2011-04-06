@@ -260,7 +260,7 @@ QString xmlgenerator::addBeds(int facilNum, int areaNum, int ac, int ccc, int lt
      return message.toString();
 }
 
-QString xmlgenerator::addFacility(int facilNum, int areaNum,double xcoor, double ycoor, int ac, int ccc, int ltc, QString name, bool remote,QString type){
+QString xmlgenerator::addFacility(int facilNum, int areaNum,int xcoor, int ycoor, int ac, int ccc, int ltc, QString name, bool remote,QString type){
     QDomDocument message;
 
     QDomElement operationChild = message.createElement("Add");

@@ -341,7 +341,7 @@
 
 
         if ((x!="error")&&(y!="error")&&(id!="error")&&(name!="error")){
-            DataStorage::addFacility(name,x.toFloat(),y.toFloat(),area,id.toInt(),facilityType);
+            DataStorage::addFacility(name,x.toInt(),y.toInt(),area,id.toInt(),facilityType);
         }
 
     }

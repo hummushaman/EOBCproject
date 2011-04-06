@@ -242,6 +242,7 @@ QVector<OccupancyRateEntry>DataStorage::getOccupancyRateEntries(QString startDat
     return occupancyRateEntries;
 }
 
+
 int DataStorage::getFacilityID(QString name)
 {
     qDebug() << "Getting the facility ID";

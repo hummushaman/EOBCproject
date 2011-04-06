@@ -114,7 +114,7 @@ void AddBed::clickedOK()
             if(ret == QMessageBox::Ok)
             {   //call addBed in the DatabaseWrapper with numBeds, careType and the facilityID
 
-                DataStorage::addBeds(facilID,numBeds,careType);
+                //DataStorage::addBeds(facilID,numBeds,careType);
                 int areaID = DataStorage::getAreaForFacility(facilID);
 
                 int numAC =  0;
@@ -133,9 +133,16 @@ void AddBed::clickedOK()
 
                 QString message = xmlgenerator::addBeds(facilID,areaID,numAC,numCCC, numLTC,remote);
 
-                //MessageControl::sendMessage(message, facilID);
+                if(remote == false)
+                    MessageControl::sendMessage(message,facilID);
+                else
+                    MessageControl::sendMessageToAll(message);
 
-                MessageControl::sendMessageToAll("added some beds to some facility");  /*******testing to see if it is possible to send messages!!!!*****************/
+
+
+                //MessageControl::sendMessage(message, facilID);
+                // MessageControl::sendMessage(message, DataStorage::myFacilityID);
+
 
                 close(); //if user clicks Cancel, we do not close the addBeds form
 

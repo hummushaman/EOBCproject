@@ -43,6 +43,7 @@ AssignBed::AssignBed(QWidget *parent) :
     }
     else
     {
+
         QVector<int> facilities = DataStorage::getAllFacilities();
         for(int i=0; i< facilities.size();i++)
         {
@@ -107,7 +108,15 @@ void AssignBed::clickedOK()
             DataStorage::assignPatientToBed(facilid, patientHCN,areaNum,dateAdmitted);
 
             //call XMLGenerator
-            xmlgenerator::patientOperationXML("Add",patientHCN,facilid, areaNum, remote, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
+            QString operation = "Add";
+            QString message = xmlgenerator::patientOperationXML(operation,patientHCN,facilid, areaNum, remote, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
+
+
+            if(remote == false)
+                MessageControl::sendMessage(message,facilid); //send message to the facility to whom we are adding a patient
+            else
+                MessageControl::sendMessageToAll(message);//notify other facils that we are assigning patient to a bed at *this* facility
+
 
             close(); //if user clicks Cancel, we do *not* close the form
         }

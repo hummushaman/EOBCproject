@@ -52,7 +52,7 @@ void MessageControl::readPendingDatagrams()
 
 
         int errorcode = udpSocket->readDatagram(datagram.data(), datagram.size(), anAddress);
-        if(errorcode)
+        //if(errorcode)
 
         theMessage = datagram.data();
 

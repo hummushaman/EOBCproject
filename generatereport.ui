@@ -95,6 +95,9 @@
        </item>
        <item>
         <widget class="QDateEdit" name="startdate">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="displayFormat">
           <string>dd-MM-yyyy</string>
          </property>
@@ -119,6 +122,9 @@
        </item>
        <item>
         <widget class="QDateEdit" name="enddate">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="displayFormat">
           <string>dd-MM-yyyy</string>
          </property>

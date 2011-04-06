@@ -5,17 +5,11 @@
     XMLParser::XMLParser()
     {
 
-        //  data storage should remove patient from wl when it is placed
-        //  ds should also update history
-
-        //QFile myFile(msg);
-
     }
 
     int XMLParser::parseMessage(QString msg, QString theip){
         ip=theip;
 
-qDebug()<<"GOT T H E I P :"<<ip;
 
         QDomDocument doc("aMessage");
         original = doc;
@@ -24,22 +18,12 @@ qDebug()<<"GOT T H E I P :"<<ip;
         //will this work?
 
         QDomElement docElement = doc.documentElement();
-
-        //std::cout<<"boom ";
-        //std::cout<<doc.toString().toStdString();
-
-        //if (!docElement.hasAttribute("remote")){
-            //std::cout<<"next";
-          //  docElement=docElement.firstChildElement();
-        //}
-
         return startParsing(docElement);
 
     }
 
-    int XMLParser::startParsing(QDomElement rootElement){       //don't we need "public" ?
-
- qDebug()<<"GOT T H E I P again:"<<ip;
+    int XMLParser::startParsing(QDomElement rootElement){
+        returnId=-1;
 
         QString remoteString= rootElement.attribute("remote","error");
 
@@ -59,9 +43,9 @@ qDebug()<<"GOT T H E I P :"<<ip;
 
         bool remoteBool=true;
         if (remoteString=="false")remoteBool=false;
-qDebug()<<remoteBool<<remoteString;
         int targetID=-1;
         bool here=false;
+
         while (!facilityOrWL.isNull()){
             XMLParser::parseFacilityOrWaitingList(facilityOrWL,remoteBool,areaVal,operation);
 
@@ -82,18 +66,16 @@ qDebug()<<remoteBool<<remoteString;
         }
 
 
-        if (!remoteBool){
-            return targetID;
+        //if (!remoteBool){
+          //  return targetID;
 
-        }
-
+        //}
+        return returnId;
 
         return -1;
     }
 
     int XMLParser::parseFacilityOrWaitingList(QDomElement ForW,bool remote, int area, QString operation){
-
-//cout<<"aboutToParseForW";
 
         if (ForW.tagName()=="Facility")return parseFacility(ForW,remote,area,operation);
         else if (ForW.tagName()=="WaitingList")return XMLParser::parseWaitingList(ForW,remote,area,operation);
@@ -104,7 +86,6 @@ qDebug()<<remoteBool<<remoteString;
         QString facString=facility.attribute("ID","error");
 
         if (facString=="error")return -2;
-qDebug()<<"past this line";
         int facilityNumber = facility.attribute("ID","error").toInt();
 
 
@@ -119,11 +100,12 @@ qDebug()<<"past this line";
 
             //re-send slightly updated message if it was a change OR
             //send a reply if it was a request
-
         }
 
         //case 3:not remote
         else if (!remote){
+
+            returnId=facilityNumber;
             MessageControl::assignIPtoFacility(ip, facilityNumber);
             facilityOperation(facility, operation, area);
 
@@ -156,15 +138,13 @@ qDebug()<<"past this line";
     }
 
     int XMLParser::facilityOperation(QDomElement facility,QString operation, int area){
-qDebug()<<"in facilityOperation";
-
         int facilNum = facility.attribute("ID","error").toInt();
-qDebug()<<operation;
-qDebug()<<facilNum;
+
         if (operation=="Rebuild"){
             DataStorage::clearPatientsAtFacility(facilNum);
             operation="Add";
-qDebug()<<"T H E I P :"<<ip;
+
+            returnId=facilNum;
             MessageControl::assignIPtoFacility(ip,facilNum);
             MessageControl::sendMessage(xmlgenerator::rebuildResponse(),facilNum);
             //MessageControl::sendMessageToAll(xmlgenerator::rebuildResponse());
@@ -172,13 +152,12 @@ qDebug()<<"T H E I P :"<<ip;
 
 
         if (operation=="Add"){
-            if (!facility.hasChildNodes()){
 
                 if (!DataStorage::facilityExists(facilNum))parseAddNewFacility(facility,facilNum,area);
                 else parseAddBeds(facility,facilNum);
 
-            }
-            else {
+
+
 
                 parseAddBeds(facility,facilNum);        //based on webct discussion
 
@@ -189,7 +168,7 @@ qDebug()<<"T H E I P :"<<ip;
                       parsePlacePatient(curChild, facilNum);
                       curChild=curChild.nextSiblingElement();
                 }
-            }
+
 
         }
         else if (operation=="Delete"){
@@ -233,12 +212,6 @@ qDebug()<<"T H E I P :"<<ip;
 
     int XMLParser::parseEjectPatient(QDomElement patient, int facilNum){
         QString patientID = patient.attribute("healthCardNumber","error");
-        //QDateTime dateAdmitted = QDateTime::fromString(patient.attribute("dateAdmitted","error"),dateFormat);
-        //QDateTime dateRemoved = DataStorage::currentDate();
-
-        //QDateTime current = QDateTime::currentDateTime();
-        //QString dateRemoved = current.toString("yyyy-MM-ddThh:mm:ss");
-
         QDateTime current = QDateTime::currentDateTime();
         QString currentDate = current.toString("yyyy-MM-ddThh:mm:ss");
 
@@ -332,6 +305,8 @@ qDebug()<<"T H E I P :"<<ip;
     }
 
     int XMLParser::parseAddNewFacility(QDomElement facility, int facilNum, int area){
+
+ qDebug()<<" ADDING F A C I L I T Y !"<<facilNum;
         QString acBeds = facility.attribute("AC","error");
         QString cccBeds = facility.attribute("CCC","error");
         QString ltcBeds = facility.attribute("LTC","error");

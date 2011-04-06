@@ -104,10 +104,8 @@ void MessageControl::readPendingDatagrams()
         QSettings settings("JNFconfig");
         settings.beginWriteArray("facilities");
 
-        if(!settings.contains(QString::number(facilID)))
-        {
-            settings.setValue(QString::number(facilID),senderIP);
-        }
+        settings.setValue(QString::number(facilID),senderIP);
+
         settings.endArray();
 
     }
@@ -119,10 +117,10 @@ void MessageControl::assignIPtoFacility(QString ipaddress, int facilID)
     QSettings settings("JNFconfig");
     settings.beginWriteArray("facilities");
 
-    if(!settings.contains(QString::number(facilID)))
-    {
+    //if(!settings.contains(QString::number(facilID)))
+    //{
         settings.setValue(QString::number(facilID),ipaddress);
-    }
+   // }
 }
 
 void MessageControl::sendMessage(QString message, int facilityID) //this is a static method
@@ -146,7 +144,7 @@ void MessageControl::sendMessage(QString message, int facilityID) //this is a st
         //need to get the ipaddress of facility
         recipientIP = settings.value(QString::number(facilityID)).toString();
     }
-
+qDebug()<<"About to send message to "<<recipientIP;
     int errorCode = udpSocket->writeDatagram(message.toLatin1(), QHostAddress(recipientIP), port);
 
 }

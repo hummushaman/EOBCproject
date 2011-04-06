@@ -155,7 +155,7 @@
         if (operation=="Rebuild"){
             DataStorage::clearPatientsAtFacility(facilNum);
             operation="Add";
-
+qDebug()<<"T H E I P :"<<ip;
             MessageControl::sendMessage(xmlgenerator::rebuildResponse(),facilNum);
 
         }

@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
     }
 
 
-    DataStorage::populateTemporaryDatabase();
+    //DataStorage::populateTemporaryDatabase();
 
     qDebug()<<xmlgenerator::rebuild();
 

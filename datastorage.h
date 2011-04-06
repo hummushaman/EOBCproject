@@ -26,6 +26,9 @@ private:
     static QString convertToOneString(QSqlQuery queryTemporary);
     static int convertToOneInt(QSqlQuery queryTemporary);
     static float convertToOneFloat(QSqlQuery queryTemporary);
+    static bool intErrorCheck(int queryResult);
+    static bool stringErrorCheck(QString queryResult);
+    static bool isDefaultUser(QString username, QString password);
 
 public:
     DataStorage();
@@ -52,7 +55,6 @@ public:
     static void addBeds(int facilityID, int numBeds, QString bedType);
 
     static void removePatientFromWaitingList(int areaID, QString HCN, QString dateRemoved);
-
 
     static void addPatientToWaitingList(QString HCN,int areaID, QString dateAdded); //inpatient
     static void addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded); //outpatient
@@ -92,7 +94,6 @@ public:
     static QString getPatientDateAdmitted(QString hcn);
     static QString getPatientDateAdded(QString hcn, int areaID);
 
-
     static QString getFacilityType(int facilityID); //"Hospital" or "Nursing Home"
 
     static QVector<OccupancyRateEntry>getOccupancyRateEntries(QString startDate, QString endDate, QString careType, int facilityID);
@@ -117,8 +118,11 @@ public:
 
     static bool facilityExists(int facilityID);
 
-    static void populateTemporaryDatabase();
+    //static void populateTemporaryDatabase();
 
+    static bool facilityNameExists(QString aName);
+    static bool facilityExistsAtCoordinates(int x, int y);
+    static bool isUsernameInUse(QString aUsername, QString aPassword);
 };
 
 #endif // DATASTORAGE_H

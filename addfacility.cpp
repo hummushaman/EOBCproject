@@ -1,18 +1,12 @@
 /********
-  CLASS NAME: AddFacility
-  PURPOSE: To display a form for the system administrator to add a facility to the LHIN. Then it will collect the data from the gui and pass it to the data storage classes
-  TRACEABILITY: This class traces back to the AddFacilityControl from Deliverable 2
-
-  CREATED BY: Nisrin Abou-Seido
-
 ***********/
 
 #include "addfacility.h"
 #include "ui_addfacility.h"
 
 AddFacility::AddFacility(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::AddFacility)
+        QMainWindow(parent),
+        ui(new Ui::AddFacility)
 {
     ui->setupUi(this);
     connect(ui->OKButton,SIGNAL(clicked()),this,SLOT(clickedOK()));
@@ -43,11 +37,15 @@ void AddFacility::clickedOK()
     int facilID = ui->spinBox_ID->text().toInt();
 
     bool facilityExists = DataStorage::facilityExists(facilID);
+    bool facilityNameExists = DataStorage::facilityNameExists(name);
+    qDebug() << "Facility name exists: " << facilityNameExists;
 
     bool x_ok, y_ok;
 
     float x  = ui->lineEdit_x->text().toFloat(&x_ok);
     float y =  ui->lineEdit_y->text().toFloat(&y_ok);
+    bool facilityExistsAtCoordinates = DataStorage::facilityExistsAtCoordinates(x,y);
+    qDebug() << "Facility exists at coordinates: " << facilityExistsAtCoordinates;
 
     qDebug()<<"x"<< QString::number(x);
     qDebug()<<"y"<< QString::number(y);
@@ -58,7 +56,7 @@ void AddFacility::clickedOK()
 
     int areaid = DataStorage::getAreaID(areaname);
 
-    if(!facilityExists)
+    if(!facilityExists && !facilityNameExists && !facilityExistsAtCoordinates)
     {
         if(y_ok && x_ok)
         {
@@ -68,13 +66,25 @@ void AddFacility::clickedOK()
 
         else
         {
-            msgbox.setText("Please enter valid coordinates");
+
+            msgbox.setText("Please enter valid coordinates.");
             msgbox.exec();
         }
     }
     else
     {
-        msgbox.setText("Facility ID is already in use. Please choose another id.");
-        msgbox.exec();
+        if (facilityNameExists)
+        {
+            msgbox.setText("Facility name is in use. Please choose another name.");
+            msgbox.exec();
+        }
+        else if (facilityExistsAtCoordinates)
+        {
+            msgbox.setText("Facility exists at the coordinate: (" + QString::number(x) + "," + QString::number(y) + "). Please enter in another set of coordinates.");
+            msgbox.exec();
+        }else{
+            msgbox.setText("Facility ID is already in use. Please choose another id.");
+            msgbox.exec();
+        }
     }
 }

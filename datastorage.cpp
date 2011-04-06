@@ -310,14 +310,14 @@ QVector<NumPatientsEntry> DataStorage::getWaitingListSizeEntries(QString startDa
 
 bool DataStorage::isLoginValid(QString username, QString password)
 {
-    QSettings settings("JNFconfig"); // opens the configuration file. File should be located in: home/<userfolder>/<yourusername>/.config
+    /*QSettings settings("JNFconfig"); // opens the configuration file. File should be located in: home/<userfolder>/<yourusername>/.config
 
     settings.beginGroup("default_user");
     QString default_username =  settings.value("username").toString();
     QString default_password =  settings.value("password").toString();
-    settings.endGroup();
+    settings.endGroup();*/
 
-    if((password == default_password) && (username == default_username))
+    if(isDefaultUser(username, password))
     {
         return true;
     }
@@ -325,12 +325,7 @@ bool DataStorage::isLoginValid(QString username, QString password)
     {
         QSqlQuery loginQuery = Database::Initialize()->isLoginValid(username, password);
         QString login = convertToOneString(loginQuery);
-        if (login.isEmpty())
-        {
-            return false;
-        }else{
-            return true;
-        }
+        return stringErrorCheck(login);
     }
 }
 
@@ -394,11 +389,7 @@ bool DataStorage::isInpatient(QString hcn)
 {
     QSqlQuery inpatientQuery = Database::Initialize()->isInpatient(hcn);
     QString inpatientHCN = convertToOneString(inpatientQuery);
-    if (inpatientHCN.isEmpty())
-    {
-        return false;
-    }
-    return true;
+    return stringErrorCheck(inpatientHCN);
 }
 
 int DataStorage::getCurrentFacilityForPatient(QString hcn)
@@ -477,14 +468,10 @@ bool DataStorage::facilityExists(int facilityID)
 {
     QSqlQuery facilityExistsQuery = Database::Initialize()->facilityExists(facilityID);
     int facility = convertToOneInt(facilityExistsQuery);
-    if (facility == -1)
-    {
-        return false;
-    }
-    return true;
+    return intErrorCheck(facility);
 }
 
-void DataStorage::populateTemporaryDatabase()
+/*void DataStorage::populateTemporaryDatabase()
 {
     //insert temporary data into the database for testing
     DataStorage::addFacility("Hospital 1", 56, 45, 0, 23, "Hospital");
@@ -512,4 +499,66 @@ void DataStorage::populateTemporaryDatabase()
     DataStorage::assignPatientToBed(3,"14",1,"120112T11:33:54");
 
 
+}*/
+
+bool DataStorage::facilityNameExists(QString aName)
+{
+    int facilityID = convertToOneInt(Database::Initialize()->facilityNameExists(aName));
+    return intErrorCheck(facilityID);
+}
+
+bool DataStorage::facilityExistsAtCoordinates(int x, int y)
+{
+    int facilityID = convertToOneInt(Database::Initialize()->facilityExistsAtCoordinates(x, y));
+    return intErrorCheck(facilityID);
+}
+
+bool DataStorage::isUsernameInUse(QString aUsername, QString aPassword)
+{
+    QString username = convertToOneString(Database::Initialize()->isUsernameInUse(aUsername));
+    bool permanentUser = stringErrorCheck(username);
+    bool defaultUser = isDefaultUser(aUsername, aPassword);
+    if (permanentUser || defaultUser)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool DataStorage::intErrorCheck(int queryResult)
+{
+    if (queryResult == -1)
+    {
+        return false;
+    }else{
+        return true;
+    }
+}
+
+bool DataStorage::stringErrorCheck(QString queryResult)
+{
+    if (queryResult.isEmpty())
+    {
+        return false;
+    }
+    return true;
+}
+
+bool DataStorage::isDefaultUser(QString username, QString password)
+{
+    QSettings settings("JNFconfig"); // opens the configuration file. File should be located in: home/<userfolder>/<yourusername>/.config
+
+    settings.beginGroup("default_user");
+    QString default_username =  settings.value("username").toString();
+    QString default_password =  settings.value("password").toString();
+    settings.endGroup();
+
+    if((password == default_password) && (username == default_username))
+    {
+        return true;
+    }
+    return false;
 }

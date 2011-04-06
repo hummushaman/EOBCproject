@@ -24,7 +24,6 @@ MessageControl::MessageControl(QObject *parent) :
     }
     else
     {
-
         if(connect(udpSocket, SIGNAL(readyRead()), this, SLOT(readPendingDatagrams())))
         {
             msgbox.setText("connected");

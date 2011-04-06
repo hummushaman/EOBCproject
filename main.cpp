@@ -86,14 +86,16 @@ int main(int argc, char *argv[])
 
     //DataStorage::populateTemporaryDatabase();
 
-    qDebug()<<xmlgenerator::rebuild();
+    QString message = xmlgenerator::rebuild();
+    MessageControl::sendMessageToAll(message);
+
 
     //qDebug()<<xmlgenerator::rebuildResponse();
     //qDebug()<<xmlgenerator::addFacility(3,1,34,45,5,6,8,"Homeland",true,"Hospital");
     //qDebug()<<xmlgenerator::addBeds(4,3,1,0,0,true);
 
 
-
+/*
     DataStorage::addFacility("The JNF hospital",400,400,3,3,"Hospital");
     DataStorage::addFacility("CHEO", 56, 45, 3, 23, "Hospital");
     DataStorage::addFacility("General Hospital", 70, 80, 2, 20, "Hospital");
@@ -130,7 +132,7 @@ int main(int argc, char *argv[])
 
     DataStorage::assignPatientToBed(3,"12",1,"120112T11:33:54");
     DataStorage::assignPatientToBed(3,"13",1,"120112T11:33:54");
-    DataStorage::assignPatientToBed(3,"14",1,"120112T11:33:54");
+    DataStorage::assignPatientToBed(3,"14",1,"120112T11:33:54");*/
 
 
 

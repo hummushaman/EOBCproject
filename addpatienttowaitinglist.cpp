@@ -164,17 +164,18 @@ void AddPatientToWaitingList::clickedOK()
 
                     //DataStorage::addPatientToWaitingList(HCN,firstname,lastname,areaid,dateAdded);
 
-                    QString message = xmlgenerator::patientOperationXML(operation,HCN, currFacility, areaid, remote, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
+
 
                     //what do we do if we are the main facility for this area?
                     //what if we're not? who do we pass the message to?
                     // the patients current facility or the waiting list we are adding them to?
 
-
-                    if(remote == false)
-                        MessageControl::sendMessage(message,currFacility);
+                    if((areaid == DataStorage::myArea()) && (DataStorage::isMainFacility() ))
+                        QString message = xmlgenerator::patientOperationXML(operation,HCN, currFacility, areaid, 0, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
                     else
-                        MessageControl::sendMessageToAll(message);
+                        QString message = xmlgenerator::patientOperationXML(operation,HCN, currFacility, areaid, 1, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
+
+                    MessageControl::sendMessageToAll(message);
 
                 }
 

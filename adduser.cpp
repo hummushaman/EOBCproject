@@ -1,18 +1,12 @@
 /********
-  CLASS NAME: AddUser
-  PURPOSE: To display a form for the system administrator to add a user to a facility. Then it will collect the data from the gui and pass it to the data storage classes
-  TRACEABILITY: This class traces back to the AddUserControl class from Deliverable 2
-
-  CREATED BY: Nisrin Abou-Seido
-
 ***********/
 
 #include "adduser.h"
 #include "ui_adduser.h"
 
 AddUser::AddUser(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::AddUser)
+        QMainWindow(parent),
+        ui(new Ui::AddUser)
 {
     ui->setupUi(this);
     connect(ui->OKButton,SIGNAL(clicked()),this,SLOT(clickedOK()));
@@ -40,18 +34,19 @@ void AddUser::clickedOK()
     }
     else
     {
-        bool exists = DataStorage::isLoginValid(username,password);
+        //bool exists = DataStorage::isLoginValid(username,password);
+
+        bool exists = DataStorage::isUsernameInUse(username, password);
         if(!exists)
+        {
             DataStorage::addUser(username,password,usertype);
-
-
-        close();
-
+            close();
+        }
+        else
+        {
+            QMessageBox msgbox;
+            msgbox.setText("Username is in use. Please enter in a different username");
+            msgbox.exec();
+        }
     }
-
-
-
-
-
-
 }

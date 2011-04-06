@@ -90,7 +90,9 @@ public:
 
     QSqlQuery getTotalLTCBeds(int facilityID);
     QSqlQuery getNumLTCBedsOccupied(int facilityID);
-
+    QSqlQuery facilityNameExists(QString aName);
+    QSqlQuery facilityExistsAtCoordinates(int x, int y);
+    QSqlQuery isUsernameInUse(QString aUsername);
 
     ~Database();
 private:

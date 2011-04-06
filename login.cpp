@@ -39,7 +39,7 @@ void Login::checkLogin()
 
     QMessageBox msgbox;
 
-    bool isValid = DataStorage::isLoginValid(username, password);   //write part of the function to test this (get the configurated default user)
+    /*bool isValid = DataStorage::isLoginValid(username, password);   //write part of the function to test this (get the configurated default user)
 
         if(isValid)
         {
@@ -61,7 +61,35 @@ void Login::checkLogin()
             msgbox.setText("This username/password combination does not exist.");
             msgbox.exec();
         }
+*/
 
+    bool isValidUsername = DataStorage::isUsernameInUse(username, password);
+    if (!isValidUsername)
+    {
+        msgbox.setText("This username does not exist.");
+        msgbox.exec();
+    }
+    else
+    {
+        bool isValid = DataStorage::isLoginValid(username, password);
+        if (isValid)
+        {
+            //get the user type
+            DataStorage::currentUserType= DataStorage::getUserType(username);
+
+            Welcome* welcome_window = new Welcome();
+
+            //qDebug() << "login is valid";
+
+            close();
+            welcome_window->show();
+        }
+        else
+        {
+            msgbox.setText("Incorrect password.");
+            msgbox.exec();
+        }
+    }
 
 
 

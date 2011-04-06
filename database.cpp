@@ -345,9 +345,6 @@ void Database::assignPatientToBed(int facilityID, QString HCN, int areaID, QStri
         if ((isMyFacility(currentFacility)) && (!isMyFacility(facilityID)))
         {
             removePatientFromBed("permanent", currentFacility, HCN, dateAssigned);
-            QString addInpatient = "INSERT INTO inpatient(inpatienthealthcarenumber, currentFacilityid, dateAdmittedToFacility, currentCareTypeid) VALUES ('" + HCN + "', " + QString::number(facilityID) + ", '" + dateAssigned + "', " + QString::number(LTCID) + ")";
-            qDebug() << addInpatient;
-            updateDatabase(addInpatient, "permanent");
         }
 
         removePatientFromBed("temporary", currentFacility, HCN, dateAssigned);
@@ -364,7 +361,7 @@ void Database::assignPatientToBed(int facilityID, QString HCN, int areaID, QStri
         if (HCN == aHealthCareNumber) //the patient is an outpatient
         {
             removePatientFromAllWaitingLists(HCN, areaID, dateAssigned);
-            QString aQuery = "INSERT INTO inpatient (inpatienthealthcarenumber, currentFacilityid, dateAdmittedToFacility, currentCareTypeid) VALUES ('" + HCN + "', " + QString::number(facilityID) + ", '" + dateAssigned + "', 'LTC')";
+            QString aQuery = "INSERT INTO inpatient (inpatienthealthcarenumber, currentFacilityid, dateAdmittedToFacility, currentCareTypeid) VALUES ('" + HCN + "', " + QString::number(facilityID) + ", '" + dateAssigned + "', " + QString::number(LTCID) + ")";
             qDebug() << "Outpatient: " << aQuery;
             queryDatabase(aQuery, "temporary");
 
@@ -373,6 +370,9 @@ void Database::assignPatientToBed(int facilityID, QString HCN, int areaID, QStri
     updateTotalNumberOfBedsOccupied("temporary", facilityID, 1, false);
     if (isMyFacility(facilityID))
     {
+        QString aQuery = "INSERT INTO inpatient (inpatienthealthcarenumber, currentFacilityid, dateAdmittedToFacility, currentCareTypeid) VALUES ('" + HCN + "', " + QString::number(facilityID) + ", '" + dateAssigned + "', " + QString::number(LTCID) + ")";
+        queryDatabase(aQuery, "permanent");
+        qDebug() << "(Permanent version Outpatient: " << aQuery;
         updateTotalNumberOfBedsOccupied("permanent", facilityID, 1, true);
     }
 }
@@ -641,7 +641,7 @@ QSqlQuery Database::getPatientsAtFacility(int facilityID)
 {
     QString aQuery = "SELECT healthcarenumber, firstname, lastname, requiredcaretype, currentcaretype, dateadmittedtofacility, currentfacilityid FROM"
                      "(SELECT * FROM"
-                     "(SELECT * FROM inpatient JOIN patient ON (inpatienthealthcarenumber = healthcarenumber) WHERE currentfacilityid = " + QString::number(facilityID) +
+                     "(SELECT * FROM inpatient JOIN patient ON (inpatienthealthcarenumber = healthcarenumber) WHERE currentfacilityid = " + QString::number(facilityID) + ")"
                      "JOIN"
                      "(SELECT inpatienthealthcarenumber as hcn, caretype as currentcaretype FROM inpatient JOIN caretypes ON (currentcaretypeid = caretypeid)) ON (healthcarenumber = hcn))"
                      "JOIN"
@@ -936,4 +936,22 @@ bool Database::isMyArea(int areaID)
         return true;
     }
     return false;
+}
+
+QSqlQuery Database::facilityNameExists(QString aName)
+{
+    QString aQuery = "SELECT facilityid FROM facility WHERE name = '" + aName + "'";
+    return queryDatabase(aQuery, "temporary");
+}
+
+QSqlQuery Database::facilityExistsAtCoordinates(int x, int y)
+{
+    QString aQuery = "SELECT facilityid FROM facility WHERE (x = " + QString::number(x) + " AND y =" + QString::number(y) + ")";
+    return queryDatabase(aQuery, "temporary");
+}
+
+QSqlQuery Database::isUsernameInUse(QString aUsername)
+{
+    QString aQuery = "SELECT username FROM users WHERE username = '" + aUsername + "'";
+    return queryDatabase(aQuery, "permanent");
 }

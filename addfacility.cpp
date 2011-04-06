@@ -68,27 +68,16 @@ void AddFacility::clickedOK()
             int numCCC = 0;
             int numLTC = 0;
 
-            bool remote = true;
-            if(facilID == DataStorage::getMyFacilityID())
-                remote = false;
+            bool remote = false;
 
             QString message = xmlgenerator::addFacility(facilID,areaID,x,y,numAC,numCCC, numLTC,name,remote,facilType);
-            if(remote == false)
-            {
-                MessageControl::sendMessage(message,DataStorage::myFacilityID);
-                MessageControl::sendMessageToAll(message);
-            }
-
-
-            else
-                MessageControl::sendMessage(message,facilID);
-
+            MessageControl::sendMessageToAll(message);
+            MessageControl::sendMessage(message,DataStorage::myFacilityID);
             close();
         }
 
         else
         {
-
             msgbox.setText("Please enter valid coordinates.");
             msgbox.exec();
         }

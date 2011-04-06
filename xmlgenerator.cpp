@@ -60,7 +60,7 @@ QString xmlgenerator::rebuild(){
     QDomDocument message;
 
     QDomElement operationChild = message.createElement("Rebuild");
-    //operationChild.setAttribute("remote",remote);
+    operationChild.setAttribute("remote",false);
     message.appendChild(operationChild);
 
 
@@ -153,7 +153,7 @@ QString xmlgenerator::rebuildResponse(){
     QDomDocument message;
 
     QDomElement operationChild = message.createElement("Add");
-    operationChild.setAttribute("remote",false);
+    operationChild.setAttribute("remote","false");
     message.appendChild(operationChild);
 
 

@@ -170,10 +170,11 @@ void AddPatientToWaitingList::clickedOK()
                     //what if we're not? who do we pass the message to?
                     // the patients current facility or the waiting list we are adding them to?
 
+                    QString message;
                     if((areaid == DataStorage::myArea()) && (DataStorage::isMainFacility() ))
-                        QString message = xmlgenerator::patientOperationXML(operation,HCN, currFacility, areaid, 0, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
+                        message = xmlgenerator::patientOperationXML(operation,HCN, currFacility, areaid, 0, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
                     else
-                        QString message = xmlgenerator::patientOperationXML(operation,HCN, currFacility, areaid, 1, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
+                        message = xmlgenerator::patientOperationXML(operation,HCN, currFacility, areaid, 1, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
 
                     MessageControl::sendMessageToAll(message);
 

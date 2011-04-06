@@ -15,6 +15,7 @@ class XMLParser
     QDomDocument original;
     QString ip;
     int returnId;
+    bool bedsAdded;
 
 public:
     //QString dateFormat;

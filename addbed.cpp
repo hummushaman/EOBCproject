@@ -115,8 +115,9 @@ void AddBed::clickedOK()
             {   //call addBed in the DatabaseWrapper with numBeds, careType and the facilityID
 
                 DataStorage::addBeds(facilID,numBeds,careType);
+                int areaID = DataStorage::getAreaForFacility(facilID);
 
-                int numAC = 0;
+                int numAC =  0;
                 int numCCC = 0;
                 int numLTC = 0;
                 if(careType == "AC")
@@ -126,7 +127,13 @@ void AddBed::clickedOK()
                 else
                     numLTC = numBeds;
 
-                // QString message = xmlgenerator::addBeds(facilID,)
+                bool remote = true;
+                if(facilID == DataStorage::getMyFacilityID())
+                    remote = false;
+
+                QString message = xmlgenerator::addBeds(facilID,areaID,numAC,numCCC, numLTC,remote);
+
+                //MessageControl::sendMessage(message, facilID);
 
                 MessageControl::sendMessageToAll("added some beds to some facility");  /*******testing to see if it is possible to send messages!!!!*****************/
 

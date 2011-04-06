@@ -310,6 +310,14 @@ QVector<NumPatientsEntry> DataStorage::getWaitingListSizeEntries(QString startDa
 
 bool DataStorage::isLoginValid(QString username, QString password)
 {
+
+
+
+    return true; /***************this line is ONLY FOR TESTING****************************************************/
+
+
+
+
     QSettings settings("JNFconfig"); // opens the configuration file. File should be located in: home/<userfolder>/<yourusername>/.config
 
     settings.beginGroup("default_user");

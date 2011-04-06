@@ -24,7 +24,7 @@ MessageControl::MessageControl(QObject *parent) :
     }
     else
     {
-        //ui->label->setText(tr("made it to binding"));
+
         if(connect(udpSocket, SIGNAL(readyRead()), this, SLOT(readPendingDatagrams())))
         {
             msgbox.setText("connected");
@@ -35,6 +35,14 @@ MessageControl::MessageControl(QObject *parent) :
             msgbox.exec();
         }
     }
+
+    //add our facility to the list of facilities that are online
+
+    settings.beginWriteArray("facilities");
+
+    settings.setValue(QString::number(DataStorage::myFacilityID),DataStorage::myFacilityIPaddress);
+
+    settings.endArray();
 }
 
 void MessageControl::readPendingDatagrams()
@@ -43,38 +51,54 @@ void MessageControl::readPendingDatagrams()
     msgbox.setText("received a datagram");
     msgbox.exec();
 
-    QHostAddress* anAddress;
+    QHostAddress sender;
+    quint16 senderPort;
+
     QString theMessage;
 
+    qDebug() <<"message 1";
     while (udpSocket->hasPendingDatagrams()) {
+
+        qDebug() <<"message 2";
         QByteArray datagram;
         datagram.resize(udpSocket->pendingDatagramSize());
 
+        qDebug() <<"message 3";
 
-        int errorcode = udpSocket->readDatagram(datagram.data(), datagram.size(), anAddress);
-        if(errorcode)
+        if(udpSocket == 0)
+        {
+            qDebug() <<"udpsocket is null";
+            return;
+        }
+        else
+        {
+            udpSocket->readDatagram(datagram.data(),datagram.size(),&sender, &senderPort);
 
-        theMessage = datagram.data();
+            //qDebug() << "the datagram"<< QString::number(datagram.toInt());
 
-        msgbox.setText(theMessage);
-        msgbox.exec();
-        //ui->receive->setText(tr("Received datagram: \"%1\"").arg(datagram.data()));
+            theMessage = datagram.data();
+
+            msgbox.setText(theMessage);
+            msgbox.exec();
+        }
+
     }
 
     //get the ipaddress of the facility who sent the message
-    QString senderIP = anAddress->toString();
+    QString senderIP = sender.toString();
+    qDebug()<<"Sender IP: "<< senderIP;
 
-    //QSettings settings("JNFconfig");
-    //settings.beginWriteArray("facilities");
-
-    //settings.setValue("3", senderIP);
 
     //parse the message and get the id of the facility who sent the message
-    //XMLParser xmlparser = new XMLParser();
-    int facilID = 0;
-    //facilID= xmlparser.parseMessage(theMessage,senderIP);
 
-    if(facilID != -1)// -1 is returned when the message is not a rebuild message
+    XMLParser* xmlparser = new XMLParser();
+    int facilID = xmlparser->parseMessage(theMessage,senderIP);
+
+
+
+    qDebug()<< "Facility ID returned is: "<< facilID;
+
+    if(facilID > 0) //message contained facilID of the facility who sent the message.
     {
         //check whether this id is in the config file. if it isnt, add it.
 
@@ -85,6 +109,8 @@ void MessageControl::readPendingDatagrams()
         {
             settings.setValue(QString::number(facilID),senderIP);
         }
+        settings.endArray();
+
     }
 
 }
@@ -107,7 +133,9 @@ void MessageControl::sendMessage(QString message, int facilityID) //this is a st
     QString recipientIP;
     QMessageBox msgbox;
 
-    int port = settings.value("port").toInt();
+    quint16 port = settings.value("port").toInt();
+
+    settings.beginGroup("facilities");
 
     if(!settings.contains(QString::number(facilityID)))
     {
@@ -116,10 +144,10 @@ void MessageControl::sendMessage(QString message, int facilityID) //this is a st
     }
     else
     {
+        //need to get the ipaddress of facility
         recipientIP = settings.value(QString::number(facilityID)).toString();
     }
 
-    //need to get the ipaddress of facility
     int errorCode = udpSocket->writeDatagram(message.toLatin1(), QHostAddress(recipientIP), port);
 
 }
@@ -131,9 +159,10 @@ void MessageControl::sendMessageToAll(QString message)
 
     QSettings settings("JNFconfig");
 
-    QUdpSocket* sendSocket = new QUdpSocket();
+    QUdpSocket* udpSocket = new QUdpSocket();
     int port = settings.value("port").toInt();
-    qDebug() <<"port"<<port;
+    qDebug() <<"port"<< port;
+
 
     //the following code reads the IP address given the facilityID.
 
@@ -143,10 +172,10 @@ void MessageControl::sendMessageToAll(QString message)
     qDebug() <<"lamdas******:";
     for(int i=1; i<=12;i++)
     {
-
         QString anIP = settings.value(QString::number(i)).toString();
         qDebug() << anIP<<"\n";
         servers.insert(i,anIP);
+
     }
 
     settings.endArray();
@@ -165,14 +194,16 @@ void MessageControl::sendMessageToAll(QString message)
     QString s11 = settings.value("11").toString();
     QString s12 = settings.value("12").toString();*/
 
-    //send the message to all the facilities that are in the "facilities" map.
+
+
     for(int i= 0; i < servers.size();i++)
     {
-        int errorCode = sendSocket->writeDatagram(message.toLatin1(),QHostAddress(servers.value(i)),port);
-        if(errorCode == -1)
-            qDebug() <<"sending message was unsuccessful";
-        else
-            qDebug() <<"message was sent";
+          int errorCode = udpSocket->writeDatagram(message.toLatin1(),QHostAddress(servers.value(i)),port);
+          if(errorCode == -1)
+                qDebug() <<"sending message was unsuccessful";
+          else
+                qDebug() <<"message was sent";
     }
+
 
 }

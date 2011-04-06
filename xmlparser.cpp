@@ -41,8 +41,6 @@
 
         QString operation=rootElement.tagName();
 
-
-
         QDomElement areaElement = rootElement.firstChild().toElement();
 
         QString areaString=areaElement.attribute("ID","error");

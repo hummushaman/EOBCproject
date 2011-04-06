@@ -33,7 +33,6 @@ private:
 public:
     DataStorage();
 
-
     static int myFacilityID;
     static QString myFacilityIPaddress;
     static QString currentUserType;

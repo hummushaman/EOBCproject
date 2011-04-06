@@ -50,7 +50,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="QPushButton" name="OKButton">
+   <widget class="QPushButton" name="CloseMapButton">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -60,7 +60,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>OK</string>
+     <string>Close Map </string>
     </property>
    </widget>
    <widget class="QGraphicsView" name="mapview">
@@ -148,14 +148,14 @@
  <resources/>
  <connections>
   <connection>
-   <sender>OKButton</sender>
+   <sender>CloseMapButton</sender>
    <signal>clicked()</signal>
    <receiver>Map</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>688</x>
-     <y>553</y>
+     <x>130</x>
+     <y>576</y>
     </hint>
     <hint type="destinationlabel">
      <x>630</x>

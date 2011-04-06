@@ -107,7 +107,7 @@ qDebug()<<remoteBool<<remoteString;
 qDebug()<<"past this line";
         int facilityNumber = facility.attribute("ID","error").toInt();
 
-        MessageControl::assignIPtoFacility(ip, facilityNumber);
+
 
         //case 1: remote and other
         if (remote&&facilityNumber!=DataStorage::myFacilityID)return 1;   //nothing happens if its remote and has got the wrong facility
@@ -124,7 +124,7 @@ qDebug()<<"past this line";
 
         //case 3:not remote
         else if (!remote){
-
+            MessageControl::assignIPtoFacility(ip, facilityNumber);
             facilityOperation(facility, operation, area);
 
         }
@@ -159,13 +159,15 @@ qDebug()<<"past this line";
 qDebug()<<"in facilityOperation";
 
         int facilNum = facility.attribute("ID","error").toInt();
-
+qDebug()<<operation;
+qDebug()<<facilNum;
         if (operation=="Rebuild"){
             DataStorage::clearPatientsAtFacility(facilNum);
             operation="Add";
 qDebug()<<"T H E I P :"<<ip;
+            MessageControl::assignIPtoFacility(ip,facilNum);
             MessageControl::sendMessage(xmlgenerator::rebuildResponse(),facilNum);
-
+            //MessageControl::sendMessageToAll(xmlgenerator::rebuildResponse());
         }
 
 
@@ -359,13 +361,13 @@ qDebug()<<"T H E I P :"<<ip;
         QString cccBeds = facility.attribute("CCC","error");
         QString ltcBeds = facility.attribute("LTC","error");
 
-        if ((acBeds != "error")&&(acBeds != "0")){
+        if ((acBeds != "error")&&(acBeds != "0")&&(acBeds != "-1")){
             DataStorage::addBeds(facilNum, acBeds.toInt(),"AC");
         }
-        if ((cccBeds != "error")&&(cccBeds != "0")){
+        if ((cccBeds != "error")&&(cccBeds != "0")&&(cccBeds != "-1")){
             DataStorage::addBeds(facilNum, cccBeds.toInt(),"CCC");
         }
-        if ((ltcBeds != "error")&&(ltcBeds != "0")){
+        if ((ltcBeds != "error")&&(ltcBeds != "0")&&(ltcBeds != "-1")){
             DataStorage::addBeds(facilNum, ltcBeds.toInt(),"LTC");
         }
 

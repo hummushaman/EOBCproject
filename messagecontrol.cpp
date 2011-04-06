@@ -104,10 +104,8 @@ void MessageControl::readPendingDatagrams()
         QSettings settings("JNFconfig");
         settings.beginWriteArray("facilities");
 
-        if(!settings.contains(QString::number(facilID)))
-        {
-            settings.setValue(QString::number(facilID),senderIP);
-        }
+         settings.setValue(QString::number(facilID),senderIP);
+
         settings.endArray();
 
     }
@@ -119,10 +117,10 @@ void MessageControl::assignIPtoFacility(QString ipaddress, int facilID)
     QSettings settings("JNFconfig");
     settings.beginWriteArray("facilities");
 
-    if(!settings.contains(QString::number(facilID)))
-    {
+  //  if(!settings.contains(QString::number(facilID)))
+    //{
         settings.setValue(QString::number(facilID),ipaddress);
-    }
+    //}
 }
 
 void MessageControl::sendMessage(QString message, int facilityID) //this is a static method
@@ -178,22 +176,6 @@ void MessageControl::sendMessageToAll(QString message)
     }
 
     settings.endArray();
-
-    /*
-    QString s1 = settings.value("1").toString();
-    QString s2 = settings.value("2").toString();
-    QString s3 = settings.value("3").toString();
-    QString s4 = settings.value("4").toString();
-    QString s5 = settings.value("5").toString();
-    QString s6 = settings.value("6").toString();
-    QString s7 = settings.value("7").toString();
-    QString s8 = settings.value("8").toString();
-    QString s9 = settings.value("9").toString();
-    QString s10 = settings.value("10").toString();
-    QString s11 = settings.value("11").toString();
-    QString s12 = settings.value("12").toString();*/
-
-
 
     for(int i= 0; i < servers.size();i++)
     {

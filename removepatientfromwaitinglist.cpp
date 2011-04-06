@@ -111,8 +111,29 @@ void RemovePatientFromWaitingList::clickedOK()
         if(ret == QMessageBox::Ok)
         {   //call removePatientFromWaitingList from datastorage class
 
-            DataStorage::removePatientFromWaitingList(areaid, patientHCN, dateRemoved);
-            close(); //if user clicks Cancel, we do *not* close the form
+            //DataStorage::removePatientFromWaitingList(areaid, patientHCN, dateRemoved);
+
+            //saving in temporary database and sending the message to other facilities
+
+           // bool remote = true;
+            //if(currFacility == DataStorage::myFacilityID)
+            //    remote = false;
+
+             QString operation = "Remove";
+
+            //remove a paitient frm the waiting list in temp database.
+               //DataStorage::addPatientToWaitingList(HCN,areaid,dateAdded);
+/*
+               QString message;
+               if((areaid == DataStorage::myArea()) && (DataStorage::isMainFacility() ))
+               essage = xmlgenerator::patientOperationXML(operation,HCN, currFacility, areaid, 0, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
+                else
+                    message = xmlgenerator::patientOperationXML(operation,HCN, currFacility, areaid, 1, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
+
+                MessageControl::sendMessageToAll(message);
+*/
+
+            close();
 
         }
     }

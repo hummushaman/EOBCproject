@@ -17,7 +17,9 @@
 #include <datastorage.h>
 #include <QPainter>
 #include <Qt>
-
+#include <QGraphicsTextItem>
+#include <QGraphicsItem>
+#include <QGraphicsObject>
 
 Map::Map(QWidget *parent) :
     QMainWindow(parent),
@@ -25,11 +27,12 @@ Map::Map(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->OKButton,SIGNAL(clicked()),this,SLOT(clickedOK()));
-    connect(ui->viewOccRates,SIGNAL(toggled(bool)),this,SLOT(updateMap()));
-    connect(ui->viewWLsizes,SIGNAL(toggled(bool)),this,SLOT(updateMap()));
-    connect(ui->listWidget,SIGNAL(toggled(bool)),this,SLOT(updateMap()));
-    connect(ui->listWidget_2,SIGNAL(toggled(bool)),this,SLOT(updateMap()));
+    //connect(ui->OKButton,SIGNAL(clicked()),this,SLOT(clickedOK()));
+    //connect(ui->viewOccRates,SIGNAL(toggled(bool)),this,SLOT(updateMap()));
+    //connect(ui->viewWLsizes,SIGNAL(toggled(bool)),this,SLOT(updateMap()));
+    //connect(ui->listWidget,SIGNAL(toggled(bool)),this,SLOT(updateMap()));
+    //connect(ui->listWidget_2,SIGNAL(toggled(bool)),this,SLOT(updateMap()));
+    connect(ui->updateMapButton,SIGNAL(clicked()),this,SLOT(updateMap()));
     updateLists();
     updateMap();
 
@@ -108,6 +111,7 @@ void Map::updateMap(){
     }
 
     QString nl="";
+    QString blank="        ";
 
     QList<QListWidgetItem*>sFacilities=ui->listWidget_2->selectedItems();
     QVector<int>selectedFacilities;
@@ -137,9 +141,7 @@ void Map::updateMap(){
             }
 
 
-            QString datum=nl.append(DataStorage::getFacilityName(allFacilities[i])+" AC:"+QString::number(ac)+" CCC:"+QString::number(ccc)+" LTC:"+QString::number(ltc)+" WL:"+QString::number(wl));
-            contents->addText(datum,font);
-
+            QString datum="      "+DataStorage::getFacilityName(allFacilities[i])+" AC:"+QString::number(ac)+" CCC:"+QString::number(ccc)+" LTC:"+QString::number(ltc)+" WL:"+QString::number(wl);
 
 
             double x = DataStorage::getFacilityX(facilNum);
@@ -147,12 +149,7 @@ void Map::updateMap(){
             x=x*xinterval;
             y=y*yinterval;
 
-            /*
-            QGraphicsTextItem item("hi");
-            item.setParent(contents);
-            item.setX(x*xinterval);
-            item.setY(y*yinterval);
-*/
+            contents->addText(datum,font)->moveBy(x,y);
 
 
             if (ui->viewWLsizes->isChecked()){

@@ -144,26 +144,6 @@ void AddPatientToWaitingList::clickedOK()
 
                  QString operation = "Add";
 
-                if(patientType == "Inpatient")
-                {
-                    //add an inpatient to the waiting list in temp database.
-                     //DataStorage::addPatientToWaitingList(HCN,areaid,dateAdded);
-
-
-
-                    //send the message to other facilities
-                     QString message = xmlgenerator::patientOperationXML(operation, HCN, currFacility, areaid, remote, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
-
-                     if(remote == false)// this
-                         MessageControl::sendMessage(message,currFacility);
-                     else
-                         MessageControl::sendMessageToAll(message);
-                }
-                else
-                {
-
-                    //DataStorage::addPatientToWaitingList(HCN,firstname,lastname,areaid,dateAdded);
-
                     QString message;
                     if((areaid == DataStorage::myArea()) && (DataStorage::isMainFacility() ))
                         message = xmlgenerator::patientOperationXML(operation,HCN, currFacility, areaid, 0, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
@@ -171,18 +151,12 @@ void AddPatientToWaitingList::clickedOK()
                         message = xmlgenerator::patientOperationXML(operation,HCN, currFacility, areaid, 1, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
 
                     MessageControl::sendMessageToAll(message);
+                   MessageControl::sendMessage(message,DataStorage::myFacilityID);
+                    close();
 
-                }
+          }
 
-            close();
+
 
         }
-    }
-    //QMessageBox msgbox2;
-    //msgbox2.setText("todays date and time: "+ datetime);
-    //msgbox2.exec();
-
-
-
-
 }

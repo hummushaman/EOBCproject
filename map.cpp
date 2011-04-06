@@ -90,14 +90,17 @@ void Map::updateMap(){
     double xinterval=contents->width()/1000;
     double yinterval=contents->height()/1000;
 
-
     //here, we find the various wl sizes
     QVector<int>allAreaIDs=DataStorage::getAllAreas();
     float largestList=0;
     QVector<double>wlSizes;
+    int appendix;
     for (int i=0;i<allAreaIDs.size();i++){
-        QVector<Patient>patients=DataStorage::getWaitingListPatients(allAreaIDs[i]);
-        wlSizes.append(patients.size());
+        QVector<Patient>patients=DataStorage::getWaitingListPatients(allAreaIDs[i]);      
+        //wlSizes.append(patients.size());
+qDebug()<<"area: "<<allAreaIDs[i];
+        wlSizes.append(DataStorage::getWaitingListSize(allAreaIDs[i]));
+
         if (patients.size()>largestList)largestList=patients.size();
         //SO, WE ARE LOOKING AT RELATIVE WAIT LIST SIZES
     }
@@ -119,18 +122,28 @@ void Map::updateMap(){
         selectedFacilities.append(DataStorage::getFacilityID(sFacilities[i]->text()));
     }
 
+
     QVector<int>allFacilities=DataStorage::getAllFacilities();
     for (int i=0;i<allFacilities.size();i++){
         if ((selectedFacilities.contains(allFacilities[i]))||(selectedAreaIDs.contains(DataStorage::getAreaForFacility(allFacilities[i])))){
 
             int facilNum=allFacilities[i];
             int area=DataStorage::getAreaForFacility(facilNum);
+qDebug()<<"area:"<<area;
             double ac=0;
             double ccc=0;
             double ltc=0;
             int areaIndex=allAreaIDs.indexOf(area);
+
+      qDebug()<<" got index "<<areaIndex;
+
             int wl=wlSizes[areaIndex];
+
+      qDebug()<<" got wl ";
+
             QString facilType=DataStorage::getFacilityType(facilNum);
+
+     qDebug()<<" looking at facil type ";
 
             if (facilType=="Hospital"){
                 if (ac!=0)ac=((double)DataStorage::getNumACBedsOccupied(facilNum))/((double)DataStorage::getTotalACBeds(facilNum));
@@ -143,12 +156,13 @@ void Map::updateMap(){
 
             QString datum="      "+DataStorage::getFacilityName(allFacilities[i])+" AC:"+QString::number(ac)+" CCC:"+QString::number(ccc)+" LTC:"+QString::number(ltc)+" WL:"+QString::number(wl);
 
-
+qDebug()<<" about to get x y ";
             double x = DataStorage::getFacilityX(facilNum);
             double y = DataStorage::getFacilityY(facilNum);
             x=x*xinterval;
             y=y*yinterval;
 
+qDebug()<<" got x y ";
             contents->addText(datum,font)->moveBy(x,y);
 
 

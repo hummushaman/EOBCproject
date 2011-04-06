@@ -113,9 +113,13 @@ void AssignBed::clickedOK()
 
 
             if(remote == false)
-                MessageControl::sendMessage(message,facilid); //send message to the facility to whom we are adding a patient
+            {
+               MessageControl::sendMessageToAll(message);
+               MessageControl::sendMessage(message,DataStorage::myFacilityID);
+           }
             else
-                MessageControl::sendMessageToAll(message);//notify other facils that we are assigning patient to a bed at *this* facility
+                MessageControl::sendMessage(message,facilid);
+
 
 
             close(); //if user clicks Cancel, we do *not* close the form

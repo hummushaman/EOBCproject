@@ -74,9 +74,14 @@ void AddFacility::clickedOK()
 
             QString message = xmlgenerator::addFacility(facilID,areaID,x,y,numAC,numCCC, numLTC,name,remote,facilType);
             if(remote == false)
-                MessageControl::sendMessage(message,facilID);
-            else
+            {
+                MessageControl::sendMessage(message,DataStorage::myFacilityID);
                 MessageControl::sendMessageToAll(message);
+            }
+
+
+            else
+                MessageControl::sendMessage(message,facilID);
 
             close();
         }

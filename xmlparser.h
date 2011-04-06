@@ -14,6 +14,7 @@ class XMLParser
 {
     QDomDocument original;
     QString ip;
+    int returnId;
 
 public:
     //QString dateFormat;

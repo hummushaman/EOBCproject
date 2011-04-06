@@ -108,34 +108,32 @@ void RemovePatientFromWaitingList::clickedOK()
         QDateTime date = QDateTime::currentDateTime();
         QString dateRemoved = date.toString("yyyy-MM-ddThh:mm:ss");
 
+        int currFacility = DataStorage::getCurrentFacilityForPatient(patientHCN);
+
         if(ret == QMessageBox::Ok)
         {   //call removePatientFromWaitingList from datastorage class
 
-            //DataStorage::removePatientFromWaitingList(areaid, patientHCN, dateRemoved);
-
             //saving in temporary database and sending the message to other facilities
 
-           // bool remote = true;
-            //if(currFacility == DataStorage::myFacilityID)
-            //    remote = false;
+            bool remote = true;
+            if(currFacility == DataStorage::myFacilityID)
+                remote = false;
 
              QString operation = "Remove";
 
-            //remove a paitient frm the waiting list in temp database.
-               //DataStorage::addPatientToWaitingList(HCN,areaid,dateAdded);
-/*
-               QString message;
-               if((areaid == DataStorage::myArea()) && (DataStorage::isMainFacility() ))
-               essage = xmlgenerator::patientOperationXML(operation,HCN, currFacility, areaid, 0, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
+                QString message;
+                if((areaid == DataStorage::myArea()) && (DataStorage::isMainFacility() ))
+                    message = xmlgenerator::patientOperationXML(operation,patientHCN, currFacility, areaid, 0, "", "", firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
                 else
-                    message = xmlgenerator::patientOperationXML(operation,HCN, currFacility, areaid, 1, dateAdded, dateAdmitted, firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
+                    message = xmlgenerator::patientOperationXML(operation,patientHCN, currFacility, areaid, 1, "", "", firstname, lastname, DataStorage::getCareType("LTC"), DataStorage::getCareType("LTC"));
 
                 MessageControl::sendMessageToAll(message);
-*/
+                MessageControl::sendMessage(message,DataStorage::myFacilityID);
+                close();
 
-            close();
+      }
 
-        }
+
+
     }
-
 }

@@ -134,14 +134,13 @@ void AddBed::clickedOK()
                 QString message = xmlgenerator::addBeds(facilID,areaID,numAC,numCCC, numLTC,remote);
 
                 if(remote == false)
-                    MessageControl::sendMessage(message,facilID);
-                else
+                {
                     MessageControl::sendMessageToAll(message);
+                    MessageControl::sendMessage(message,DataStorage::myFacilityID);
+                }
 
-
-
-                //MessageControl::sendMessage(message, facilID);
-                // MessageControl::sendMessage(message, DataStorage::myFacilityID);
+                else
+                    MessageControl::sendMessage(message,facilID);
 
 
                 close(); //if user clicks Cancel, we do not close the addBeds form

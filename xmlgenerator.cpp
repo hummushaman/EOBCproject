@@ -7,8 +7,11 @@ xmlgenerator::xmlgenerator()
 QString xmlgenerator::patientOperationXML(QString operation, QString healthCard,int facilNum, int areaNum, bool remote,QString dateAdded, QString dateAdmitted, QString first, QString last, int reqCare, int occCare){        //facilNum = -1 means we are dealing with a waiting list
    QDomDocument message;
 
+   QString remString="true";
+   if (!remote)remString="false";
+
    QDomElement operationChild = message.createElement(operation);
-   operationChild.setAttribute("remote",remote);
+   operationChild.setAttribute("remote",remString);
    message.appendChild(operationChild);
 
 
@@ -60,7 +63,7 @@ QString xmlgenerator::rebuild(){
     QDomDocument message;
 
     QDomElement operationChild = message.createElement("Rebuild");
-    operationChild.setAttribute("remote",false);
+    operationChild.setAttribute("remote","false");
     message.appendChild(operationChild);
 
 
@@ -238,8 +241,11 @@ QString xmlgenerator::rebuildResponse(){
 QString xmlgenerator::addBeds(int facilNum, int areaNum, int ac, int ccc, int ltc, bool remote){
     QDomDocument message;
 
+    QString remString="false";
+    if (remote)remString="true";
+
     QDomElement operationChild = message.createElement("Add");
-    operationChild.setAttribute("remote",remote);
+    operationChild.setAttribute("remote",remString);
     message.appendChild(operationChild);
 
 
@@ -263,8 +269,11 @@ QString xmlgenerator::addBeds(int facilNum, int areaNum, int ac, int ccc, int lt
 QString xmlgenerator::addFacility(int facilNum, int areaNum,int xcoor, int ycoor, int ac, int ccc, int ltc, QString name, bool remote,QString type){
     QDomDocument message;
 
+    QString remString="true";
+    if (!remote)remString="false";
+
     QDomElement operationChild = message.createElement("Add");
-    operationChild.setAttribute("remote",remote);
+    operationChild.setAttribute("remote",remString);
     message.appendChild(operationChild);
 
 

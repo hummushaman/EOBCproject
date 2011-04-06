@@ -197,11 +197,15 @@ void MessageControl::sendMessageToAll(QString message)
 
     for(int i= 0; i < servers.size();i++)
     {
+        if(servers.value(i) != DataStorage::myFacilityIPaddress)
+        {
           int errorCode = udpSocket->writeDatagram(message.toLatin1(),QHostAddress(servers.value(i)),port);
+
           if(errorCode == -1)
                 qDebug() <<"sending message was unsuccessful";
           else
                 qDebug() <<"message was sent";
+        }
     }
 
 

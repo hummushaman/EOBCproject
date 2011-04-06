@@ -14,6 +14,9 @@
 
     int XMLParser::parseMessage(QString msg, QString theip){
         ip=theip;
+
+qDebug()<<"GOT T H E I P :"<<ip;
+
         QDomDocument doc("aMessage");
         original = doc;
         doc.setContent(msg );
@@ -35,6 +38,9 @@
     }
 
     int XMLParser::startParsing(QDomElement rootElement){       //don't we need "public" ?
+
+ qDebug()<<"GOT T H E I P again:"<<ip;
+
         QString remoteString= rootElement.attribute("remote","error");
 
         if (remoteString == "error")return -2;
@@ -53,7 +59,7 @@
 
         bool remoteBool=true;
         if (remoteString=="false")remoteBool=false;
-
+qDebug()<<remoteBool<<remoteString;
         int targetID=-1;
         bool here=false;
         while (!facilityOrWL.isNull()){
@@ -98,7 +104,7 @@
         QString facString=facility.attribute("ID","error");
 
         if (facString=="error")return -2;
-
+qDebug()<<"past this line";
         int facilityNumber = facility.attribute("ID","error").toInt();
 
         MessageControl::assignIPtoFacility(ip, facilityNumber);
@@ -150,6 +156,8 @@
     }
 
     int XMLParser::facilityOperation(QDomElement facility,QString operation, int area){
+qDebug()<<"in facilityOperation";
+
         int facilNum = facility.attribute("ID","error").toInt();
 
         if (operation=="Rebuild"){

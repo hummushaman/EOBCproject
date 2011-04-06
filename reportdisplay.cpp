@@ -91,6 +91,7 @@ for (int i=0;i<graph.size();i++)qDebug()<<graph[i];
     bool allZero=true;
     for (int i=0;i<graph.size();i++){
         if (graph[i]>maxy)maxy=graph[i];
+        if (graph[i]<0)graph[i]=0;
         if (allZero&&graph[i]!=0)allZero=false;
     }
     double width=500;

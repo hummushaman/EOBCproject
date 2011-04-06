@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
     DataStorage::assignPatientToBed(3,"13",1,"120112T11:33:54");
     DataStorage::assignPatientToBed(3,"14",1,"120112T11:33:54");*/
 
-*/
+
 
     return a.exec();
 }

@@ -1,60 +1,68 @@
+/*
+ This class is a wrapper for the database class. It does not rely on the
+ underlying database in order to get the required information for
+ the other subsystems.
+ */
+
 #include "datastorage.h"
 
-int DataStorage::myFacilityID; // = 0;
+int DataStorage::myFacilityID;
 QString DataStorage::myFacilityIPaddress = "0.0.0.0";
 QString DataStorage::currentUserType = "ADMIN";
 bool DataStorage::isMain = true;
 
+//call to the database to remove a patient from a bed [R: 2.7, 2.7.1]
 void DataStorage::removePatientFromBed(int facilityID, QString HCN, QString dateRemoved)
 {
     qDebug() << "Removing a patient from a bed";
     Database::Initialize()->removePatientFromBed(facilityID, HCN, dateRemoved);
 }
 
+//call to the database to assign a patient to a bed in a nursing home [R: 2.7, 2.7.1]
 void DataStorage::assignPatientToBed(int facilityID, QString HCN,int areaid, QString dateAdded)
 {
     qDebug() << "Assign a patient to a bed";
     Database::Initialize()->assignPatientToBed(facilityID, HCN, areaid, dateAdded);
 }
 
+//add beds of a certain care type to a facility  [R: 2.4, 2.4.1]
 void DataStorage::addBeds(int facilityID, int numBeds, QString bedType)
 {
-
     qDebug() << "Adding beds";
     Database::Initialize()->addBeds(facilityID, numBeds, bedType);
 }
-
+//removing a patient (inpatient or outpatient) from a waiting list [R: 2.6]
 void DataStorage::removePatientFromWaitingList(int areaID, QString HCN, QString dateRemoved)
 {
     qDebug() << "Removing a patient from waiting list";
     Database::Initialize()->removePatientFromWaitingList(areaID, HCN, dateRemoved);
 }
-
-void DataStorage::addPatientToWaitingList(QString HCN,int areaID, QString dateAdded)  //inpatient
+//adding an inpatient to a waiting list [R: 2.5]
+void DataStorage::addPatientToWaitingList(QString HCN,int areaID, QString dateAdded)
 {
     qDebug() << "Adding an inpatient to a waiting list";
     Database::Initialize()->addPatientToWaitingList(HCN, areaID, dateAdded);
 }
-
-void DataStorage::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded) //outpatient
+//adding an outpatient to a waiting list [R: 2.5]
+void DataStorage::addPatientToWaitingList(QString HCN, QString firstName, QString lastName, int areaID, QString dateAdded)
 {
     qDebug() << "Adding an outpatient to a waiting list";
     Database::Initialize()->addPatientToWaitingList(HCN, firstName, lastName, areaID, dateAdded);
 }
-
+//get all areas in the LHIN
 QVector<int> DataStorage::getAllAreas()
 {
     QVector<int> areaIDs = convertToOneFieldIntVector(Database::Initialize()->getAllAreas());
     return areaIDs;
 }
-
+//[R: 3.3.2]
 QString DataStorage::getAreaName(int areaID)
 {
     QSqlQuery areaNameQuery = Database::Initialize()->getAreaName(areaID);
     QString areaName = convertToOneString(areaNameQuery);
     return areaName;
 }
-
+//get the primary key of the area
 int DataStorage::getAreaID(QString areaname)
 {
     QSqlQuery areaIDQuery = Database::Initialize()->getAreaID(areaname);
@@ -62,29 +70,30 @@ int DataStorage::getAreaID(QString areaname)
     return areaID;
 }
 
+//returns the facility IDs of all of the facilities in an area [R:1.8, 2.12]
 QVector<int> DataStorage::getAllFacilitiesInArea(int areaID)
 {
     QVector<int> facilityIDs = convertToOneFieldIntVector(Database::Initialize()->getAllFacilitiesInArea(areaID));
     return facilityIDs;
 }
-
+//returns the area ID of the facility
 int DataStorage::getAreaForFacility(int facilityID)
 {
     QSqlQuery areaIDQuery = Database::Initialize()->getAreaForFacility(facilityID);
     int areaID = convertToOneInt(areaIDQuery);
     return areaID;
 }
-
+//returns all facilities in the database
 QVector<int> DataStorage::getAllFacilities()
 {
     qDebug() << "Getting all of the facilities";
     QVector<int> facilityIDs = convertToOneFieldIntVector(Database::Initialize()->getAllFacilities());
     return facilityIDs;
 }
-
+//returns the name of the facility with the the passed in facility ID
 QString DataStorage::getFacilityName(int facilityID)
 {
-    qDebug() << "Getting a facility's names";
+    qDebug() << "Getting a facility's name";
     QSqlQuery facilityNameQuery = Database::Initialize()->getFacilityName(facilityID);
     QString facilityName = convertToOneString(facilityNameQuery);
     return facilityName;
@@ -92,7 +101,7 @@ QString DataStorage::getFacilityName(int facilityID)
 
 int DataStorage::getFacilityX(int facilityID)
 {
-    qDebug() << "Getting a facility's X";
+    qDebug() << "Getting a facility's X coordinate";
     QSqlQuery facilityXQuery = Database::Initialize()->getFacilityX(facilityID);
     int facilityX = convertToOneInt(facilityXQuery);
     return facilityX;
@@ -100,12 +109,12 @@ int DataStorage::getFacilityX(int facilityID)
 
 int DataStorage::getFacilityY(int facilityID)
 {
-    qDebug() << "Getting a facility's Y";
+    qDebug() << "Getting a facility's Y coordinate";
     QSqlQuery facilityYQuery = Database::Initialize()->getFacilityY(facilityID);
     int facilityY = convertToOneInt(facilityYQuery);
     return facilityY;
 }
-
+//returns the number of acute care beds at the hospital [R: 1.4, 1.5, 2.8]
 int DataStorage::getTotalACBeds(int facilityID)
 {
     qDebug() << "Getting total number of AC beds";
@@ -113,7 +122,7 @@ int DataStorage::getTotalACBeds(int facilityID)
     int totalACBeds = convertToOneInt(totalACBedsQuery);
     return totalACBeds;
 }
-
+//returns the number of acute care beds occupied at the hospital [R: 1.4, 1.5, 2.8]
 int DataStorage::getNumACBedsOccupied(int facilityID)
 {
     qDebug() << "Getting number of AC beds occupied";
@@ -121,7 +130,7 @@ int DataStorage::getNumACBedsOccupied(int facilityID)
     int numACBedsOccupied = convertToOneInt(numACBedsOccupiedQuery);
     return numACBedsOccupied;
 }
-
+//returns the number of complex continuing care beds at the hospital [R: 1.4, 1.5, 2.8]
 int DataStorage::getTotalCCCBeds(int facilityID)
 {
     qDebug() << "Getting total number of CCC beds";
@@ -129,7 +138,7 @@ int DataStorage::getTotalCCCBeds(int facilityID)
     int totalCCCBeds = convertToOneInt(totalCCCBedsQuery);
     return totalCCCBeds;
 }
-
+//returns the number of CCC beds occupied at the hospital [R: 1.4, 1.5, 2.8]
 int DataStorage::getNumCCCBedsOccupied(int facilityID)
 {
     qDebug() << "Getting number of CCC beds occupied";
@@ -137,7 +146,7 @@ int DataStorage::getNumCCCBedsOccupied(int facilityID)
     int numCCCBedsOccupied = convertToOneInt(numCCCBedsOccupiedQuery);
     return numCCCBedsOccupied;
 }
-
+//get the total number of beds at the facility [R: 2.8]
 int DataStorage::getTotalNumBeds(int facilityID)
 {
     qDebug() << "Getting total number of beds";
@@ -145,16 +154,15 @@ int DataStorage::getTotalNumBeds(int facilityID)
     int totalNumBeds = convertToOneInt(totalNumBedsQuery);
     return totalNumBeds;
 }
-
+//get the total number of beds occupied at the facility  [R: 2.8]
 int DataStorage::getTotalNumBedsOccupied(int facilityID)
 {
-    qDebug() << "Getting number of beds occupied ";
+    qDebug() << "Getting number of beds occupied";
     QSqlQuery numTotalBedsOccupiedQuery = Database::Initialize()->getTotalNumBedsOccupied(facilityID);
     int numTotalBedsOccupied = convertToOneInt(numTotalBedsOccupiedQuery);
     return numTotalBedsOccupied;
 }
-
-
+//slightly redundant function. It is possible to find the count of LTC beds by checking the facility's type
 int DataStorage::getTotalLTCBeds(int facilityID)
 {
     QSqlQuery totalLTCBedsQuery = Database::Initialize()->getTotalLTCBeds(facilityID);
@@ -167,7 +175,7 @@ int DataStorage::getNumLTCBedsOccupied(int facilityID)
     return convertToOneInt(numberOfLTCBedsQuery);
 }
 
-
+//returns all of the inpatients at a facility by initializing a vector with their information [R: 1.7]
 QVector<Inpatient> DataStorage::getPatientsAtFacility(int facilityID)
 {
 
@@ -198,7 +206,7 @@ QVector<Inpatient> DataStorage::getPatientsAtFacility(int facilityID)
     qDebug() << "Size of inpatients: " << inpatients.size();
     return inpatients;
 }
-
+//[R: 2.5.7] for both functions that return part of the patient's name
 QString DataStorage::getPatientFirstName(QString patientHCN)
 {
     QSqlQuery patientFirstNameQuery = Database::Initialize()->getPatientFirstName(patientHCN);
@@ -213,14 +221,14 @@ QString DataStorage::getPatientLastName(QString patientHCN)
     return patientLastName;
 }
 
-
-QString DataStorage::getFacilityType(int facilityID) //"Hospital" or "Nursing Home"
+//Returns whether the facility is a nursing home or hospital [R: 1.3]
+QString DataStorage::getFacilityType(int facilityID)
 {
     QSqlQuery facilityTypeQuery = Database::Initialize()->getFacilityType(facilityID);
     QString facilityType = convertToOneString(facilityTypeQuery);
     return facilityType;
 }
-
+//returns the occupancy rate log's entries from a date range (currently do not add entries to the database) [R: 3.4.1]
 QVector<OccupancyRateEntry>DataStorage::getOccupancyRateEntries(QString startDate, QString endDate, QString careType, int facilityID)
 {
     QSqlQuery occupancyRateEntryQuery = Database::Initialize()->getOccupancyRateEntries(startDate, endDate, careType, facilityID);
@@ -241,8 +249,7 @@ QVector<OccupancyRateEntry>DataStorage::getOccupancyRateEntries(QString startDat
     qDebug() << "Occupancy rate entry size: " << occupancyRateEntries.size();
     return occupancyRateEntries;
 }
-
-
+//Returns the database primary key of the facility
 int DataStorage::getFacilityID(QString name)
 {
     qDebug() << "Getting the facility ID";
@@ -250,7 +257,9 @@ int DataStorage::getFacilityID(QString name)
     int facilityID = convertToOneInt(facilityIDQuery);
     return facilityID;
 }
-
+/*calls two function in the database class; first finds all of the outpatients on a waiting list and appends all of the inpatients on the same waiting list
+  [R: 2.11]
+*/
 QVector<Patient> DataStorage::getWaitingListPatients(int areaID)
 {
 
@@ -291,7 +300,7 @@ QVector<Patient> DataStorage::getWaitingListPatients(int areaID)
     qDebug() << "Waiting list patient size: "<< patients.size();
     return patients;
 }
-
+//gets the size of the waiting list in order to display it on the map
 int DataStorage::getWaitingListSize(int areaID)
 {
 
@@ -299,6 +308,7 @@ int DataStorage::getWaitingListSize(int areaID)
     return convertToOneInt(waitingListSizeQuery);
 }
 
+//logs are not fully implemented
 QVector<WaitTimesEntry> DataStorage::getWaitTimesEntries(QString startDate, QString endDate, int areaID)
 {
 
@@ -308,16 +318,9 @@ QVector<NumPatientsEntry> DataStorage::getWaitingListSizeEntries(QString startDa
 {
 
 }
-
+//checks whether the guest attempting to log in has a valid user account [R: 1.1, 1.2]
 bool DataStorage::isLoginValid(QString username, QString password)
 {
-
-    /*QSettings settings("JNFconfig"); // opens the configuration file. File should be located in: home/<userfolder>/<yourusername>/.config
-
-    settings.beginGroup("default_user");
-    QString default_username =  settings.value("username").toString();
-    QString default_password =  settings.value("password").toString();
-    settings.endGroup();*/
 
     if(isDefaultUser(username, password))
     {
@@ -330,29 +333,24 @@ bool DataStorage::isLoginValid(QString username, QString password)
         return stringErrorCheck(login);
     }
 }
-
+//returns the user type in order to check their permissions
 QString DataStorage::getUserType(QString username)
 {
     qDebug() << "Getting the user's type";
     QSqlQuery userTypeQuery = Database::Initialize()->getUserType(username);
     return convertToOneString(userTypeQuery);
 }
-
+//adds a new user to the facility [R: 4.2]
 void DataStorage::addUser(QString username, QString password, QString userType)
 {
     qDebug() << "Trying to add a user";
     Database::Initialize()->addUser(username, password, userType);
 }
-
+//add a new facility [R: 4.3]
 void DataStorage::addFacility(QString name, int x, int y, int area, int facilityID, QString facilityType)
 {
     qDebug() << "Adding a new facility" << "Name: " << name << "x: " << x << " y" << y << "area " << area << " facilityid" <<facilityID << " facility type " << facilityType;
     Database::Initialize()->addFacility(name, x, y, area, facilityID, facilityType);
-    qDebug() <<"Facility X: ";
-    getFacilityX(facilityID);
-    qDebug() <<"Facility Y: ";
-    getFacilityY(facilityID);
-
 }
 
 int DataStorage::myArea()
@@ -365,11 +363,11 @@ int DataStorage::getMyFacilityID()
     return DataStorage::myFacilityID;
 }
 
-bool DataStorage::isMainFacility() //need to add this to the configure file
+bool DataStorage::isMainFacility()
 {
     return DataStorage::isMain;
 }
-
+//conversion between care types (as the message protocol uses ints)
 int DataStorage::getCareType(QString care)
 {
     QSqlQuery careTypeQuery = Database::Initialize()->getCareTypeID(care);
@@ -473,36 +471,6 @@ bool DataStorage::facilityExists(int facilityID)
     int facility = convertToOneInt(facilityExistsQuery);
     return intErrorCheck(facility);
 }
-
-/*void DataStorage::populateTemporaryDatabase()
-{
-    //insert temporary data into the database for testing
-    DataStorage::addFacility("Hospital 1", 56, 45, 0, 23, "Hospital");
-    DataStorage::addFacility("Hospital 2", 70, 80, 2, 20, "Hospital");
-    DataStorage::addFacility("Nursing Home 1",200,200,5,15, "Nursing Home");
-
-    DataStorage::addBeds(3,10,"AC");
-    DataStorage::addBeds(3,14,"CCC");
-
-    DataStorage::addBeds(23,24,"AC");
-    DataStorage::addBeds(23,5,"CCC");
-
-    DataStorage::addBeds(15,14,"LTC");
-
-    DataStorage::addPatientToWaitingList("12","Joe", "Black",1,"120112T11:33:54");
-    DataStorage::addPatientToWaitingList("13","Jane", "Black",1,"120112T11:33:54");
-    DataStorage::addPatientToWaitingList("14","Bob", "Smith",1,"120112T11:33:54");
-
-    DataStorage::addPatientToWaitingList("12","Joe", "Black",2,"120112T11:33:54");
-    DataStorage::addPatientToWaitingList("13","Jane", "Black",2,"120112T11:33:54");
-    DataStorage::addPatientToWaitingList("14","Bob", "Smith",2,"120112T11:33:54");
-
-    DataStorage::assignPatientToBed(3,"12",1,"120112T11:33:54");
-    DataStorage::assignPatientToBed(3,"13",1,"120112T11:33:54");
-    DataStorage::assignPatientToBed(3,"14",1,"120112T11:33:54");
-
-
-}*/
 
 bool DataStorage::facilityNameExists(QString aName)
 {

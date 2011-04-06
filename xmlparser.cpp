@@ -9,7 +9,7 @@
 
     int XMLParser::parseMessage(QString msg, QString theip){
         ip=theip;
-
+        bedsAdded=false;
 
         QDomDocument doc("aMessage");
         original = doc;
@@ -336,15 +336,17 @@
         QString cccBeds = facility.attribute("CCC","error");
         QString ltcBeds = facility.attribute("LTC","error");
 
-        if ((acBeds != "error")&&(acBeds != "0")&&(acBeds != "-1")){
-            DataStorage::addBeds(facilNum, acBeds.toInt(),"AC");
-        }
-        if ((cccBeds != "error")&&(cccBeds != "0")&&(cccBeds != "-1")){
-            DataStorage::addBeds(facilNum, cccBeds.toInt(),"CCC");
-        }
-        if ((ltcBeds != "error")&&(ltcBeds != "0")&&(ltcBeds != "-1")){
-            DataStorage::addBeds(facilNum, ltcBeds.toInt(),"LTC");
-        }
-
+        if (!bedsAdded){
+            if ((acBeds != "error")&&(acBeds != "0")&&(acBeds != "-1")){
+                DataStorage::addBeds(facilNum, acBeds.toInt(),"AC");
+            }
+            if ((cccBeds != "error")&&(cccBeds != "0")&&(cccBeds != "-1")){
+                DataStorage::addBeds(facilNum, cccBeds.toInt(),"CCC");
+            }
+            if ((ltcBeds != "error")&&(ltcBeds != "0")&&(ltcBeds != "-1")){
+                DataStorage::addBeds(facilNum, ltcBeds.toInt(),"LTC");
+            }
+         }
+        bedsAdded=true;
 
     }
